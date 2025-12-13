@@ -1,178 +1,104 @@
-/* --- ASSINATURA: MARI EL-MELLOI --- */
 @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Montserrat:wght@300;400;600&display=swap');
 
-/* Variáveis Metálicas */
 .mari-sig-box {
+  /* Variáveis de cor */
   --metal-dark: #0f0f0f;
   --metal-mid: #505050;
   --metal-light: #e8e8e8;
   --metal-blue: #c0e0ff;
   
-  /* Variáveis para a inclinação (controladas pelo JS) */
+  /* Variáveis de inclinação (Padrão 0 para não quebrar) */
   --tilt-x: 0;
   --tilt-y: 0;
   
   position: relative;
-  width: 100%; 
-  max-width: 600px; 
-  height: 130px;
+  width: 100%; max-width: 600px; height: 130px;
   margin: 30px auto;
-  
   background: linear-gradient(to right, #1a1a1a, #0a0a0a);
   
-  /* Borda Dupla Metálica */
+  /* Borda e Sombra 3D */
   border: 1px solid var(--metal-mid);
-  /* Sombra dinâmica que reage à inclinação */
   box-shadow: 
     0 0 0 3px #0a0a0a, 
     0 0 0 4px var(--metal-mid), 
-    calc(var(--tilt-x) * -10px) calc(var(--tilt-y) * -10px) 30px rgba(0,0,0,0.5);
+    calc(var(--tilt-x) * -15px) calc(var(--tilt-y) * -15px) 30px rgba(0,0,0,0.6);
   
-  display: flex; 
-  align-items: center;
-  padding: 0 30px; 
-  gap: 25px;
+  display: flex; align-items: center;
+  padding: 0 30px; gap: 25px;
   overflow: hidden;
 
-  /* EFEITO 3D DE INCLINAÇÃO */
+  /* Perspectiva 3D */
   perspective: 1000px;
-  /* O box rotaciona baseado nas variáveis do mouse. O negativo em Y é para inverter o eixo vertical */
-  transform: rotateY(calc(var(--tilt-x) * 8deg)) rotateX(calc(var(--tilt-y) * -8deg));
-  transition: transform 0.1s ease-out, box-shadow 0.1s ease-out; /* Movimento rápido e suave */
-  will-change: transform;
+  transform-style: preserve-3d;
+  transform: rotateY(calc(var(--tilt-x) * 10deg)) rotateX(calc(var(--tilt-y) * -10deg));
+  transition: transform 0.1s ease-out, box-shadow 0.1s ease-out;
 }
 
-/* Efeito de Brilho Correndo na Borda (Mercúrio) */
+/* Efeito Borda Correndo */
 .mari-sig-box::before {
-  content: ''; 
-  position: absolute; 
-  inset: 0;
+  content: ''; position: absolute; inset: 0;
   border: 2px solid transparent;
   background: linear-gradient(90deg, transparent, var(--metal-light), transparent) border-box;
   -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
   mask-composite: exclude;
   background-size: 200% 100%;
   animation: mercury-border 3s linear infinite;
-  opacity: 0.5; 
-  pointer-events: none;
-  mix-blend-mode: screen; /* Melhora o brilho */
+  opacity: 0.5; pointer-events: none; mix-blend-mode: screen;
 }
+@keyframes mercury-border { 0% { background-position: 100% 0; } 100% { background-position: -100% 0; } }
 
-@keyframes mercury-border { 
-  0% { background-position: 100% 0; } 
-  100% { background-position: -100% 0; } 
-}
-
-/* --- A Gota de Mercúrio (Onde a mágica do "escorrer" acontece) --- */
+/* A Gota que Escorre */
 .mari-sig-blob-wrap {
-  width: 70px; 
-  height: 70px;
-  position: relative; 
-  flex-shrink: 0;
+  width: 70px; height: 70px; position: relative; flex-shrink: 0;
   filter: drop-shadow(0 5px 15px rgba(192, 224, 255, 0.2));
-  z-index: 10; /* Garante que fique acima do fundo */
-
-  /* EFEITO DE ESCORRER: Move a gota na direção da inclinação */
-  /* Multiplicamos por 20px para dar peso ao movimento */
-  transform: translate(calc(var(--tilt-x) * 20px), calc(var(--tilt-y) * 20px));
-  /* A transição é mais lenta (0.4s) que a caixa (0.1s) para parecer viscoso/pesado */
-  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
+  z-index: 5;
+  
+  /* Física do líquido: Move contra a inclinação (efeito gravidade) ou a favor (efeito inercia) */
+  /* Aqui configurado para "pesar" na direção da inclinação */
+  transform: translate(calc(var(--tilt-x) * 25px), calc(var(--tilt-y) * 25px));
+  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); /* Movimento viscoso */
 }
 
 .mari-sig-blob {
-  width: 100%; 
-  height: 100%;
+  width: 100%; height: 100%;
   background: radial-gradient(circle at 30% 30%, #fff, var(--metal-light), var(--metal-mid));
   border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
-  /* Mantive a animação original de morphing */
   animation: mercury-morph 6s ease-in-out infinite;
   box-shadow: inset -5px -5px 10px rgba(0,0,0,0.5);
 }
-
 @keyframes mercury-morph {
   0%, 100% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; transform: scale(1); }
   33% { border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%; transform: scale(1.05) rotate(5deg); }
   66% { border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%; transform: scale(0.95) rotate(-5deg); }
 }
 
-/* Ícone dentro da gota */
 .mari-sig-icon {
-  position: absolute; 
-  top: 50%; 
-  left: 50%; 
-  transform: translate(-50%, -50%);
-  width: 30px; 
-  height: 30px; 
-  z-index: 2; 
-  opacity: 0.7;
-  mix-blend-mode: overlay;
-  pointer-events: none;
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  width: 30px; height: 30px; z-index: 2; opacity: 0.7; mix-blend-mode: overlay; pointer-events: none;
 }
 .mari-sig-icon path { fill: #000; }
 
-/* Conteúdo de Texto */
 .mari-sig-content {
-  flex: 1; 
-  display: flex; 
-  flex-direction: column; 
-  justify-content: center;
-  position: relative; 
-  z-index: 2;
-  /* Pequeno efeito de paralaxe no texto também */
-  transform: translate(calc(var(--tilt-x) * 5px), calc(var(--tilt-y) * 5px));
+  flex: 1; display: flex; flex-direction: column; justify-content: center; position: relative; z-index: 2;
+  /* Texto flutua levemente */
+  transform: translate(calc(var(--tilt-x) * 8px), calc(var(--tilt-y) * 8px));
   transition: transform 0.2s ease-out;
 }
 
 .mari-sig-name {
-  font-family: 'Cinzel Decorative', cursive; 
-  font-size: 1.8em;
+  font-family: 'Cinzel Decorative', cursive; font-size: 1.8em;
   background: linear-gradient(to bottom, #fff, var(--metal-light), var(--metal-mid));
-  -webkit-background-clip: text; 
-  -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 2px 2px rgba(0,0,0,0.5));
-  margin-bottom: 5px; 
-  letter-spacing: 1px;
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 2px 2px rgba(0,0,0,0.5)); margin-bottom: 5px;
 }
-
 .mari-sig-role {
-  font-family: 'Montserrat', sans-serif; 
-  font-size: 0.75em;
-  color: var(--metal-mid); 
-  text-transform: uppercase; 
-  letter-spacing: 3px;
-  margin-bottom: 12px;
+  font-family: 'Montserrat', sans-serif; font-size: 0.75em; color: var(--metal-mid);
+  text-transform: uppercase; letter-spacing: 3px; margin-bottom: 12px;
 }
-
-/* Botões Minimalistas */
 .mari-sig-actions { display: flex; gap: 15px; }
-
 .mari-sig-link {
-  font-family: 'Montserrat', sans-serif; 
-  font-size: 0.7em;
-  text-transform: uppercase; 
-  letter-spacing: 1px; 
-  color: var(--metal-light);
-  text-decoration: none !important; 
-  position: relative;
-  transition: 0.3s; 
-  opacity: 0.7;
+  font-family: 'Montserrat', sans-serif; font-size: 0.7em; text-transform: uppercase;
+  letter-spacing: 1px; color: var(--metal-light); text-decoration: none !important;
+  position: relative; transition: 0.3s; opacity: 0.7;
 }
-
-.mari-sig-link::after {
-  content: ''; 
-  position: absolute; 
-  bottom: -2px; 
-  left: 0; 
-  width: 0; 
-  height: 1px;
-  background: var(--metal-blue); 
-  transition: 0.3s;
-}
-
-.mari-sig-link:hover {
-  opacity: 1; 
-  color: var(--metal-blue); 
-  text-shadow: 0 0 8px var(--metal-blue);
-}
-.mari-sig-link:hover::after { width: 100%; }
+.mari-sig-link:hover { opacity: 1; color: var(--metal-blue); text-shadow: 0 0 8px var(--metal-blue); }
