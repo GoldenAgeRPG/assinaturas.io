@@ -1,143 +1,176 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Cinzel:wght@700&display=swap');
 
 /* --- CONTAINER GERAL --- */
 .ryu-wrapper {
   position: relative;
-  width: 100%; max-width: 500px; height: 220px; /* Altura para caber a chuva caindo */
-  margin: 20px auto;
+  width: 100%; max-width: 520px; height: 240px;
+  margin: 10px auto;
   display: flex; justify-content: center; align-items: flex-start;
-  padding-top: 40px; /* Espaço para o topo da nuvem */
+  padding-top: 50px;
 }
 
-/* --- O CORPO DA NUVEM (SHAPE BASE) --- */
+/* --- O CORPO DA NUVEM (PREMIUM) --- */
 .ryu-cloud-body {
   position: relative;
-  width: 420px; height: 110px;
-  background: #f0f8ff; /* Cor da nuvem */
-  border-radius: 60px; /* Bordas arredondadas base */
-  z-index: 10; /* Fica na frente da chuva */
-  display: flex; align-items: center; padding: 0 30px;
-  box-shadow: 0 10px 25px rgba(2, 119, 189, 0.15); /* Sombra suave */
+  width: 440px; height: 120px;
   
-  /* Animação suave de flutuar */
-  animation: cloud-float 4s ease-in-out infinite;
+  /* ACABAMENTO DE PORCELANA / CÉU */
+  background: radial-gradient(circle at 50% 0%, #ffffff 0%, #e6f2ff 100%);
+  
+  /* Borda Sutil de Ouro/Metal para dar acabamento */
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  
+  border-radius: 80px;
+  z-index: 10;
+  display: flex; align-items: center; padding: 0 35px;
+  
+  /* Sombra Complexa para Volume 3D */
+  box-shadow: 
+    inset 0 10px 20px rgba(255,255,255,1), /* Brilho topo */
+    inset 0 -10px 30px rgba(2, 119, 189, 0.1), /* Sombra interna base */
+    0 15px 40px rgba(0, 33, 71, 0.15), /* Sombra projetada */
+    0 0 0 1px rgba(2, 119, 189, 0.1); /* Linha de contorno fina */
+    
+  animation: cloud-float 5s ease-in-out infinite;
+  transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-@keyframes cloud-float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-5px); }
+/* Marca d'água de Vento (Texture Overlay) */
+.ryu-texture-overlay {
+  position: absolute; inset: 0; border-radius: 80px;
+  opacity: 0.05; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 20 C 25 10, 35 10, 40 20' stroke='%23000' fill='none'/%3E%3Cpath d='M0 20 C 5 30, 15 30, 20 20' stroke='%23000' fill='none'/%3E%3C/svg%3E");
 }
 
-/* --- FORMATO DA NUVEM (OS BUMPS) --- */
-/* Cria as lombadas superiores para ficar igual a referência */
+@keyframes cloud-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+
+/* --- FORMATO DA NUVEM (LOMBADAS VOLUMÉTRICAS) --- */
 .ryu-cloud-body::before, .ryu-cloud-body::after {
   content: ''; position: absolute;
-  background: inherit; z-index: -1; /* Funde com o corpo */
+  background: inherit; z-index: -1;
   border-radius: 50%;
+  box-shadow: inset 0 10px 15px rgba(255,255,255,0.9); /* Volume extra */
+  transition: inherit;
 }
+/* Esquerda */
+.ryu-cloud-body::before { width: 150px; height: 150px; top: -65px; left: 50px; }
+/* Direita */
+.ryu-cloud-body::after { width: 110px; height: 110px; top: -45px; right: 50px; }
 
-/* Lombada Maior (Centro-Esquerda) */
-.ryu-cloud-body::before {
-  width: 140px; height: 140px;
-  top: -60px; left: 60px;
-}
-
-/* Lombada Menor (Direita) */
-.ryu-cloud-body::after {
-  width: 100px; height: 100px;
-  top: -40px; right: 60px;
-}
-
-/* --- CONTEÚDO INTERNO --- */
+/* --- CONTEÚDO --- */
 .ryu-inner-content {
-  position: relative; z-index: 12;
-  display: flex; align-items: center; gap: 20px; width: 100%;
+  position: relative; z-index: 12; display: flex; align-items: center; gap: 25px; width: 100%;
 }
 
-/* Avatar Redondo */
+/* --- AVATAR COMPLEXO (HUD) --- */
+.ryu-avatar-comp { position: relative; width: 95px; height: 95px; flex-shrink: 0; }
+
 .ryu-avatar-circle {
-  width: 85px; height: 85px; flex-shrink: 0;
-  border-radius: 50%; border: 3px solid #fff;
-  overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  width: 100%; height: 100%; border-radius: 50%;
+  border: 4px solid #fff; overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0,33,71,0.2);
+  position: relative; z-index: 2;
 }
 .ryu-avatar-circle img { width: 100%; height: 100%; object-fit: cover; }
 
-/* Texto e Links */
-.ryu-text-group { display: flex; flex-direction: column; gap: 5px; }
+/* Anel Giratório (HUD) */
+.ryu-hud-ring {
+  position: absolute; top: -5px; left: -5px; right: -5px; bottom: -5px;
+  border-radius: 50%;
+  border: 1px dashed #0277bd; /* Azul Técnico */
+  opacity: 0.4; z-index: 1;
+  animation: hud-spin 10s linear infinite;
+}
+@keyframes hud-spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+/* --- TEXTO E ESTÉTICA --- */
+.ryu-text-group { display: flex; flex-direction: column; gap: 4px; }
 
 .ryu-name {
-  font-family: 'Montserrat', sans-serif; font-weight: 800;
-  font-size: 1.4em; color: #002147; /* Azul Navy */
+  font-family: 'Cinzel', serif; font-weight: 700;
+  font-size: 1.5em; color: #002147; /* Navy */
   text-transform: uppercase; letter-spacing: 1px;
+  text-shadow: 0 2px 0 rgba(255,255,255,1); /* Contraste */
 }
 
-/* --- LINKS (CORRIGIDO: LEGIBILIDADE) --- */
+.ryu-rank {
+  font-family: 'Montserrat', sans-serif; font-size: 0.65em;
+  color: #0277bd; letter-spacing: 2px; text-transform: uppercase; font-weight: 600;
+  border-bottom: 1px solid rgba(2, 119, 189, 0.2); padding-bottom: 2px; margin-bottom: 5px; width: max-content;
+}
+
+/* --- LINKS --- */
 .ryu-links { display: flex; gap: 15px; }
 
 .ryu-btn {
-  font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.8em;
+  font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 0.75em;
   text-transform: uppercase; text-decoration: none !important;
-  
-  /* COR DA FONTE: AGORA ESCURA */
-  color: #002147 !important; 
-  
+  color: #002147 !important; /* PRETO/AZUL ESCURO FORÇADO */
   position: relative; transition: 0.3s;
-  padding-bottom: 2px; border-bottom: 2px solid transparent;
+  padding: 4px 12px;
+  background: rgba(255,255,255,0.6);
+  border-radius: 4px;
+  border: 1px solid rgba(0, 33, 71, 0.1);
 }
 
 .ryu-btn:hover {
-  color: #4fc3f7 !important; /* Azul claro no hover */
-  border-bottom: 2px solid #4fc3f7;
+  background: #002147;
+  color: #fff !important; /* Inverte no hover */
+  transform: translateY(-2px);
+  box-shadow: 0 5px 10px rgba(0, 33, 71, 0.2);
 }
 
-/* --- CHUVA DE PARTÍCULAS (CORRIGIDO: CAINDO DE TRÁS) --- */
-.ryu-rain-layer {
-  position: absolute;
-  top: 50%; left: 10%; right: 10%; bottom: -60px; /* Área da chuva */
-  z-index: -5; /* ATRÁS DA NUVEM */
-  pointer-events: none;
-  opacity: 0; transition: opacity 0.5s;
-}
-
-/* As gotas (partículas) */
-.rain-drop {
-  position: absolute; top: 0;
-  width: 2px; height: 15px; /* Partícula fina */
-  background: #4fc3f7; /* Azul chuva */
-  opacity: 0;
-  border-radius: 2px;
-}
-
-/* Aparece só no Hover */
-.ryu-wrapper:hover .ryu-rain-layer { opacity: 1; }
-
-/* Animação de Queda */
-@keyframes rainfall {
-  0% { transform: translateY(0); opacity: 0; }
-  20% { opacity: 1; }
-  80% { opacity: 1; }
-  100% { transform: translateY(80px); opacity: 0; } /* Cai e some */
-}
-
-/* Configuração de cada gota (posição e delay variados) */
-.d1 { left: 10%; animation: rainfall 0.8s linear infinite; animation-delay: 0s; }
-.d2 { left: 30%; animation: rainfall 0.9s linear infinite; animation-delay: 0.2s; }
-.d3 { left: 50%; animation: rainfall 0.7s linear infinite; animation-delay: 0.4s; }
-.d4 { left: 70%; animation: rainfall 0.85s linear infinite; animation-delay: 0.1s; }
-.d5 { left: 90%; animation: rainfall 0.75s linear infinite; animation-delay: 0.3s; }
-
-/* Mudança de cor da nuvem no Hover (Transição Suave) */
+/* --- INTERAÇÃO DE TEMPESTADE (PREMIUM) --- */
 .ryu-wrapper:hover .ryu-cloud-body,
 .ryu-wrapper:hover .ryu-cloud-body::before,
 .ryu-wrapper:hover .ryu-cloud-body::after {
-  background-color: #e0e8f0; /* Cinza tempestade claro */
-  transition: background-color 0.5s ease;
+  /* Nuvem fica cinza metálico */
+  background: radial-gradient(circle at 50% 0%, #cfd9df 0%, #aabacf 100%);
+  border-color: #aabacf;
 }
+
+/* Acelera o HUD na tempestade */
+.ryu-wrapper:hover .ryu-hud-ring {
+  border-color: #4fc3f7; opacity: 0.8;
+  animation-duration: 2s; /* Gira rápido */
+}
+
+/* --- CHUVA DE ENERGIA (ATRÁS DA NUVEM) --- */
+.ryu-rain-layer {
+  position: absolute; top: 60px; left: 20px; right: 20px; bottom: -80px;
+  z-index: -5; pointer-events: none; opacity: 0; transition: opacity 0.4s;
+}
+
+.ryu-wrapper:hover .ryu-rain-layer { opacity: 1; }
+
+.rain-drop {
+  position: absolute; top: 0; width: 1px; height: 30px;
+  background: linear-gradient(to bottom, rgba(79, 195, 247, 0), #4fc3f7, #fff); /* Gradiente brilhante */
+  opacity: 0; border-radius: 10px;
+  box-shadow: 0 0 5px #4fc3f7; /* Glow de neon */
+}
+
+/* Animação de Chuva Caindo */
+@keyframes energy-rain {
+  0% { transform: translateY(-20px); opacity: 0; }
+  30% { opacity: 1; }
+  100% { transform: translateY(120px); opacity: 0; }
+}
+
+/* Distribuição Aleatória das Gotas */
+.d1 { left: 15%; animation: energy-rain 0.7s infinite linear; animation-delay: 0s; height: 40px; }
+.d2 { left: 35%; animation: energy-rain 0.9s infinite linear; animation-delay: 0.2s; height: 25px; }
+.d3 { left: 50%; animation: energy-rain 0.6s infinite linear; animation-delay: 0.5s; height: 50px; }
+.d4 { left: 65%; animation: energy-rain 0.8s infinite linear; animation-delay: 0.1s; height: 30px; }
+.d5 { left: 80%; animation: energy-rain 1.0s infinite linear; animation-delay: 0.3s; height: 45px; }
+.d6 { left: 92%; animation: energy-rain 0.75s infinite linear; animation-delay: 0.4s; height: 35px; }
 
 /* Mobile */
 @media (max-width: 500px) {
-  .ryu-cloud-body { width: 90%; flex-direction: column; height: auto; padding: 30px 20px; text-align: center; }
+  .ryu-cloud-body { width: 90%; flex-direction: column; height: auto; padding: 40px 20px 30px; text-align: center; }
   .ryu-inner-content { flex-direction: column; }
   .ryu-cloud-body::before { left: 50%; transform: translateX(-50%); }
-  .ryu-cloud-body::after { display: none; } /* Simplifica no mobile */
+  .ryu-cloud-body::after { display: none; }
+  .ryu-rank { margin: 0 auto 10px; }
+  .ryu-links { justify-content: center; }
 }
