@@ -1,147 +1,160 @@
-/* --- ASSINATURA: TAKAHASHI RYUUJI (REAL PUFFY CLOUD) --- */
+/* --- ASSINATURA: TAKAHASHI RYUUJI (STORM CLOUD v2) --- */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;800&family=Cinzel:wght@700&family=Pinyon+Script&display=swap');
 
-.ryu-sig-box {
-  /* Variáveis */
-  --sky-bg: #f0f8ff;
+/* Variáveis */
+:root {
   --sky-white: #ffffff;
+  --sky-gray: #d0dae8; /* Cor da nuvem de tempestade */
   --sky-blue-light: #b3e5fc;
   --sky-blue: #4fc3f7;
   --sky-deep: #0277bd;
   --sky-navy: #002147;
-  
+  --rain-color: #4fc3f7;
+}
+
+/* O Container Principal (Parte Central da Nuvem) */
+.ryu-sig-box {
   position: relative;
-  width: 100%; max-width: 600px; height: 180px; /* Altura aumentada */
+  width: 100%; max-width: 550px; height: 150px; /* Tamanho reduzido */
   margin: 30px auto;
   
-  /* O container principal é transparente. A forma vem dos pseudo-elementos. */
-  background: transparent;
-  z-index: 1; /* Necessário para organizar as camadas */
-
-  display: flex; align-items: center;
-  padding: 0 40px; gap: 25px;
+  /* Formato base arredondado */
+  border-radius: 100px;
+  background: radial-gradient(circle at 50% 30%, #fff, var(--sky-white));
   
-  /* Animação de flutuar suave */
-  animation: cloud-hover-real 6s infinite ease-in-out;
+  /* Sombra fofa */
+  box-shadow: 
+    0 15px 35px rgba(2, 119, 189, 0.15),
+    inset 0 -5px 15px rgba(255,255,255,0.8);
+  
+  display: flex; align-items: center;
+  padding: 0 40px; gap: 20px;
+  z-index: 1;
+  
+  /* Transição suave para a cor da tempestade */
+  transition: background 0.5s ease, box-shadow 0.5s ease, transform 0.5s ease;
+  animation: cloud-hover 6s infinite ease-in-out;
 }
 
-@keyframes cloud-hover-real {
+/* Animação de Flutuar */
+@keyframes cloud-hover {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+  50% { transform: translateY(-8px); }
 }
 
-/* --- A MAGIA DA NUVEM "ENGOMADA" --- */
-/* Usamos ::before e ::after para criar bolhas gigantes que se sobrepõem */
+/* --- BOLHAS PARA DAR O FORMATO "ENGOMADO" --- */
 .ryu-sig-box::before, .ryu-sig-box::after {
-  content: '';
-  position: absolute;
-  background-color: var(--sky-bg);
-  /* Gradiente para dar volume 3D */
-  background-image: radial-gradient(circle at 50% 20%, #fff 10%, var(--sky-bg) 80%);
-  /* Sombra externa suave e brilho interno para parecer fofo */
-  box-shadow: 
-    15px 15px 40px rgba(2, 119, 189, 0.2),
-    inset -5px -5px 20px rgba(255,255,255,0.9);
-  z-index: -1; /* Ficam atrás do conteúdo */
-  border-radius: 50%; /* Base circular */
-  transition: all 0.5s ease;
+  content: ''; position: absolute; z-index: -1;
+  background: inherit; /* Herda a cor do pai para mudar junto */
+  border-radius: 50%;
+  box-shadow: inherit;
+  transition: inherit;
 }
-
-/* Bolha Principal (Esquerda/Centro) */
+/* Bolha Esquerda/Cima */
 .ryu-sig-box::before {
-  width: 120%; height: 200%;
-  top: -50%; left: -10%;
-  /* Deforma o círculo para ficar orgânico */
-  border-radius: 45% 55% 40% 60% / 50% 60% 40% 50%;
+  width: 100px; height: 100px;
+  top: -30px; left: 40px;
 }
-
-/* Bolha Secundária (Direita/Baixo) - Adiciona o volume extra */
+/* Bolha Direita/Cima */
 .ryu-sig-box::after {
-  width: 90%; height: 140%;
-  bottom: -20%; right: -15%;
-  border-radius: 60% 40% 50% 50% / 50% 40% 60% 50%;
+  width: 120px; height: 120px;
+  top: -40px; right: 50px;
 }
 
-/* Interação no Hover: As nuvens se expandem ligeiramente */
-.ryu-sig-box:hover::before, .ryu-sig-box:hover::after {
-  transform: scale(1.02);
+/* --- INTERAÇÃO DE TEMPESTADE --- */
+/* Ao passar o mouse, a nuvem fica cinza */
+.ryu-sig-box:hover {
+  /* Cor da nuvem de tempestade */
+  background: radial-gradient(circle at 50% 30%, var(--sky-gray), #aabacf);
   box-shadow: 
-    20px 20px 50px rgba(79, 195, 247, 0.3),
-    inset -5px -5px 20px rgba(255,255,255,1);
+    0 20px 50px rgba(2, 119, 189, 0.3),
+    inset 0 -5px 15px rgba(0,0,0,0.1); /* Sombra interna mais escura */
+  transform: translateY(-5px) scale(1.02); /* Leve expansão */
 }
 
-/* --- 1. AVATAR MELHORADO --- */
+/* --- CHUVA --- */
+.ryu-sig-rain {
+  position: absolute; inset: 0; z-index: -2; /* Atrás da nuvem */
+  overflow: hidden; pointer-events: none;
+  border-radius: 100px; /* Segue o formato base */
+  opacity: 0; transition: opacity 0.5s ease;
+}
+
+/* Padrão de chuva (linhas verticais) */
+.ryu-sig-rain::after {
+  content: ''; position: absolute; top: -100%; left: 0; width: 100%; height: 200%;
+  background-image: 
+    linear-gradient(transparent, transparent),
+    linear-gradient(to bottom, var(--rain-color) 0%, transparent 30%);
+  background-size: 100% 100%, 2px 30px; /* Largura e altura das gotas */
+  
+  /* Múltiplas gotas em posições diferentes */
+  background: 
+    repeating-linear-gradient(transparent, transparent 50px, var(--sky-blue) 50px, var(--sky-blue) 53px, transparent 53px),
+    repeating-linear-gradient(transparent, transparent 70px, var(--sky-blue-light) 70px, var(--sky-blue-light) 74px, transparent 74px);
+  background-position: 0 0, 20px 30px;
+  filter: blur(1px);
+}
+
+/* Ativa a chuva no hover */
+.ryu-sig-box:hover .ryu-sig-rain {
+  opacity: 1;
+}
+.ryu-sig-box:hover .ryu-sig-rain::after {
+  /* Animação da queda */
+  animation: rain-fall 0.8s linear infinite;
+}
+
+@keyframes rain-fall {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(100px); } /* Distância da queda */
+}
+
+
+/* --- ELEMENTOS INTERNOS --- */
+/* Avatar */
 .ryu-sig-cloud-avatar {
-  width: 135px; height: 135px; /* Maior */
-  flex-shrink: 0;
-  position: relative;
-  /* Sombra muito mais forte para destacar da nuvem branca */
-  filter: drop-shadow(0 8px 15px rgba(2, 119, 189, 0.5));
+  width: 110px; height: 110px; flex-shrink: 0; position: relative;
+  filter: drop-shadow(0 5px 10px rgba(2, 119, 189, 0.3));
   transition: 0.4s;
-  z-index: 2;
 }
-
 .ryu-sig-cloud-avatar img {
   width: 100%; height: 100%; object-fit: cover;
-  /* Máscara de nuvem original mantida */
+  /* Máscara de nuvem do template */
   -webkit-mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M17,19C19.76,19 22,16.76 22,14C22,11.24 19.76,9 17,9V9C16.97,6.33 14.73,4.17 12.03,4.25C9.75,4.32 7.77,5.92 7.24,8.12C4.69,8.28 2.5,10.5 2.5,13.25C2.5,16.15 4.7,18.55 7.55,18.75L7.5,19C7.5,19 17,19 17,19Z'/%3E%3C/svg%3E");
   mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M17,19C19.76,19 22,16.76 22,14C22,11.24 19.76,9 17,9V9C16.97,6.33 14.73,4.17 12.03,4.25C9.75,4.32 7.77,5.92 7.24,8.12C4.69,8.28 2.5,10.5 2.5,13.25C2.5,16.15 4.7,18.55 7.55,18.75L7.5,19C7.5,19 17,19 17,19Z'/%3E%3C/svg%3E");
   -webkit-mask-size: 100% 100%; mask-size: 100% 100%;
   transition: transform 0.4s ease;
 }
+.ryu-sig-box:hover .ryu-sig-cloud-avatar img { transform: translateY(-5px) scale(1.05); }
 
-.ryu-sig-box:hover .ryu-sig-cloud-avatar img {
-  transform: translateY(-5px) scale(1.05);
-}
-
-/* --- 2. CONTEÚDO --- */
-.ryu-sig-content {
-  flex: 1;
-  display: flex; flex-direction: column; justify-content: center;
-  position: relative; z-index: 2;
-}
-
+/* Conteúdo */
+.ryu-sig-content { flex: 1; display: flex; flex-direction: column; justify-content: center; position: relative; z-index: 2; }
 .ryu-sig-name {
-  font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 1.5em;
-  /* Azul escuro sólido para contraste máximo */
-  color: var(--sky-navy); 
-  text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px;
-  /* Sombra branca sutil para garantir leitura */
+  font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 1.4em;
+  color: var(--sky-navy); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px;
   text-shadow: 2px 2px 0 #fff;
 }
-
 .ryu-sig-subtitle {
-  font-family: 'Cinzel', serif; font-size: 0.8em;
-  color: var(--sky-deep);
+  font-family: 'Cinzel', serif; font-size: 0.75em; color: var(--sky-deep);
   font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
 }
 
-/* --- 3. LINKS LEGÍVEIS --- */
-.ryu-sig-links {
-  display: flex; flex-direction: column; gap: 8px;
-  text-align: right;
-  z-index: 2;
-}
-
+/* Links (Legíveis) */
+.ryu-sig-links { display: flex; flex-direction: column; gap: 8px; text-align: right; z-index: 2; }
 .ryu-sig-link {
   font-family: 'Montserrat', sans-serif; font-size: 0.8em; font-weight: 700;
-  /* COR ESCURA PARA LEITURA */
-  color: var(--sky-navy);
+  color: var(--sky-navy); /* Azul escuro para contraste */
   text-decoration: none !important; text-transform: uppercase; letter-spacing: 1px;
   transition: 0.3s; position: relative;
-  /* Borda branca sutil ao redor do texto */
-  text-shadow: 1px 1px 0 #fff, -1px -1px 0 #fff;
+  text-shadow: 1px 1px 0 #fff, -1px -1px 0 #fff; /* Borda branca para garantir leitura */
 }
-
-.ryu-sig-link:hover {
-  color: var(--sky-blue); /* Fica azul claro no hover */
-  transform: translateX(-3px);
-}
+.ryu-sig-link:hover { color: var(--sky-blue); transform: translateX(-3px); }
 
 /* Responsivo */
 @media (max-width: 550px) {
-  .ryu-sig-box { flex-direction: column; height: auto; padding: 40px 20px; text-align: center; }
-  .ryu-sig-box::before { width: 150%; height: 120%; top: -10%; left: -25%; }
-  .ryu-sig-box::after { width: 120%; height: 100%; bottom: -10%; right: -10%; }
+  .ryu-sig-box { flex-direction: column; height: auto; padding: 40px 20px; text-align: center; border-radius: 40px; }
+  .ryu-sig-box::before { top: -20px; left: 20px; }
+  .ryu-sig-box::after { top: -30px; right: 20px; }
   .ryu-sig-links { flex-direction: row; justify-content: center; gap: 20px; margin-top: 15px; }
 }
