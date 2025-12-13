@@ -1,0 +1,125 @@
+/* --- ASSINATURA: SPIRITUAL DREAD (GHOST ECHO) --- */
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400&family=Cinzel:wght@400;700&display=swap');
+
+:root {
+  --dr-black: #050505;      
+  --dr-dark-grey: #0a0a0a;    
+  --dr-blue-deep: #0b1e2f;    
+  --dr-blue-mist: #1c2c3a;    
+  --dr-blue-fade: #1a3b52;    
+  --dr-text: #b0b0b0;         
+  --dr-border: rgba(28, 44, 58, 0.5);
+}
+
+/* ANIMAÇÃO: Flutuação Fantasma */
+@keyframes sig-ghost-float {
+  0%, 100% { transform: translate(4px, 4px); opacity: 0.4; }
+  50% { transform: translate(-4px, -2px); opacity: 0.7; }
+}
+
+/* ANIMAÇÃO: Scanline sutil */
+@keyframes sig-scan {
+  0% { background-position: 0 0; } 100% { background-position: 0 100%; }
+}
+
+.dread-sig-container {
+  max-width: 600px;
+  height: 160px;
+  margin: 10px auto;
+  position: relative;
+  display: flex;
+  font-family: 'Inter', sans-serif;
+}
+
+/* A Borda Fantasma (Fica atrás) */
+.dread-sig-ghost {
+  position: absolute; inset: 0;
+  border: 1px solid var(--dr-blue-fade);
+  background: rgba(11, 30, 47, 0.1);
+  z-index: 0;
+  animation: sig-ghost-float 5s infinite ease-in-out;
+  box-shadow: 0 0 20px rgba(11, 30, 47, 0.2);
+}
+
+/* A Caixa Principal */
+.dread-sig-main {
+  position: relative; z-index: 1;
+  width: 100%; height: 100%;
+  background: var(--dr-black);
+  border: 1px solid var(--dr-border);
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  box-shadow: 0 10px 30px #000;
+  overflow: hidden;
+}
+
+/* Textura de Ruído */
+.dread-sig-noise {
+  position: absolute; inset: 0; pointer-events: none; z-index: 0; opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+}
+
+/* Imagem */
+.dread-sig-img-wrap {
+  width: 130px; height: 130px;
+  flex-shrink: 0; margin-right: 20px;
+  border: 1px solid rgba(255,255,255,0.05);
+  position: relative; z-index: 2;
+  overflow: hidden;
+}
+
+.dread-sig-img {
+  width: 100%; height: 100%; object-fit: cover;
+  /* O Filtro "Dread" */
+  filter: grayscale(0.8) sepia(0.2) hue-rotate(180deg) contrast(0.9) brightness(0.7);
+  transition: filter 0.5s ease, transform 0.5s ease;
+}
+
+.dread-sig-container:hover .dread-sig-img {
+  filter: grayscale(0) sepia(0) hue-rotate(0deg) contrast(1) brightness(1);
+  transform: scale(1.05);
+}
+
+/* Conteúdo de Texto */
+.dread-sig-content {
+  flex: 1; display: flex; flex-direction: column; justify-content: center;
+  position: relative; z-index: 2; gap: 8px;
+}
+
+.dread-sig-name {
+  font-family: 'Cinzel', serif; font-size: 1.8em; color: #d0d0d0;
+  text-transform: uppercase; letter-spacing: 2px;
+  border-bottom: 1px solid var(--dr-border);
+  padding-bottom: 5px; margin-bottom: 5px;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+}
+
+.dread-sig-quote {
+  font-family: 'Crimson Pro', serif; font-style: italic;
+  font-size: 0.9em; color: var(--dr-blue-fade);
+  margin-bottom: 10px;
+}
+
+/* Botões */
+.dread-sig-links {
+  display: flex; gap: 10px;
+}
+
+.dread-sig-btn {
+  font-family: 'Inter', sans-serif; font-size: 0.7em;
+  text-transform: uppercase; letter-spacing: 1px;
+  color: #888; text-decoration: none !important;
+  background: var(--dr-dark-grey);
+  border: 1px solid var(--dr-border);
+  padding: 6px 12px;
+  transition: 0.3s ease;
+  position: relative; overflow: hidden;
+}
+
+.dread-sig-btn:hover {
+  color: #d0d0d0;
+  background: var(--dr-blue-mist);
+  border-color: var(--dr-blue-fade);
+  box-shadow: 0 0 10px var(--dr-blue-deep);
+}
