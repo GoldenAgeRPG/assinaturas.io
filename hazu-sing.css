@@ -1,7 +1,7 @@
-/* --- ASSINATURA: COMIC POP V3.0 (3D LAUGHING RING) --- */
+/* --- ASSINATURA: COMIC POP V4.0 (REAL 3D RING) --- */
 @import url('https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@400;700&family=Permanent+Marker&display=swap');
 
-/* --- Variáveis e Configurações Gerais --- */
+/* O PALCO 3D (O Container Pai) */
 .comic-sig-box {
   --comic-bg: #1a1625;
   --comic-paper: #fffbf0;
@@ -12,8 +12,27 @@
   
   position: relative;
   width: 100%; max-width: 650px; height: 140px;
-  margin: 40px auto 20px auto; /* Margem superior maior para o anel não cortar */
+  margin: 50px auto;
   
+  /* Removemos cor e borda daqui. Agora é só um palco transparente */
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  
+  /* Perspectiva para o 3D funcionar */
+  perspective: 1200px;
+  transform-style: preserve-3d; /* Permite que filhos cruzem uns aos outros */
+  
+  /* Mantemos o layout flex apenas para centralizar, mas o visual mudou */
+  display: flex; align-items: center;
+  padding: 0; 
+  overflow: visible; /* ESSENCIAL para o anel sair pra fora */
+}
+
+/* O CARTÃO VISUAL (A caixa amarela de verdade) */
+.comic-card-visual {
+  position: relative;
+  width: 100%; height: 100%;
   background-color: var(--comic-yellow);
   border: 4px solid var(--comic-black);
   box-shadow: 10px 10px 0 var(--comic-black);
@@ -21,144 +40,120 @@
   display: flex; align-items: center;
   padding: 15px; gap: 20px;
   
+  /* Fica no eixo Z=0. O que tiver Z negativo fica atrás dele */
+  transform: translateZ(0); 
+  z-index: 5; /* Prioridade visual */
+  
+  /* A inclinação estética do cartão */
   transform: rotate(-1deg);
   transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  /* IMPORTANTE: Visible para o anel 3D sair da caixa */
-  overflow: visible; 
 }
 
-.comic-sig-box:hover {
+.comic-sig-box:hover .comic-card-visual {
   transform: rotate(0deg) scale(1.02);
   box-shadow: 15px 15px 0 var(--comic-pink);
 }
 
-/* --- Textura de Fundo --- */
-.comic-sig-pattern {
-  position: absolute; inset: 0;
-  background-image: radial-gradient(var(--comic-black) 15%, transparent 15%);
-  background-size: 10px 10px;
-  opacity: 0.05; pointer-events: none;
-  animation: halftone-scroll 4s linear infinite;
-  overflow: hidden;
-}
-@keyframes halftone-scroll { 0% { background-position: 0 0; } 100% { background-position: 20px 20px; } }
+/* --- O CARROSSEL 3D DIAGONAL --- */
 
-
-/* --- NOVO: CARROSSEL 3D DE RISADAS --- */
-
-/* O Palco que segura o anel e dá a inclinação */
+/* O Posicionador do Anel */
 .comic-carousel-stage {
   position: absolute;
-  right: -50px; /* Posicionado na direita, saindo um pouco */
+  right: -20px; /* Canto direito */
   top: 50%;
   width: 200px; height: 200px;
-  /* Define a profundidade 3D */
-  perspective: 1000px; 
-  /* A inclinação "meio de lado" (Gira no eixo X e Z) */
-  transform: translateY(-50%) rotateX(70deg) rotateZ(-20deg);
-  pointer-events: none; /* Não atrapalha cliques */
-  z-index: 0;
+  
+  /* A INCLINAÇÃO DIAGONAL PERFEITA */
+  /* rotateY: Gira o eixo */
+  /* rotateZ: Inclina na diagonal (como na sua imagem) */
+  /* translateZ: Puxa um pouco pra frente/trás para ajustar o corte */
+  transform: translateY(-50%) rotateY(-15deg) rotateZ(-25deg) translateZ(0px);
+  
+  transform-style: preserve-3d;
+  pointer-events: none;
+  z-index: 4; /* Fica tecnicamente atrás do cartão, mas os itens 3D vão furar isso */
 }
 
-/* O Anel que gira */
+/* O Anel Giratório */
 .comic-carousel-ring {
   width: 100%; height: 100%;
   position: absolute;
-  transform-style: preserve-3d; /* Essencial para o 3D funcionar */
-  animation: carousel-spin 8s linear infinite; /* Rotação contínua */
+  transform-style: preserve-3d;
+  animation: carousel-spin 6s linear infinite;
 }
 
-/* As letras individuais "HA" */
+/* Itens "HA" */
 .comic-carousel-item {
   position: absolute;
   top: 50%; left: 50%;
   font-family: 'Bangers', cursive;
-  font-size: 2.5em;
-  color: rgba(255,255,255,0.5); /* Branco transparente */
-  text-shadow: 2px 2px 0 var(--comic-black);
-  white-space: nowrap;
+  font-size: 2.2em;
+  color: var(--comic-cyan);
   
-  /* A MÁGICA MATEMÁTICA:
-     Cada item gira um tanto baseado no seu índice (--i)
-     e depois é empurrado para fora (translateZ) para formar o círculo */
+  /* Sombra grossa para destacar */
+  text-shadow: 
+    2px 2px 0 var(--comic-black),
+    -1px -1px 0 var(--comic-black),
+    1px -1px 0 var(--comic-black),
+    -1px 1px 0 var(--comic-black),
+    1px 1px 0 var(--comic-black);
+    
+  white-space: nowrap;
+  backface-visibility: visible; /* Visível dos dois lados */
+
+  /* MATEMÁTICA DO CÍRCULO */
   transform: 
-    translate(-50%, -50%) /* Centraliza o ponto de pivô */
-    rotateY(calc(var(--i) * 30deg)) /* 12 itens * 30 graus = 360 graus */
-    translateZ(90px); /* O RAIO do anel (distância do centro) */
+    translate(-50%, -50%) 
+    rotateY(calc(var(--i) * 24deg)) /* 15 itens * 24 graus = 360 */
+    translateZ(135px); /* RAIO GRANDE: Garante que passe longe na frente e longe atrás */
 }
 
-/* A Animação de giro do anel */
 @keyframes carousel-spin {
   from { transform: rotateY(0deg); }
   to { transform: rotateY(360deg); }
 }
 
-/* Efeito extra: Ao passar o mouse na assinatura, o anel gira mais rápido e brilha */
-.comic-sig-box:hover .comic-carousel-ring {
-  animation-duration: 3s; /* Mais rápido */
-}
-.comic-sig-box:hover .comic-carousel-item {
-  color: var(--comic-cyan); /* Muda de cor */
-  text-shadow: 2px 2px 0 var(--comic-black), 0 0 10px var(--comic-cyan); /* Glow */
-}
+/* Velocidade turbo no hover */
+.comic-sig-box:hover .comic-carousel-ring { animation-duration: 2s; }
 
 
-/* --- Moldura da Imagem --- */
+/* --- ELEMENTOS INTERNOS (Mantidos iguais, mas dentro do .comic-card-visual) --- */
+
+.comic-sig-pattern {
+  position: absolute; inset: 0;
+  background-image: radial-gradient(var(--comic-black) 15%, transparent 15%);
+  background-size: 10px 10px; opacity: 0.05; pointer-events: none;
+  animation: halftone-scroll 4s linear infinite; overflow: hidden;
+}
+@keyframes halftone-scroll { 0% { background-position: 0 0; } 100% { background-position: 20px 20px; } }
+
 .comic-sig-img-wrap {
   width: 100px; height: 100px; background: #fff;
-  border: 4px solid var(--comic-black);
-  transform: rotate(-3deg); flex-shrink: 0;
-  position: relative; z-index: 2;
-  box-shadow: 5px 5px 0 var(--comic-cyan);
-  transition: 0.3s;
+  border: 4px solid var(--comic-black); transform: rotate(-3deg); flex-shrink: 0;
+  position: relative; z-index: 2; box-shadow: 5px 5px 0 var(--comic-cyan); transition: 0.3s;
 }
 .comic-sig-img { width: 100%; height: 100%; object-fit: cover; filter: contrast(1.2) saturate(1.2); }
+.comic-sig-box:hover .comic-sig-img-wrap { transform: rotate(3deg) scale(1.1); box-shadow: -5px 5px 0 var(--comic-cyan); }
 
-.comic-sig-box:hover .comic-sig-img-wrap {
-  transform: rotate(3deg) scale(1.1);
-  box-shadow: -5px 5px 0 var(--comic-cyan);
-}
-
-/* --- Conteúdo --- */
-.comic-sig-content {
-  flex: 1; display: flex; flex-direction: column; justify-content: center;
-  position: relative; z-index: 2;
-}
-
-/* Nome */
+.comic-sig-content { flex: 1; display: flex; flex-direction: column; justify-content: center; position: relative; z-index: 2; }
 .comic-sig-name {
   font-family: 'Bangers', cursive; font-size: 2.8em; color: var(--comic-pink);
-  text-shadow: 2px 2px 0 #fff, 4px 4px 0 var(--comic-black);
-  line-height: 1; transform: skewX(-5deg); margin-bottom: 5px;
+  text-shadow: 2px 2px 0 #fff, 4px 4px 0 var(--comic-black); line-height: 1; transform: skewX(-5deg); margin-bottom: 5px;
 }
-
-/* Frase */
 .comic-sig-quote {
   font-family: 'Permanent Marker', cursive; font-size: 0.9em; color: var(--comic-black);
-  background: #fff; padding: 2px 8px; display: inline-block;
-  transform: rotate(1deg); border: 2px solid var(--comic-black);
-  margin-bottom: 12px; align-self: flex-start;
-  box-shadow: 3px 3px 0 rgba(0,0,0,0.1);
+  background: #fff; padding: 2px 8px; display: inline-block; transform: rotate(1deg); border: 2px solid var(--comic-black);
+  margin-bottom: 12px; align-self: flex-start; box-shadow: 3px 3px 0 rgba(0,0,0,0.1);
 }
 
-/* Botões */
 .comic-sig-actions { display: flex; gap: 10px; }
-
 .comic-sig-btn {
   font-family: 'Bangers', cursive; font-size: 1.1em; letter-spacing: 1px;
   color: var(--comic-black) !important; text-decoration: none !important;
-  background: var(--comic-cyan); border: 3px solid var(--comic-black);
-  padding: 5px 15px; box-shadow: 4px 4px 0 var(--comic-black);
-  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  transform: translateY(0);
+  background: var(--comic-cyan); border: 3px solid var(--comic-black); padding: 5px 15px; box-shadow: 4px 4px 0 var(--comic-black);
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform: translateY(0);
 }
-
 .comic-sig-actions a:nth-child(1) { background: var(--comic-cyan); transform: rotate(-2deg); }
 .comic-sig-actions a:nth-child(2) { background: var(--comic-pink); color: #fff !important; transform: rotate(1deg); }
 .comic-sig-actions a:nth-child(3) { background: #fff; transform: rotate(-1deg); }
-
-.comic-sig-btn:hover {
-  transform: translateY(4px) rotate(0deg) !important;
-  box-shadow: 0 0 0 var(--comic-black);
-  filter: brightness(1.1);
-}
+.comic-sig-btn:hover { transform: translateY(4px) rotate(0deg) !important; box-shadow: 0 0 0 var(--comic-black); filter: brightness(1.1); }
