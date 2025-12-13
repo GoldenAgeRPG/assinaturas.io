@@ -1,14 +1,7 @@
-/* --- ASSINATURA: COMIC POP V2.3 (JUMPING HAHA) --- */
+/* --- ASSINATURA: COMIC POP V3.0 (3D LAUGHING RING) --- */
 @import url('https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@400;700&family=Permanent+Marker&display=swap');
 
-/* ANIMAÇÃO NOVA: A RISADA SALTITANTE */
-@keyframes comic-laugh {
-  0% { transform: rotate(-10deg) translateY(0) scale(1); }
-  50% { transform: rotate(-20deg) translateY(-15px) scale(1.2); text-shadow: 5px 5px 0 rgba(0,0,0,0.1); }
-  100% { transform: rotate(-5deg) translateY(0) scale(1.1); }
-}
-
-/* Variáveis e Container */
+/* --- Variáveis e Configurações Gerais --- */
 .comic-sig-box {
   --comic-bg: #1a1625;
   --comic-paper: #fffbf0;
@@ -19,7 +12,7 @@
   
   position: relative;
   width: 100%; max-width: 650px; height: 140px;
-  margin: 20px auto;
+  margin: 40px auto 20px auto; /* Margem superior maior para o anel não cortar */
   
   background-color: var(--comic-yellow);
   border: 4px solid var(--comic-black);
@@ -30,51 +23,87 @@
   
   transform: rotate(-1deg);
   transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  overflow: visible; /* MUDANÇA: Visible para o HAHA poder sair pra fora se precisar */
+  /* IMPORTANTE: Visible para o anel 3D sair da caixa */
+  overflow: visible; 
 }
 
-/* Hover na Caixa */
 .comic-sig-box:hover {
   transform: rotate(0deg) scale(1.02);
   box-shadow: 15px 15px 0 var(--comic-pink);
 }
 
-/* Textura de Fundo */
+/* --- Textura de Fundo --- */
 .comic-sig-pattern {
   position: absolute; inset: 0;
   background-image: radial-gradient(var(--comic-black) 15%, transparent 15%);
   background-size: 10px 10px;
   opacity: 0.05; pointer-events: none;
   animation: halftone-scroll 4s linear infinite;
-  overflow: hidden; /* Garante que a textura não vaze */
-  border-radius: 0; /* Correção de borda */
+  overflow: hidden;
 }
 @keyframes halftone-scroll { 0% { background-position: 0 0; } 100% { background-position: 20px 20px; } }
 
-/* --- [MODIFICADO] O TEXTO DE FUNDO "HAHA!" --- */
-.comic-sig-bg-text {
-  position: absolute; right: -10px; bottom: -25px;
-  font-family: 'Bangers', cursive;
-  font-size: 8em; color: rgba(255,255,255,0.4);
-  
-  /* Estado Inicial */
-  transform: rotate(-10deg);
-  pointer-events: none;
-  line-height: 0.8;
+
+/* --- NOVO: CARROSSEL 3D DE RISADAS --- */
+
+/* O Palco que segura o anel e dá a inclinação */
+.comic-carousel-stage {
+  position: absolute;
+  right: -50px; /* Posicionado na direita, saindo um pouco */
+  top: 50%;
+  width: 200px; height: 200px;
+  /* Define a profundidade 3D */
+  perspective: 1000px; 
+  /* A inclinação "meio de lado" (Gira no eixo X e Z) */
+  transform: translateY(-50%) rotateX(70deg) rotateZ(-20deg);
+  pointer-events: none; /* Não atrapalha cliques */
   z-index: 0;
+}
+
+/* O Anel que gira */
+.comic-carousel-ring {
+  width: 100%; height: 100%;
+  position: absolute;
+  transform-style: preserve-3d; /* Essencial para o 3D funcionar */
+  animation: carousel-spin 8s linear infinite; /* Rotação contínua */
+}
+
+/* As letras individuais "HA" */
+.comic-carousel-item {
+  position: absolute;
+  top: 50%; left: 50%;
+  font-family: 'Bangers', cursive;
+  font-size: 2.5em;
+  color: rgba(255,255,255,0.5); /* Branco transparente */
+  text-shadow: 2px 2px 0 var(--comic-black);
+  white-space: nowrap;
   
-  /* Prepara a transição */
-  transition: color 0.3s ease;
+  /* A MÁGICA MATEMÁTICA:
+     Cada item gira um tanto baseado no seu índice (--i)
+     e depois é empurrado para fora (translateZ) para formar o círculo */
+  transform: 
+    translate(-50%, -50%) /* Centraliza o ponto de pivô */
+    rotateY(calc(var(--i) * 30deg)) /* 12 itens * 30 graus = 360 graus */
+    translateZ(90px); /* O RAIO do anel (distância do centro) */
 }
 
-/* O PULO: Quando passa o mouse na caixa, o texto pula */
-.comic-sig-box:hover .comic-sig-bg-text {
-  color: rgba(255,255,255,0.8); /* Fica mais branco/visível */
-  /* Animation Alternate = Vai e volta (Boing Boing) */
-  animation: comic-laugh 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) infinite alternate;
+/* A Animação de giro do anel */
+@keyframes carousel-spin {
+  from { transform: rotateY(0deg); }
+  to { transform: rotateY(360deg); }
 }
 
-/* Moldura da Imagem */
+/* Efeito extra: Ao passar o mouse na assinatura, o anel gira mais rápido e brilha */
+.comic-sig-box:hover .comic-carousel-ring {
+  animation-duration: 3s; /* Mais rápido */
+}
+.comic-sig-box:hover .comic-carousel-item {
+  color: var(--comic-cyan); /* Muda de cor */
+  text-shadow: 2px 2px 0 var(--comic-black), 0 0 10px var(--comic-cyan); /* Glow */
+}
+
+
+/* --- Moldura da Imagem --- */
 .comic-sig-img-wrap {
   width: 100px; height: 100px; background: #fff;
   border: 4px solid var(--comic-black);
@@ -90,7 +119,7 @@
   box-shadow: -5px 5px 0 var(--comic-cyan);
 }
 
-/* Conteúdo */
+/* --- Conteúdo --- */
 .comic-sig-content {
   flex: 1; display: flex; flex-direction: column; justify-content: center;
   position: relative; z-index: 2;
