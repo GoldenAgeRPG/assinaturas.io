@@ -22,7 +22,7 @@
   position: absolute; top: 0; left: 0;
   transform-style: preserve-3d;
   /* Transição rápida (0.1s) para seguir o mouse sem delay ("lag") */
-  transition: transform 0.1s linear; 
+  transition: transform 0.2s linear; 
   z-index: 1;
 }
 
