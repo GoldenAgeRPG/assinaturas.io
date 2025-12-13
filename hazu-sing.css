@@ -1,7 +1,14 @@
-/* --- ASSINATURA: COMIC POP (HAZU STYLE) --- */
+/* --- ASSINATURA: COMIC POP V2.3 (JUMPING HAHA) --- */
 @import url('https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@400;700&family=Permanent+Marker&display=swap');
 
-/* Variáveis do Tema (Copiadas do Template) */
+/* ANIMAÇÃO NOVA: A RISADA SALTITANTE */
+@keyframes comic-laugh {
+  0% { transform: rotate(-10deg) translateY(0) scale(1); }
+  50% { transform: rotate(-20deg) translateY(-15px) scale(1.2); text-shadow: 5px 5px 0 rgba(0,0,0,0.1); }
+  100% { transform: rotate(-5deg) translateY(0) scale(1.1); }
+}
+
+/* Variáveis e Container */
 .comic-sig-box {
   --comic-bg: #1a1625;
   --comic-paper: #fffbf0;
@@ -11,144 +18,118 @@
   --comic-black: #111111;
   
   position: relative;
-  width: 100%; max-width: 650px;
-  height: 140px;
+  width: 100%; max-width: 650px; height: 140px;
   margin: 20px auto;
   
-  /* O Fundo Amarelo Vibrante */
   background-color: var(--comic-yellow);
-  
-  /* Borda Grossa de HQ */
   border: 4px solid var(--comic-black);
-  
-  /* Sombra Dura (Pop Art) */
   box-shadow: 10px 10px 0 var(--comic-black);
   
   display: flex; align-items: center;
   padding: 15px; gap: 20px;
   
-  /* Inclinação leve para dar dinamismo */
   transform: rotate(-1deg);
   transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  overflow: hidden;
+  overflow: visible; /* MUDANÇA: Visible para o HAHA poder sair pra fora se precisar */
 }
 
-/* Efeito Hover na Caixa Inteira */
+/* Hover na Caixa */
 .comic-sig-box:hover {
   transform: rotate(0deg) scale(1.02);
   box-shadow: 15px 15px 0 var(--comic-pink);
 }
 
-/* Textura de Retículas (Halftone) */
+/* Textura de Fundo */
 .comic-sig-pattern {
   position: absolute; inset: 0;
   background-image: radial-gradient(var(--comic-black) 15%, transparent 15%);
   background-size: 10px 10px;
-  opacity: 0.05;
-  pointer-events: none;
+  opacity: 0.05; pointer-events: none;
   animation: halftone-scroll 4s linear infinite;
+  overflow: hidden; /* Garante que a textura não vaze */
+  border-radius: 0; /* Correção de borda */
 }
+@keyframes halftone-scroll { 0% { background-position: 0 0; } 100% { background-position: 20px 20px; } }
 
-@keyframes halftone-scroll {
-  0% { background-position: 0 0; } 100% { background-position: 20px 20px; }
-}
-
-/* Elemento Decorativo "HAHAHA" no fundo */
+/* --- [MODIFICADO] O TEXTO DE FUNDO "HAHA!" --- */
 .comic-sig-bg-text {
-  position: absolute; right: -20px; bottom: -30px;
+  position: absolute; right: -10px; bottom: -25px;
   font-family: 'Bangers', cursive;
-  font-size: 8em; color: rgba(255,255,255,0.3);
+  font-size: 8em; color: rgba(255,255,255,0.4);
+  
+  /* Estado Inicial */
   transform: rotate(-10deg);
   pointer-events: none;
   line-height: 0.8;
+  z-index: 0;
+  
+  /* Prepara a transição */
+  transition: color 0.3s ease;
 }
 
-/* A Moldura da Imagem */
+/* O PULO: Quando passa o mouse na caixa, o texto pula */
+.comic-sig-box:hover .comic-sig-bg-text {
+  color: rgba(255,255,255,0.8); /* Fica mais branco/visível */
+  /* Animation Alternate = Vai e volta (Boing Boing) */
+  animation: comic-laugh 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) infinite alternate;
+}
+
+/* Moldura da Imagem */
 .comic-sig-img-wrap {
-  width: 100px; height: 100px;
-  background: #fff;
+  width: 100px; height: 100px; background: #fff;
   border: 4px solid var(--comic-black);
-  transform: rotate(-3deg);
-  flex-shrink: 0;
+  transform: rotate(-3deg); flex-shrink: 0;
   position: relative; z-index: 2;
   box-shadow: 5px 5px 0 var(--comic-cyan);
   transition: 0.3s;
 }
+.comic-sig-img { width: 100%; height: 100%; object-fit: cover; filter: contrast(1.2) saturate(1.2); }
 
-.comic-sig-img {
-  width: 100%; height: 100%; object-fit: cover;
-  filter: contrast(1.2) saturate(1.2);
-}
-
-/* Ao passar o mouse, a foto gira para o outro lado */
 .comic-sig-box:hover .comic-sig-img-wrap {
   transform: rotate(3deg) scale(1.1);
   box-shadow: -5px 5px 0 var(--comic-cyan);
 }
 
-/* Conteúdo de Texto */
+/* Conteúdo */
 .comic-sig-content {
   flex: 1; display: flex; flex-direction: column; justify-content: center;
   position: relative; z-index: 2;
 }
 
-/* Nome do Personagem */
+/* Nome */
 .comic-sig-name {
-  font-family: 'Bangers', cursive;
-  font-size: 2.8em;
-  color: var(--comic-pink);
-  /* Contorno branco no texto para leitura */
+  font-family: 'Bangers', cursive; font-size: 2.8em; color: var(--comic-pink);
   text-shadow: 2px 2px 0 #fff, 4px 4px 0 var(--comic-black);
-  line-height: 1;
-  transform: skewX(-5deg);
-  margin-bottom: 5px;
+  line-height: 1; transform: skewX(-5deg); margin-bottom: 5px;
 }
 
-/* Frase de Efeito */
+/* Frase */
 .comic-sig-quote {
-  font-family: 'Permanent Marker', cursive;
-  font-size: 0.9em; color: var(--comic-black);
-  background: #fff;
-  padding: 2px 8px;
-  display: inline-block;
-  transform: rotate(1deg);
-  border: 2px solid var(--comic-black);
-  margin-bottom: 12px;
-  align-self: flex-start;
+  font-family: 'Permanent Marker', cursive; font-size: 0.9em; color: var(--comic-black);
+  background: #fff; padding: 2px 8px; display: inline-block;
+  transform: rotate(1deg); border: 2px solid var(--comic-black);
+  margin-bottom: 12px; align-self: flex-start;
   box-shadow: 3px 3px 0 rgba(0,0,0,0.1);
 }
 
-/* Área dos Botões */
-.comic-sig-actions {
-  display: flex; gap: 10px;
-}
+/* Botões */
+.comic-sig-actions { display: flex; gap: 10px; }
 
-/* Botões Estilo "Sticker" */
 .comic-sig-btn {
-  font-family: 'Bangers', cursive;
-  font-size: 1.1em; letter-spacing: 1px;
-  color: var(--comic-black) !important;
-  text-decoration: none !important;
-  
-  background: var(--comic-cyan);
-  border: 3px solid var(--comic-black);
-  padding: 5px 15px;
-  
-  /* Sombra Dura */
-  box-shadow: 4px 4px 0 var(--comic-black);
-  
-  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Efeito Elástico */
+  font-family: 'Bangers', cursive; font-size: 1.1em; letter-spacing: 1px;
+  color: var(--comic-black) !important; text-decoration: none !important;
+  background: var(--comic-cyan); border: 3px solid var(--comic-black);
+  padding: 5px 15px; box-shadow: 4px 4px 0 var(--comic-black);
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   transform: translateY(0);
 }
 
-/* Cores diferentes para cada botão */
 .comic-sig-actions a:nth-child(1) { background: var(--comic-cyan); transform: rotate(-2deg); }
 .comic-sig-actions a:nth-child(2) { background: var(--comic-pink); color: #fff !important; transform: rotate(1deg); }
 .comic-sig-actions a:nth-child(3) { background: #fff; transform: rotate(-1deg); }
 
-/* Hover dos Botões: Efeito de Pressionar */
 .comic-sig-btn:hover {
-  transform: translateY(4px) rotate(0deg) !important; /* Botão desce */
-  box-shadow: 0 0 0 var(--comic-black); /* Sombra some (parece que encostou no fundo) */
+  transform: translateY(4px) rotate(0deg) !important;
+  box-shadow: 0 0 0 var(--comic-black);
   filter: brightness(1.1);
 }
