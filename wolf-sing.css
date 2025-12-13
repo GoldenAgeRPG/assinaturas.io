@@ -1,15 +1,14 @@
 /* --- ASSINATURA: WOLF STYLE --- */
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Rubik+Glitch&display=swap');
 
-/* CENÁRIO 3D */
+/* O PALCO 3D (Agora tem tamanho fixo para garantir que funciona) */
 .wolf-3d-scene {
-  perspective: 1200px; /* Profundidade */
-  max-width: 600px;
+  perspective: 1200px;
+  width: 550px;       /* Largura fixa igual ao conteúdo */
+  height: 180px;      /* Altura fixa para a "zona" existir */
   margin: 10px auto;
   position: relative;
-  display: flex; justify-content: center; align-items: center;
-  /* Garante altura para os sensores funcionarem */
-  min-height: 180px; 
+  display: block;
 }
 
 /* A CAIXA DA ASSINATURA */
@@ -18,114 +17,97 @@
   background-size: 300% 300%;
   padding: 3px;
   width: 100%;
-  /* Animação do ouro continua */
+  height: 100%; /* Ocupa todo o palco */
   animation: gold-flow 6s ease infinite;
-  
-  /* Sombra Inicial */
   box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-  
-  /* Transição Suave do Movimento */
-  transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+  transition: transform 0.4s ease-out, box-shadow 0.4s ease;
   transform-style: preserve-3d;
-  
-  /* Recorte */
   clip-path: polygon(25px 0%, 100% 0%, 100% calc(100% - 25px), calc(100% - 25px) 100%, 0% 100%, 0% 25px);
-  position: relative; z-index: 1; /* Camada visual base */
+  position: absolute; /* Fixa dentro do palco */
+  top: 0; left: 0;
+  z-index: 1; /* Fica abaixo dos botões */
 }
 
 @keyframes gold-flow { 0% { background-position: 0% 50%; } 100% { background-position: 100% 50%; } }
 @keyframes scan-move { 0% { background-position: 0 0; } 100% { background-position: 40px 0; } }
 
-/* --- SISTEMA DE SENSORES DE PESO (A Grade Invisível) --- */
-.tilt-grid {
-  position: absolute; top: -10px; bottom: -10px; left: -10px; right: -10px;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr;
-  z-index: 10; /* Fica ACIMA do card, mas ABAIXO dos botões */
+/* --- SENSORES DE PESO (3 Zonas Verticais) --- */
+/* Z-Index 10: Acima do card, mas abaixo dos botões */
+.tilt-zone {
+  position: absolute; top: 0; bottom: 0; z-index: 10;
 }
-.t-zone { width: 100%; height: 100%; cursor: default; }
 
-/* FÍSICA: Onde o mouse pesa, o card afunda */
+/* Configuração das 3 Zonas */
+.tz-left   { left: 0; width: 33%; }
+.tz-center { left: 33%; width: 34%; }
+.tz-right  { right: 0; width: 33%; }
 
-/* Topo Esquerda (Afunda canto sup. esq) */
-.t-1:hover ~ .wolf-sig-box { transform: rotateX(5deg) rotateY(-5deg); box-shadow: 10px 10px 20px rgba(0,0,0,0.2); }
-/* Topo Centro */
-.t-2:hover ~ .wolf-sig-box { transform: rotateX(5deg); box-shadow: 0 15px 20px rgba(0,0,0,0.2); }
-/* Topo Direita */
-.t-3:hover ~ .wolf-sig-box { transform: rotateX(5deg) rotateY(5deg); box-shadow: -10px 10px 20px rgba(0,0,0,0.2); }
+/* A FÍSICA (Peso) */
+/* Mouse na Esquerda -> Inclina para Esquerda/Trás */
+.tz-left:hover ~ .wolf-sig-box { 
+  transform: rotateY(-8deg) rotateX(2deg); 
+  box-shadow: 10px 10px 25px rgba(0,0,0,0.3); 
+}
 
-/* Meio Esquerda */
-.t-4:hover ~ .wolf-sig-box { transform: rotateY(-5deg); box-shadow: 10px 5px 20px rgba(0,0,0,0.2); }
-/* CENTRO (Estabiliza ou leve Zoom) */
-.t-5:hover ~ .wolf-sig-box { transform: scale(1.02); box-shadow: 0 10px 30px rgba(197, 160, 89, 0.2); }
-/* Meio Direita */
-.t-6:hover ~ .wolf-sig-box { transform: rotateY(5deg); box-shadow: -10px 5px 20px rgba(0,0,0,0.2); }
+/* Mouse no Centro -> Zoom e Estabiliza */
+.tz-center:hover ~ .wolf-sig-box { 
+  transform: scale(1.02) translateY(-2px); 
+  box-shadow: 0 15px 30px rgba(0,0,0,0.3); 
+}
 
-/* Baixo Esquerda */
-.t-7:hover ~ .wolf-sig-box { transform: rotateX(-5deg) rotateY(-5deg); box-shadow: 10px 5px 20px rgba(0,0,0,0.2); }
-/* Baixo Centro */
-.t-8:hover ~ .wolf-sig-box { transform: rotateX(-5deg); box-shadow: 0 5px 20px rgba(0,0,0,0.2); }
-/* Baixo Direita */
-.t-9:hover ~ .wolf-sig-box { transform: rotateX(-5deg) rotateY(5deg); box-shadow: -10px 5px 20px rgba(0,0,0,0.2); }
+/* Mouse na Direita -> Inclina para Direita/Trás */
+.tz-right:hover ~ .wolf-sig-box { 
+  transform: rotateY(8deg) rotateX(2deg); 
+  box-shadow: -10px 10px 25px rgba(0,0,0,0.3); 
+}
 
 
 /* --- ELEMENTOS INTERNOS --- */
 .wolf-sig-inner {
   background: #ffffff;
   display: flex; align-items: center;
-  padding: 25px 30px; min-height: 160px;
+  padding: 25px 30px; 
+  height: 100%; /* Altura total */
+  box-sizing: border-box;
   clip-path: polygon(25px 0%, 100% 0%, 100% calc(100% - 25px), calc(100% - 25px) 100%, 0% 100%, 0% 25px);
-  position: relative; z-index: 1;
 }
 
-/* Fundo */
 .wolf-sig-bg {
   position: absolute; inset: 0;
   background: repeating-linear-gradient(90deg, transparent, transparent 19px, rgba(197,160,89,0.08) 20px),
               radial-gradient(circle at 50% 50%, rgba(197,160,89,0.05), transparent 80%);
   background-size: 40px 100%; animation: scan-move 10s linear infinite;
-  z-index: 0; pointer-events: none;
+  pointer-events: none;
 }
 
-/* Detalhe Canto */
-.wolf-sig-inner::before {
-  content: ''; position: absolute; top: 0; right: 0; width: 40px; height: 40px;
-  background: linear-gradient(225deg, #c5a059 50%, transparent 50%);
-  opacity: 0.3; pointer-events: none;
-}
-
-/* Imagem */
 .wolf-sig-img-wrap {
   width: 125px; height: 125px;
   border: 1px solid #c5a059; outline: 3px solid #080808;
-  flex-shrink: 0; margin-right: 25px; z-index: 2;
+  flex-shrink: 0; margin-right: 25px;
   background: #000; overflow: hidden;
   box-shadow: 5px 5px 15px rgba(0,0,0,0.1);
-  /* A imagem não recebe eventos de mouse para não atrapalhar o sensor atrás dela */
-  pointer-events: none; 
 }
 .wolf-sig-img {
   width: 100%; height: 100%; object-fit: cover; filter: saturate(0.8);
 }
 
-/* Conteúdo */
 .wolf-sig-content {
-  flex: 1; z-index: 2; display: flex; flex-direction: column; gap: 8px; min-width: 0;
+  flex: 1; display: flex; flex-direction: column; gap: 8px; min-width: 0;
   border-left: 1px solid rgba(197, 160, 89, 0.4); padding-left: 20px;
+  position: relative; 
+  z-index: 50; /* Garante que o conteúdo fique acima dos sensores */
 }
 
-/* Nome */
 .wolf-sig-name {
   font-family: 'Cinzel', serif; font-size: 26px; color: #c5a059; font-weight: 700;
   text-transform: uppercase; letter-spacing: 2px;
   text-shadow: 1px 1px 0 rgba(0,0,0,0.15);
   border-bottom: 2px solid #c5a059; padding-bottom: 8px; margin-bottom: 5px;
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-  pointer-events: none; /* Deixa o mouse passar para o sensor */
+  pointer-events: none; /* Mouse ignora o nome para pegar o sensor */
 }
 
-/* BOTÕES - A CORREÇÃO PRINCIPAL */
+/* BOTÕES (A CORREÇÃO) */
 .wolf-sig-btn {
   font-family: 'Rubik Glitch', cursive; font-size: 11px;
   color: #7a602e !important; text-decoration: none !important;
@@ -133,16 +115,14 @@
   text-align: center; letter-spacing: 1px; display: block; text-transform: uppercase;
   clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%);
   position: relative; 
-  z-index: 50; /* Z-INDEX ALTO: Fica ACIMA dos sensores */
+  z-index: 100; /* Z-INDEX MÁXIMO: O botão ganha do sensor */
   transition: 0.2s; overflow: hidden;
   cursor: pointer;
+  margin-bottom: 2px;
 }
-.wolf-sig-btn::before {
-  content: ''; position: absolute; top: 0; left: 0; bottom: 0; right: 0;
-  background: #c5a059; z-index: -1; transform: scaleX(0); transform-origin: left;
-  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
+
+/* Hover no botão = Cor + Transformação */
 .wolf-sig-btn:hover {
   color: #fff !important; border-color: #c5a059; transform: translateX(5px);
+  background: #c5a059;
 }
-.wolf-sig-btn:hover::before { transform: scaleX(1); }
