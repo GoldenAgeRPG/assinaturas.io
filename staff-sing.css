@@ -1,0 +1,121 @@
+/* --- ASSINATURA: STAFF OVERSEER (SYSTEM PURPLE) --- */
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;700&display=swap');
+
+:root {
+  --st-bg: #0b0b0d;
+  --st-panel: #141418;
+  --st-purple: #6D20C5;
+  --st-purple-glow: #8e44ad;
+  --st-text: #e0e0e0;
+  --st-dim: #666;
+}
+
+/* Container Principal */
+.st-box {
+  position: relative;
+  width: 100%; max-width: 650px;
+  height: 100px;
+  margin: 10px auto;
+  background: var(--st-bg);
+  border: 1px solid #222;
+  /* Borda esquerda grossa e brilhante */
+  border-left: 4px solid var(--st-purple);
+  box-shadow: 0 0 20px rgba(0,0,0,0.5), inset 0 0 30px rgba(0,0,0,0.8);
+  display: flex; align-items: center;
+  padding: 0 25px; gap: 20px;
+  overflow: hidden;
+  font-family: 'Inter', sans-serif;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Efeito de Fundo (Tech Grid) */
+.st-bg-grid {
+  position: absolute; inset: 0;
+  background-image: 
+    linear-gradient(rgba(109, 32, 197, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(109, 32, 197, 0.03) 1px, transparent 1px);
+  background-size: 20px 20px;
+  z-index: 0; pointer-events: none;
+}
+
+/* Watermark "ADMIN" */
+.st-watermark {
+  position: absolute; right: 10px; bottom: -12px;
+  font-family: 'Rajdhani', sans-serif; font-weight: 900;
+  font-size: 4em; color: rgba(255,255,255,0.03);
+  line-height: 1; pointer-events: none; select-none: none;
+  z-index: 0;
+}
+
+/* Ícone Principal (Esquerda) */
+.st-avatar {
+  position: relative; z-index: 2;
+  width: 55px; height: 55px;
+  display: flex; justify-content: center; align-items: center;
+  background: var(--st-panel);
+  border: 1px solid rgba(109, 32, 197, 0.3);
+  border-radius: 50%;
+  color: var(--st-purple);
+  box-shadow: 0 0 10px rgba(109, 32, 197, 0.1);
+  flex-shrink: 0;
+  transition: 0.3s;
+}
+.st-avatar .material-icons-round { font-size: 28px; }
+
+/* Animação de Pulso no Ícone */
+.st-box:hover .st-avatar {
+  color: #fff; background: var(--st-purple);
+  box-shadow: 0 0 15px var(--st-purple);
+  border-color: var(--st-purple);
+  transform: scale(1.05);
+}
+
+/* Informações (Texto) */
+.st-info {
+  flex: 1; display: flex; flex-direction: column; justify-content: center;
+  position: relative; z-index: 2; line-height: 1.2;
+}
+
+.st-rank {
+  font-family: 'Rajdhani', sans-serif; font-weight: 700;
+  font-size: 0.85em; letter-spacing: 2px;
+  color: var(--st-purple); text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+.st-name {
+  font-family: 'Rajdhani', sans-serif; font-weight: 700;
+  font-size: 1.6em; color: #fff; text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.st-quote {
+  font-size: 0.75em; color: var(--st-dim); font-style: italic;
+  margin-top: 4px; font-family: 'Inter', sans-serif;
+}
+
+/* Botões de Ação */
+.st-actions {
+  display: flex; gap: 10px; position: relative; z-index: 2;
+}
+
+.st-btn {
+  width: 40px; height: 40px;
+  display: flex; justify-content: center; align-items: center;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid #333;
+  border-radius: 4px;
+  color: #888; text-decoration: none !important;
+  transition: all 0.2s ease;
+}
+
+.st-btn .material-icons-round { font-size: 20px; transition: 0.2s; }
+
+/* Hover dos Botões */
+.st-btn:hover {
+  background: var(--st-purple);
+  border-color: var(--st-purple-glow);
+  color: #fff;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(109, 32, 197, 0.4);
+}
