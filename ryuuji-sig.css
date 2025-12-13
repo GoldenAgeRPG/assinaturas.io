@@ -1,160 +1,143 @@
-/* --- ASSINATURA: TAKAHASHI RYUUJI (STORM CLOUD v2) --- */
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;800&family=Cinzel:wght@700&family=Pinyon+Script&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap');
 
-/* Variáveis */
-:root {
-  --sky-white: #ffffff;
-  --sky-gray: #d0dae8; /* Cor da nuvem de tempestade */
-  --sky-blue-light: #b3e5fc;
-  --sky-blue: #4fc3f7;
-  --sky-deep: #0277bd;
-  --sky-navy: #002147;
-  --rain-color: #4fc3f7;
-}
-
-/* O Container Principal (Parte Central da Nuvem) */
-.ryu-sig-box {
+/* --- CONTAINER GERAL --- */
+.ryu-wrapper {
   position: relative;
-  width: 100%; max-width: 550px; height: 150px; /* Tamanho reduzido */
-  margin: 30px auto;
-  
-  /* Formato base arredondado */
-  border-radius: 100px;
-  background: radial-gradient(circle at 50% 30%, #fff, var(--sky-white));
-  
-  /* Sombra fofa */
-  box-shadow: 
-    0 15px 35px rgba(2, 119, 189, 0.15),
-    inset 0 -5px 15px rgba(255,255,255,0.8);
-  
-  display: flex; align-items: center;
-  padding: 0 40px; gap: 20px;
-  z-index: 1;
-  
-  /* Transição suave para a cor da tempestade */
-  transition: background 0.5s ease, box-shadow 0.5s ease, transform 0.5s ease;
-  animation: cloud-hover 6s infinite ease-in-out;
+  width: 100%; max-width: 500px; height: 220px; /* Altura para caber a chuva caindo */
+  margin: 20px auto;
+  display: flex; justify-content: center; align-items: flex-start;
+  padding-top: 40px; /* Espaço para o topo da nuvem */
 }
 
-/* Animação de Flutuar */
-@keyframes cloud-hover {
+/* --- O CORPO DA NUVEM (SHAPE BASE) --- */
+.ryu-cloud-body {
+  position: relative;
+  width: 420px; height: 110px;
+  background: #f0f8ff; /* Cor da nuvem */
+  border-radius: 60px; /* Bordas arredondadas base */
+  z-index: 10; /* Fica na frente da chuva */
+  display: flex; align-items: center; padding: 0 30px;
+  box-shadow: 0 10px 25px rgba(2, 119, 189, 0.15); /* Sombra suave */
+  
+  /* Animação suave de flutuar */
+  animation: cloud-float 4s ease-in-out infinite;
+}
+
+@keyframes cloud-float {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
+  50% { transform: translateY(-5px); }
 }
 
-/* --- BOLHAS PARA DAR O FORMATO "ENGOMADO" --- */
-.ryu-sig-box::before, .ryu-sig-box::after {
-  content: ''; position: absolute; z-index: -1;
-  background: inherit; /* Herda a cor do pai para mudar junto */
+/* --- FORMATO DA NUVEM (OS BUMPS) --- */
+/* Cria as lombadas superiores para ficar igual a referência */
+.ryu-cloud-body::before, .ryu-cloud-body::after {
+  content: ''; position: absolute;
+  background: inherit; z-index: -1; /* Funde com o corpo */
   border-radius: 50%;
-  box-shadow: inherit;
-  transition: inherit;
 }
-/* Bolha Esquerda/Cima */
-.ryu-sig-box::before {
+
+/* Lombada Maior (Centro-Esquerda) */
+.ryu-cloud-body::before {
+  width: 140px; height: 140px;
+  top: -60px; left: 60px;
+}
+
+/* Lombada Menor (Direita) */
+.ryu-cloud-body::after {
   width: 100px; height: 100px;
-  top: -30px; left: 40px;
-}
-/* Bolha Direita/Cima */
-.ryu-sig-box::after {
-  width: 120px; height: 120px;
-  top: -40px; right: 50px;
+  top: -40px; right: 60px;
 }
 
-/* --- INTERAÇÃO DE TEMPESTADE --- */
-/* Ao passar o mouse, a nuvem fica cinza */
-.ryu-sig-box:hover {
-  /* Cor da nuvem de tempestade */
-  background: radial-gradient(circle at 50% 30%, var(--sky-gray), #aabacf);
-  box-shadow: 
-    0 20px 50px rgba(2, 119, 189, 0.3),
-    inset 0 -5px 15px rgba(0,0,0,0.1); /* Sombra interna mais escura */
-  transform: translateY(-5px) scale(1.02); /* Leve expansão */
+/* --- CONTEÚDO INTERNO --- */
+.ryu-inner-content {
+  position: relative; z-index: 12;
+  display: flex; align-items: center; gap: 20px; width: 100%;
 }
 
-/* --- CHUVA --- */
-.ryu-sig-rain {
-  position: absolute; inset: 0; z-index: -2; /* Atrás da nuvem */
-  overflow: hidden; pointer-events: none;
-  border-radius: 100px; /* Segue o formato base */
-  opacity: 0; transition: opacity 0.5s ease;
+/* Avatar Redondo */
+.ryu-avatar-circle {
+  width: 85px; height: 85px; flex-shrink: 0;
+  border-radius: 50%; border: 3px solid #fff;
+  overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+.ryu-avatar-circle img { width: 100%; height: 100%; object-fit: cover; }
+
+/* Texto e Links */
+.ryu-text-group { display: flex; flex-direction: column; gap: 5px; }
+
+.ryu-name {
+  font-family: 'Montserrat', sans-serif; font-weight: 800;
+  font-size: 1.4em; color: #002147; /* Azul Navy */
+  text-transform: uppercase; letter-spacing: 1px;
 }
 
-/* Padrão de chuva (linhas verticais) */
-.ryu-sig-rain::after {
-  content: ''; position: absolute; top: -100%; left: 0; width: 100%; height: 200%;
-  background-image: 
-    linear-gradient(transparent, transparent),
-    linear-gradient(to bottom, var(--rain-color) 0%, transparent 30%);
-  background-size: 100% 100%, 2px 30px; /* Largura e altura das gotas */
+/* --- LINKS (CORRIGIDO: LEGIBILIDADE) --- */
+.ryu-links { display: flex; gap: 15px; }
+
+.ryu-btn {
+  font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.8em;
+  text-transform: uppercase; text-decoration: none !important;
   
-  /* Múltiplas gotas em posições diferentes */
-  background: 
-    repeating-linear-gradient(transparent, transparent 50px, var(--sky-blue) 50px, var(--sky-blue) 53px, transparent 53px),
-    repeating-linear-gradient(transparent, transparent 70px, var(--sky-blue-light) 70px, var(--sky-blue-light) 74px, transparent 74px);
-  background-position: 0 0, 20px 30px;
-  filter: blur(1px);
+  /* COR DA FONTE: AGORA ESCURA */
+  color: #002147 !important; 
+  
+  position: relative; transition: 0.3s;
+  padding-bottom: 2px; border-bottom: 2px solid transparent;
 }
 
-/* Ativa a chuva no hover */
-.ryu-sig-box:hover .ryu-sig-rain {
-  opacity: 1;
-}
-.ryu-sig-box:hover .ryu-sig-rain::after {
-  /* Animação da queda */
-  animation: rain-fall 0.8s linear infinite;
+.ryu-btn:hover {
+  color: #4fc3f7 !important; /* Azul claro no hover */
+  border-bottom: 2px solid #4fc3f7;
 }
 
-@keyframes rain-fall {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(100px); } /* Distância da queda */
+/* --- CHUVA DE PARTÍCULAS (CORRIGIDO: CAINDO DE TRÁS) --- */
+.ryu-rain-layer {
+  position: absolute;
+  top: 50%; left: 10%; right: 10%; bottom: -60px; /* Área da chuva */
+  z-index: -5; /* ATRÁS DA NUVEM */
+  pointer-events: none;
+  opacity: 0; transition: opacity 0.5s;
 }
 
-
-/* --- ELEMENTOS INTERNOS --- */
-/* Avatar */
-.ryu-sig-cloud-avatar {
-  width: 110px; height: 110px; flex-shrink: 0; position: relative;
-  filter: drop-shadow(0 5px 10px rgba(2, 119, 189, 0.3));
-  transition: 0.4s;
-}
-.ryu-sig-cloud-avatar img {
-  width: 100%; height: 100%; object-fit: cover;
-  /* Máscara de nuvem do template */
-  -webkit-mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M17,19C19.76,19 22,16.76 22,14C22,11.24 19.76,9 17,9V9C16.97,6.33 14.73,4.17 12.03,4.25C9.75,4.32 7.77,5.92 7.24,8.12C4.69,8.28 2.5,10.5 2.5,13.25C2.5,16.15 4.7,18.55 7.55,18.75L7.5,19C7.5,19 17,19 17,19Z'/%3E%3C/svg%3E");
-  mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M17,19C19.76,19 22,16.76 22,14C22,11.24 19.76,9 17,9V9C16.97,6.33 14.73,4.17 12.03,4.25C9.75,4.32 7.77,5.92 7.24,8.12C4.69,8.28 2.5,10.5 2.5,13.25C2.5,16.15 4.7,18.55 7.55,18.75L7.5,19C7.5,19 17,19 17,19Z'/%3E%3C/svg%3E");
-  -webkit-mask-size: 100% 100%; mask-size: 100% 100%;
-  transition: transform 0.4s ease;
-}
-.ryu-sig-box:hover .ryu-sig-cloud-avatar img { transform: translateY(-5px) scale(1.05); }
-
-/* Conteúdo */
-.ryu-sig-content { flex: 1; display: flex; flex-direction: column; justify-content: center; position: relative; z-index: 2; }
-.ryu-sig-name {
-  font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 1.4em;
-  color: var(--sky-navy); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px;
-  text-shadow: 2px 2px 0 #fff;
-}
-.ryu-sig-subtitle {
-  font-family: 'Cinzel', serif; font-size: 0.75em; color: var(--sky-deep);
-  font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+/* As gotas (partículas) */
+.rain-drop {
+  position: absolute; top: 0;
+  width: 2px; height: 15px; /* Partícula fina */
+  background: #4fc3f7; /* Azul chuva */
+  opacity: 0;
+  border-radius: 2px;
 }
 
-/* Links (Legíveis) */
-.ryu-sig-links { display: flex; flex-direction: column; gap: 8px; text-align: right; z-index: 2; }
-.ryu-sig-link {
-  font-family: 'Montserrat', sans-serif; font-size: 0.8em; font-weight: 700;
-  color: var(--sky-navy); /* Azul escuro para contraste */
-  text-decoration: none !important; text-transform: uppercase; letter-spacing: 1px;
-  transition: 0.3s; position: relative;
-  text-shadow: 1px 1px 0 #fff, -1px -1px 0 #fff; /* Borda branca para garantir leitura */
-}
-.ryu-sig-link:hover { color: var(--sky-blue); transform: translateX(-3px); }
+/* Aparece só no Hover */
+.ryu-wrapper:hover .ryu-rain-layer { opacity: 1; }
 
-/* Responsivo */
-@media (max-width: 550px) {
-  .ryu-sig-box { flex-direction: column; height: auto; padding: 40px 20px; text-align: center; border-radius: 40px; }
-  .ryu-sig-box::before { top: -20px; left: 20px; }
-  .ryu-sig-box::after { top: -30px; right: 20px; }
-  .ryu-sig-links { flex-direction: row; justify-content: center; gap: 20px; margin-top: 15px; }
+/* Animação de Queda */
+@keyframes rainfall {
+  0% { transform: translateY(0); opacity: 0; }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { transform: translateY(80px); opacity: 0; } /* Cai e some */
+}
+
+/* Configuração de cada gota (posição e delay variados) */
+.d1 { left: 10%; animation: rainfall 0.8s linear infinite; animation-delay: 0s; }
+.d2 { left: 30%; animation: rainfall 0.9s linear infinite; animation-delay: 0.2s; }
+.d3 { left: 50%; animation: rainfall 0.7s linear infinite; animation-delay: 0.4s; }
+.d4 { left: 70%; animation: rainfall 0.85s linear infinite; animation-delay: 0.1s; }
+.d5 { left: 90%; animation: rainfall 0.75s linear infinite; animation-delay: 0.3s; }
+
+/* Mudança de cor da nuvem no Hover (Transição Suave) */
+.ryu-wrapper:hover .ryu-cloud-body,
+.ryu-wrapper:hover .ryu-cloud-body::before,
+.ryu-wrapper:hover .ryu-cloud-body::after {
+  background-color: #e0e8f0; /* Cinza tempestade claro */
+  transition: background-color 0.5s ease;
+}
+
+/* Mobile */
+@media (max-width: 500px) {
+  .ryu-cloud-body { width: 90%; flex-direction: column; height: auto; padding: 30px 20px; text-align: center; }
+  .ryu-inner-content { flex-direction: column; }
+  .ryu-cloud-body::before { left: 50%; transform: translateX(-50%); }
+  .ryu-cloud-body::after { display: none; } /* Simplifica no mobile */
 }
