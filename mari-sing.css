@@ -1,104 +1,110 @@
 @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Montserrat:wght@300;400;600&display=swap');
 
 .mari-sig-box {
-  /* Variáveis de cor */
+  /* Configurações básicas */
   --metal-dark: #0f0f0f;
   --metal-mid: #505050;
   --metal-light: #e8e8e8;
   --metal-blue: #c0e0ff;
   
-  /* Variáveis de inclinação (Padrão 0 para não quebrar) */
+  /* Variáveis de inclinação JS (Padrão 0) */
   --tilt-x: 0;
   --tilt-y: 0;
   
   position: relative;
   width: 100%; max-width: 600px; height: 130px;
   margin: 30px auto;
-  background: linear-gradient(to right, #1a1a1a, #0a0a0a);
   
-  /* Borda e Sombra 3D */
-  border: 1px solid var(--metal-mid);
+  /* Borda de vidro para conter o metal */
+  border: 1px solid rgba(255,255,255,0.2);
   box-shadow: 
-    0 0 0 3px #0a0a0a, 
-    0 0 0 4px var(--metal-mid), 
-    calc(var(--tilt-x) * -15px) calc(var(--tilt-y) * -15px) 30px rgba(0,0,0,0.6);
+    0 0 0 1px #000, 
+    0 10px 30px rgba(0,0,0,0.5);
   
-  display: flex; align-items: center;
-  padding: 0 30px; gap: 25px;
-  overflow: hidden;
-
-  /* Perspectiva 3D */
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; /* Mantém o liquido dentro */
+  
+  /* Física do Cartão 3D */
   perspective: 1000px;
   transform-style: preserve-3d;
-  transform: rotateY(calc(var(--tilt-x) * 10deg)) rotateX(calc(var(--tilt-y) * -10deg));
-  transition: transform 0.1s ease-out, box-shadow 0.1s ease-out;
+  transform: rotateY(calc(var(--tilt-x) * 5deg)) rotateX(calc(var(--tilt-y) * -5deg));
+  transition: transform 0.1s ease-out;
 }
 
-/* Efeito Borda Correndo */
-.mari-sig-box::before {
-  content: ''; position: absolute; inset: 0;
-  border: 2px solid transparent;
-  background: linear-gradient(90deg, transparent, var(--metal-light), transparent) border-box;
-  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
-  mask-composite: exclude;
-  background-size: 200% 100%;
-  animation: mercury-border 3s linear infinite;
-  opacity: 0.5; pointer-events: none; mix-blend-mode: screen;
-}
-@keyframes mercury-border { 0% { background-position: 100% 0; } 100% { background-position: -100% 0; } }
-
-/* A Gota que Escorre */
-.mari-sig-blob-wrap {
-  width: 70px; height: 70px; position: relative; flex-shrink: 0;
-  filter: drop-shadow(0 5px 15px rgba(192, 224, 255, 0.2));
-  z-index: 5;
+/* --- A SUPERFÍCIE DE MERCÚRIO --- */
+.mari-liquid-surface {
+  position: absolute;
+  top: -50%; left: -50%;
+  width: 200%; height: 200%; /* Muito maior que a caixa para poder mover */
+  z-index: 1;
   
-  /* Física do líquido: Move contra a inclinação (efeito gravidade) ou a favor (efeito inercia) */
-  /* Aqui configurado para "pesar" na direção da inclinação */
-  transform: translate(calc(var(--tilt-x) * 25px), calc(var(--tilt-y) * 25px));
-  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); /* Movimento viscoso */
+  /* O visual do metal líquido: Gradientes misturados */
+  background: 
+    radial-gradient(circle at center, rgba(255,255,255,0.8) 0%, transparent 40%),
+    linear-gradient(135deg, #1a1a1a 0%, #666 25%, #fff 50%, #666 75%, #1a1a1a 100%);
+  background-size: 200% 200%;
+  
+  /* A MÁGICA: O fundo se move oposto ao mouse, criando efeito de fluxo */
+  /* tilt-x muda a posição X do background, tilt-y muda a posição Y */
+  transform: translate(calc(var(--tilt-x) * -30px), calc(var(--tilt-y) * -30px));
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); /* Movimento viscoso */
+  
+  /* Mistura para dar brilho metálico */
+  filter: contrast(150%) brightness(1.2);
 }
 
-.mari-sig-blob {
-  width: 100%; height: 100%;
-  background: radial-gradient(circle at 30% 30%, #fff, var(--metal-light), var(--metal-mid));
-  border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
-  animation: mercury-morph 6s ease-in-out infinite;
-  box-shadow: inset -5px -5px 10px rgba(0,0,0,0.5);
-}
-@keyframes mercury-morph {
-  0%, 100% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; transform: scale(1); }
-  33% { border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%; transform: scale(1.05) rotate(5deg); }
-  66% { border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%; transform: scale(0.95) rotate(-5deg); }
+/* Camada extra de brilho (Reflexo de vidro por cima) */
+.mari-sig-box::after {
+  content: ''; position: absolute; inset: 0; z-index: 3;
+  background: linear-gradient(180deg, rgba(255,255,255,0.1) 0%, transparent 40%, rgba(0,0,0,0.2) 100%);
+  pointer-events: none;
+  border-top: 1px solid rgba(255,255,255,0.3);
 }
 
-.mari-sig-icon {
-  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-  width: 30px; height: 30px; z-index: 2; opacity: 0.7; mix-blend-mode: overlay; pointer-events: none;
-}
-.mari-sig-icon path { fill: #000; }
-
+/* --- CONTEÚDO --- */
 .mari-sig-content {
-  flex: 1; display: flex; flex-direction: column; justify-content: center; position: relative; z-index: 2;
-  /* Texto flutua levemente */
-  transform: translate(calc(var(--tilt-x) * 8px), calc(var(--tilt-y) * 8px));
+  position: relative; z-index: 5; /* Fica acima do líquido */
+  text-align: center;
+  mix-blend-mode: normal;
+  
+  /* Texto flutua levemente contra o movimento para dar profundidade */
+  transform: translate(calc(var(--tilt-x) * 10px), calc(var(--tilt-y) * 10px));
   transition: transform 0.2s ease-out;
+  
+  /* Sombra forte no texto para destacar do metal brilhante */
+  text-shadow: 0 2px 10px rgba(0,0,0,0.8);
 }
 
 .mari-sig-name {
-  font-family: 'Cinzel Decorative', cursive; font-size: 1.8em;
-  background: linear-gradient(to bottom, #fff, var(--metal-light), var(--metal-mid));
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 2px 2px rgba(0,0,0,0.5)); margin-bottom: 5px;
+  font-family: 'Cinzel Decorative', cursive; font-size: 2em;
+  color: #fff;
+  letter-spacing: 2px; margin-bottom: 5px;
 }
+
 .mari-sig-role {
-  font-family: 'Montserrat', sans-serif; font-size: 0.75em; color: var(--metal-mid);
-  text-transform: uppercase; letter-spacing: 3px; margin-bottom: 12px;
+  font-family: 'Montserrat', sans-serif; font-size: 0.7em; 
+  color: #000; /* Texto escuro para contraste no metal claro */
+  background: rgba(255,255,255,0.6); /* Plaquinha fosca */
+  padding: 2px 10px; border-radius: 4px;
+  text-transform: uppercase; letter-spacing: 3px; margin-bottom: 15px;
+  display: inline-block;
+  font-weight: 600;
 }
-.mari-sig-actions { display: flex; gap: 15px; }
+
+.mari-sig-actions { 
+  display: flex; gap: 20px; justify-content: center; 
+}
+
 .mari-sig-link {
-  font-family: 'Montserrat', sans-serif; font-size: 0.7em; text-transform: uppercase;
-  letter-spacing: 1px; color: var(--metal-light); text-decoration: none !important;
-  position: relative; transition: 0.3s; opacity: 0.7;
+  font-family: 'Montserrat', sans-serif; font-size: 0.7em; 
+  text-transform: uppercase; letter-spacing: 1px; color: #fff;
+  text-decoration: none !important; position: relative;
+  transition: 0.3s; opacity: 0.8;
+  padding-bottom: 3px; border-bottom: 1px solid transparent;
 }
-.mari-sig-link:hover { opacity: 1; color: var(--metal-blue); text-shadow: 0 0 8px var(--metal-blue); }
+
+.mari-sig-link:hover { 
+  opacity: 1; color: #fff; 
+  border-bottom: 1px solid #fff;
+  text-shadow: 0 0 10px #fff; 
+}
