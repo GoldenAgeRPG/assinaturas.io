@@ -53,10 +53,11 @@
 .wolf-sig-name {
   font-family: 'Cinzel', serif;
   font-size: 24px;
-  color: #7a602e;
+  color: #c5a059; /* COR ALTERADA PARA OURO */
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1px;
+  text-shadow: 1px 1px 0 rgba(0,0,0,0.15); /* Sombra leve para contraste no branco */
   border-bottom: 2px solid #c5a059;
   padding-bottom: 5px;
   margin-bottom: 5px;
