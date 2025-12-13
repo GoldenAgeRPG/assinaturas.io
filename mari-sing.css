@@ -1,4 +1,4 @@
-/* --- ASSINATURA: MARI EL-MELLOI (QUICKSILVER ID) --- */
+/* --- ASSINATURA: MARI EL-MELLOI --- */
 @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Montserrat:wght@300;400;600&display=swap');
 
 /* Variáveis Metálicas */
@@ -7,6 +7,10 @@
   --metal-mid: #505050;
   --metal-light: #e8e8e8;
   --metal-blue: #c0e0ff;
+  
+  /* Variáveis para a inclinação (controladas pelo JS) */
+  --tilt-x: 0;
+  --tilt-y: 0;
   
   position: relative;
   width: 100%; 
@@ -18,13 +22,24 @@
   
   /* Borda Dupla Metálica */
   border: 1px solid var(--metal-mid);
-  box-shadow: 0 0 0 3px #0a0a0a, 0 0 0 4px var(--metal-mid), 0 10px 30px rgba(0,0,0,0.5);
+  /* Sombra dinâmica que reage à inclinação */
+  box-shadow: 
+    0 0 0 3px #0a0a0a, 
+    0 0 0 4px var(--metal-mid), 
+    calc(var(--tilt-x) * -10px) calc(var(--tilt-y) * -10px) 30px rgba(0,0,0,0.5);
   
   display: flex; 
   align-items: center;
   padding: 0 30px; 
   gap: 25px;
   overflow: hidden;
+
+  /* EFEITO 3D DE INCLINAÇÃO */
+  perspective: 1000px;
+  /* O box rotaciona baseado nas variáveis do mouse. O negativo em Y é para inverter o eixo vertical */
+  transform: rotateY(calc(var(--tilt-x) * 8deg)) rotateX(calc(var(--tilt-y) * -8deg));
+  transition: transform 0.1s ease-out, box-shadow 0.1s ease-out; /* Movimento rápido e suave */
+  will-change: transform;
 }
 
 /* Efeito de Brilho Correndo na Borda (Mercúrio) */
@@ -41,6 +56,7 @@
   animation: mercury-border 3s linear infinite;
   opacity: 0.5; 
   pointer-events: none;
+  mix-blend-mode: screen; /* Melhora o brilho */
 }
 
 @keyframes mercury-border { 
@@ -48,13 +64,20 @@
   100% { background-position: -100% 0; } 
 }
 
-/* A Gota de Mercúrio (Elemento Visual) */
+/* --- A Gota de Mercúrio (Onde a mágica do "escorrer" acontece) --- */
 .mari-sig-blob-wrap {
   width: 70px; 
   height: 70px;
   position: relative; 
   flex-shrink: 0;
   filter: drop-shadow(0 5px 15px rgba(192, 224, 255, 0.2));
+  z-index: 10; /* Garante que fique acima do fundo */
+
+  /* EFEITO DE ESCORRER: Move a gota na direção da inclinação */
+  /* Multiplicamos por 20px para dar peso ao movimento */
+  transform: translate(calc(var(--tilt-x) * 20px), calc(var(--tilt-y) * 20px));
+  /* A transição é mais lenta (0.4s) que a caixa (0.1s) para parecer viscoso/pesado */
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
 }
 
 .mari-sig-blob {
@@ -62,6 +85,7 @@
   height: 100%;
   background: radial-gradient(circle at 30% 30%, #fff, var(--metal-light), var(--metal-mid));
   border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+  /* Mantive a animação original de morphing */
   animation: mercury-morph 6s ease-in-out infinite;
   box-shadow: inset -5px -5px 10px rgba(0,0,0,0.5);
 }
@@ -83,6 +107,7 @@
   z-index: 2; 
   opacity: 0.7;
   mix-blend-mode: overlay;
+  pointer-events: none;
 }
 .mari-sig-icon path { fill: #000; }
 
@@ -94,6 +119,9 @@
   justify-content: center;
   position: relative; 
   z-index: 2;
+  /* Pequeno efeito de paralaxe no texto também */
+  transform: translate(calc(var(--tilt-x) * 5px), calc(var(--tilt-y) * 5px));
+  transition: transform 0.2s ease-out;
 }
 
 .mari-sig-name {
