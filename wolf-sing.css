@@ -1,121 +1,133 @@
 /* --- ASSINATURA: WOLF STYLE --- */
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Rubik+Glitch&display=swap');
 
-/* O Cenario 3D */
-.wolf-3d-scene {
-  perspective: 1000px; /* Define a profundidade 3D */
-  max-width: 600px;
-  margin: 0 auto;
-  position: relative;
-  display: flex; justify-content: center;
+/* ANIMAÇÃO 1: Flutuação 3D (O Charme Principal) */
+@keyframes holo-float {
+  0% { transform: perspective(1000px) rotateY(-4deg) rotateX(2deg) translateY(0); }
+  50% { transform: perspective(1000px) rotateY(4deg) rotateX(-2deg) translateY(-8px); }
+  100% { transform: perspective(1000px) rotateY(-4deg) rotateX(2deg) translateY(0); }
 }
 
-/* A Assinatura (O Objeto que vai girar) */
+/* ANIMAÇÃO 2: Ouro Líquido */
+@keyframes gold-flow {
+  0% { background-position: 0% 50%; } 100% { background-position: 100% 50%; }
+}
+
+/* ANIMAÇÃO 3: Reflexo de Luz (Sheen) */
+@keyframes sheen-pass {
+  0% { left: -100%; opacity: 0; }
+  20% { opacity: 1; }
+  100% { left: 200%; opacity: 0; }
+}
+
+/* ANIMAÇÃO 4: Scanlines de Fundo */
+@keyframes scan-move { 0% { background-position: 0 0; } 100% { background-position: 40px 0; } }
+
+/* O Container Principal */
 .wolf-sig-box {
-  background: linear-gradient(45deg, #7a602e, #c5a059, #f9f0d1, #c5a059, #7a602e);
+  /* Gradiente Rico */
+  background: linear-gradient(45deg, #7a602e, #c5a059, #fff0c0, #c5a059, #7a602e);
   background-size: 300% 300%;
   padding: 3px;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s ease;
-  transform-style: preserve-3d; /* Essencial para o 3D */
-  /* Recorte Geométrico */
+  max-width: 600px;
+  margin: 10px auto; /* Margem ajustada para o balanço */
+  position: relative;
+  
+  /* Formato Geométrico */
   clip-path: polygon(25px 0%, 100% 0%, 100% calc(100% - 25px), calc(100% - 25px) 100%, 0% 100%, 0% 25px);
-  position: relative; z-index: 1;
+  
+  /* Sombra Profunda */
+  box-shadow: 0 15px 35px rgba(0,0,0,0.25);
+  
+  /* APLICAÇÃO DA ANIMAÇÃO IDLE */
+  animation: holo-float 6s ease-in-out infinite, gold-flow 5s linear infinite;
+  
+  /* Transição suave para o Hover */
+  transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s ease, filter 0.4s ease;
+  transform-style: preserve-3d;
 }
 
-/* Animação do Ouro */
-@keyframes gold-flow { 0% { background-position: 0% 50%; } 100% { background-position: 100% 50%; } }
-.wolf-sig-box { animation: gold-flow 6s ease infinite; }
-
-/* --- A GRADE DE SENSORES (TRIGGERS) --- */
-/* Cria 9 áreas invisíveis sobre a assinatura */
-.tilt-grid {
-  position: absolute; inset: -20px; /* Um pouco maior que a assinatura para pegar antes */
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr;
+/* INTERAÇÃO (HOVER): Para a animação e foca no usuário */
+.wolf-sig-box:hover {
+  animation: gold-flow 5s linear infinite; /* Mantém o ouro rodando, para o balanço */
+  transform: perspective(1000px) rotateY(0deg) rotateX(0deg) scale(1.05) translateY(-5px); /* Trava a mira e cresce */
+  box-shadow: 0 25px 50px rgba(197, 160, 89, 0.3); /* Sombra Dourada */
+  filter: brightness(1.1); /* Brilha mais */
   z-index: 10;
 }
-.t-zone { width: 100%; height: 100%; }
 
-/* --- FÍSICA DO TILT (A Mágica acontece aqui) --- */
-/* Mouse na Esquerda Superior -> Peso na esquerda superior */
-.t-1:hover ~ .wolf-sig-box { transform: rotateX(8deg) rotateY(-8deg); box-shadow: 5px 15px 15px rgba(0,0,0,0.3); }
-/* Mouse no Centro Superior -> Peso no topo */
-.t-2:hover ~ .wolf-sig-box { transform: rotateX(8deg); box-shadow: 0 15px 15px rgba(0,0,0,0.3); }
-/* Mouse na Direita Superior */
-.t-3:hover ~ .wolf-sig-box { transform: rotateX(8deg) rotateY(8deg); box-shadow: -5px 15px 15px rgba(0,0,0,0.3); }
+/* Efeito de Luz (Sheen) ao passar o mouse */
+.wolf-sig-box::after {
+  content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+  background: linear-gradient(to right, transparent, rgba(255,255,255,0.8), transparent);
+  transform: skewX(-25deg); pointer-events: none; z-index: 10;
+}
+.wolf-sig-box:hover::after { animation: sheen-pass 0.8s ease-in-out; }
 
-/* Mouse na Esquerda Meio */
-.t-4:hover ~ .wolf-sig-box { transform: rotateY(-8deg); box-shadow: 5px 10px 15px rgba(0,0,0,0.3); }
-/* Mouse no Centro Absoluto -> Estabiliza + Zoom leve */
-.t-5:hover ~ .wolf-sig-box { transform: scale(1.02); box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
-/* Mouse na Direita Meio */
-.t-6:hover ~ .wolf-sig-box { transform: rotateY(8deg); box-shadow: -5px 10px 15px rgba(0,0,0,0.3); }
-
-/* Mouse na Esquerda Inferior */
-.t-7:hover ~ .wolf-sig-box { transform: rotateX(-8deg) rotateY(-8deg); box-shadow: 5px 5px 15px rgba(0,0,0,0.3); }
-/* Mouse no Centro Inferior */
-.t-8:hover ~ .wolf-sig-box { transform: rotateX(-8deg); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
-/* Mouse na Direita Inferior */
-.t-9:hover ~ .wolf-sig-box { transform: rotateX(-8deg) rotateY(8deg); box-shadow: -5px 5px 15px rgba(0,0,0,0.3); }
-
-
-/* --- CONTEÚDO INTERNO (Mantido da V4) --- */
+/* Container Interno (Branco) */
 .wolf-sig-inner {
   background: #ffffff;
   display: flex; align-items: center;
   padding: 25px 30px; min-height: 160px;
   clip-path: polygon(25px 0%, 100% 0%, 100% calc(100% - 25px), calc(100% - 25px) 100%, 0% 100%, 0% 25px);
+  position: relative; z-index: 1;
 }
 
+/* Fundo com Scanlines */
 .wolf-sig-bg {
   position: absolute; inset: 0;
   background: repeating-linear-gradient(90deg, transparent, transparent 19px, rgba(197,160,89,0.08) 20px),
               radial-gradient(circle at 50% 50%, rgba(197,160,89,0.05), transparent 80%);
+  background-size: 40px 100%; animation: scan-move 10s linear infinite;
   z-index: 0; pointer-events: none;
 }
 
-.wolf-sig-inner::before {
-  content: ''; position: absolute; top: 0; right: 0; width: 40px; height: 40px;
-  background: linear-gradient(225deg, #c5a059 50%, transparent 50%); opacity: 0.3; pointer-events: none;
-}
-
+/* Imagem */
 .wolf-sig-img-wrap {
   width: 125px; height: 125px;
   border: 1px solid #c5a059; outline: 3px solid #080808;
   flex-shrink: 0; margin-right: 25px; z-index: 2;
   background: #000; overflow: hidden;
+  box-shadow: 5px 5px 15px rgba(0,0,0,0.1);
 }
 .wolf-sig-img {
   width: 100%; height: 100%; object-fit: cover; filter: saturate(0.8);
   transition: 0.5s;
 }
+.wolf-sig-box:hover .wolf-sig-img { transform: scale(1.1); filter: saturate(1.1); }
 
+/* Conteúdo */
 .wolf-sig-content {
   flex: 1; z-index: 2; display: flex; flex-direction: column; gap: 8px; min-width: 0;
   border-left: 1px solid rgba(197, 160, 89, 0.4); padding-left: 20px;
 }
 
+/* Nome */
 .wolf-sig-name {
   font-family: 'Cinzel', serif; font-size: 26px; color: #c5a059; font-weight: 700;
   text-transform: uppercase; letter-spacing: 2px;
   text-shadow: 1px 1px 0 rgba(0,0,0,0.15);
   border-bottom: 2px solid #c5a059; padding-bottom: 8px; margin-bottom: 5px;
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  transition: 0.3s;
 }
+.wolf-sig-box:hover .wolf-sig-name { letter-spacing: 3px; border-color: #7a602e; }
 
-/* BOTÕES (Importante: Z-Index 20 para ficarem clicáveis acima dos sensores) */
+/* Botões */
 .wolf-sig-btn {
   font-family: 'Rubik Glitch', cursive; font-size: 11px;
   color: #7a602e !important; text-decoration: none !important;
   background: #f4f4f4; border: 1px solid #e0e0e0; padding: 6px 0;
   text-align: center; letter-spacing: 1px; display: block; text-transform: uppercase;
   clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%);
-  position: relative; z-index: 20; /* Garante o clique */
-  transition: 0.3s; overflow: hidden;
+  position: relative; z-index: 1; transition: 0.3s; overflow: hidden;
+}
+.wolf-sig-btn::before {
+  content: ''; position: absolute; top: 0; left: 0; bottom: 0; right: 0;
+  background: #c5a059; z-index: -1; transform: scaleX(0); transform-origin: left;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .wolf-sig-btn:hover {
   color: #fff !important; border-color: #c5a059; transform: translateX(5px);
-  background: #c5a059; letter-spacing: 2px;
 }
+.wolf-sig-btn:hover::before { transform: scaleX(1); }
