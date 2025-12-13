@@ -1,70 +1,76 @@
 /* --- ASSINATURA: WOLF STYLE --- */
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Rubik+Glitch&display=swap');
 
-/* ANIMAÇÃO 1: Flutuação 3D (O Charme Principal) */
-@keyframes holo-float {
-  0% { transform: perspective(1000px) rotateY(-4deg) rotateX(2deg) translateY(0); }
-  50% { transform: perspective(1000px) rotateY(4deg) rotateX(-2deg) translateY(-8px); }
-  100% { transform: perspective(1000px) rotateY(-4deg) rotateX(2deg) translateY(0); }
+/* CENÁRIO 3D */
+.wolf-3d-scene {
+  perspective: 1200px; /* Profundidade */
+  max-width: 600px;
+  margin: 10px auto;
+  position: relative;
+  display: flex; justify-content: center; align-items: center;
+  /* Garante altura para os sensores funcionarem */
+  min-height: 180px; 
 }
 
-/* ANIMAÇÃO 2: Ouro Líquido */
-@keyframes gold-flow {
-  0% { background-position: 0% 50%; } 100% { background-position: 100% 50%; }
-}
-
-/* ANIMAÇÃO 3: Reflexo de Luz (Sheen) */
-@keyframes sheen-pass {
-  0% { left: -100%; opacity: 0; }
-  20% { opacity: 1; }
-  100% { left: 200%; opacity: 0; }
-}
-
-/* ANIMAÇÃO 4: Scanlines de Fundo */
-@keyframes scan-move { 0% { background-position: 0 0; } 100% { background-position: 40px 0; } }
-
-/* O Container Principal */
+/* A CAIXA DA ASSINATURA */
 .wolf-sig-box {
-  /* Gradiente Rico */
-  background: linear-gradient(45deg, #7a602e, #c5a059, #fff0c0, #c5a059, #7a602e);
+  background: linear-gradient(45deg, #7a602e, #c5a059, #f9f0d1, #c5a059, #7a602e);
   background-size: 300% 300%;
   padding: 3px;
-  max-width: 600px;
-  margin: 10px auto; /* Margem ajustada para o balanço */
-  position: relative;
+  width: 100%;
+  /* Animação do ouro continua */
+  animation: gold-flow 6s ease infinite;
   
-  /* Formato Geométrico */
-  clip-path: polygon(25px 0%, 100% 0%, 100% calc(100% - 25px), calc(100% - 25px) 100%, 0% 100%, 0% 25px);
+  /* Sombra Inicial */
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
   
-  /* Sombra Profunda */
-  box-shadow: 0 15px 35px rgba(0,0,0,0.25);
-  
-  /* APLICAÇÃO DA ANIMAÇÃO IDLE */
-  animation: holo-float 6s ease-in-out infinite, gold-flow 5s linear infinite;
-  
-  /* Transição suave para o Hover */
-  transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s ease, filter 0.4s ease;
+  /* Transição Suave do Movimento */
+  transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
   transform-style: preserve-3d;
+  
+  /* Recorte */
+  clip-path: polygon(25px 0%, 100% 0%, 100% calc(100% - 25px), calc(100% - 25px) 100%, 0% 100%, 0% 25px);
+  position: relative; z-index: 1; /* Camada visual base */
 }
 
-/* INTERAÇÃO (HOVER): Para a animação e foca no usuário */
-.wolf-sig-box:hover {
-  animation: gold-flow 5s linear infinite; /* Mantém o ouro rodando, para o balanço */
-  transform: perspective(1000px) rotateY(0deg) rotateX(0deg) scale(1.05) translateY(-5px); /* Trava a mira e cresce */
-  box-shadow: 0 25px 50px rgba(197, 160, 89, 0.3); /* Sombra Dourada */
-  filter: brightness(1.1); /* Brilha mais */
-  z-index: 10;
-}
+@keyframes gold-flow { 0% { background-position: 0% 50%; } 100% { background-position: 100% 50%; } }
+@keyframes scan-move { 0% { background-position: 0 0; } 100% { background-position: 40px 0; } }
 
-/* Efeito de Luz (Sheen) ao passar o mouse */
-.wolf-sig-box::after {
-  content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
-  background: linear-gradient(to right, transparent, rgba(255,255,255,0.8), transparent);
-  transform: skewX(-25deg); pointer-events: none; z-index: 10;
+/* --- SISTEMA DE SENSORES DE PESO (A Grade Invisível) --- */
+.tilt-grid {
+  position: absolute; top: -10px; bottom: -10px; left: -10px; right: -10px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  z-index: 10; /* Fica ACIMA do card, mas ABAIXO dos botões */
 }
-.wolf-sig-box:hover::after { animation: sheen-pass 0.8s ease-in-out; }
+.t-zone { width: 100%; height: 100%; cursor: default; }
 
-/* Container Interno (Branco) */
+/* FÍSICA: Onde o mouse pesa, o card afunda */
+
+/* Topo Esquerda (Afunda canto sup. esq) */
+.t-1:hover ~ .wolf-sig-box { transform: rotateX(5deg) rotateY(-5deg); box-shadow: 10px 10px 20px rgba(0,0,0,0.2); }
+/* Topo Centro */
+.t-2:hover ~ .wolf-sig-box { transform: rotateX(5deg); box-shadow: 0 15px 20px rgba(0,0,0,0.2); }
+/* Topo Direita */
+.t-3:hover ~ .wolf-sig-box { transform: rotateX(5deg) rotateY(5deg); box-shadow: -10px 10px 20px rgba(0,0,0,0.2); }
+
+/* Meio Esquerda */
+.t-4:hover ~ .wolf-sig-box { transform: rotateY(-5deg); box-shadow: 10px 5px 20px rgba(0,0,0,0.2); }
+/* CENTRO (Estabiliza ou leve Zoom) */
+.t-5:hover ~ .wolf-sig-box { transform: scale(1.02); box-shadow: 0 10px 30px rgba(197, 160, 89, 0.2); }
+/* Meio Direita */
+.t-6:hover ~ .wolf-sig-box { transform: rotateY(5deg); box-shadow: -10px 5px 20px rgba(0,0,0,0.2); }
+
+/* Baixo Esquerda */
+.t-7:hover ~ .wolf-sig-box { transform: rotateX(-5deg) rotateY(-5deg); box-shadow: 10px 5px 20px rgba(0,0,0,0.2); }
+/* Baixo Centro */
+.t-8:hover ~ .wolf-sig-box { transform: rotateX(-5deg); box-shadow: 0 5px 20px rgba(0,0,0,0.2); }
+/* Baixo Direita */
+.t-9:hover ~ .wolf-sig-box { transform: rotateX(-5deg) rotateY(5deg); box-shadow: -10px 5px 20px rgba(0,0,0,0.2); }
+
+
+/* --- ELEMENTOS INTERNOS --- */
 .wolf-sig-inner {
   background: #ffffff;
   display: flex; align-items: center;
@@ -73,13 +79,20 @@
   position: relative; z-index: 1;
 }
 
-/* Fundo com Scanlines */
+/* Fundo */
 .wolf-sig-bg {
   position: absolute; inset: 0;
   background: repeating-linear-gradient(90deg, transparent, transparent 19px, rgba(197,160,89,0.08) 20px),
               radial-gradient(circle at 50% 50%, rgba(197,160,89,0.05), transparent 80%);
   background-size: 40px 100%; animation: scan-move 10s linear infinite;
   z-index: 0; pointer-events: none;
+}
+
+/* Detalhe Canto */
+.wolf-sig-inner::before {
+  content: ''; position: absolute; top: 0; right: 0; width: 40px; height: 40px;
+  background: linear-gradient(225deg, #c5a059 50%, transparent 50%);
+  opacity: 0.3; pointer-events: none;
 }
 
 /* Imagem */
@@ -89,12 +102,12 @@
   flex-shrink: 0; margin-right: 25px; z-index: 2;
   background: #000; overflow: hidden;
   box-shadow: 5px 5px 15px rgba(0,0,0,0.1);
+  /* A imagem não recebe eventos de mouse para não atrapalhar o sensor atrás dela */
+  pointer-events: none; 
 }
 .wolf-sig-img {
   width: 100%; height: 100%; object-fit: cover; filter: saturate(0.8);
-  transition: 0.5s;
 }
-.wolf-sig-box:hover .wolf-sig-img { transform: scale(1.1); filter: saturate(1.1); }
 
 /* Conteúdo */
 .wolf-sig-content {
@@ -109,18 +122,20 @@
   text-shadow: 1px 1px 0 rgba(0,0,0,0.15);
   border-bottom: 2px solid #c5a059; padding-bottom: 8px; margin-bottom: 5px;
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-  transition: 0.3s;
+  pointer-events: none; /* Deixa o mouse passar para o sensor */
 }
-.wolf-sig-box:hover .wolf-sig-name { letter-spacing: 3px; border-color: #7a602e; }
 
-/* Botões */
+/* BOTÕES - A CORREÇÃO PRINCIPAL */
 .wolf-sig-btn {
   font-family: 'Rubik Glitch', cursive; font-size: 11px;
   color: #7a602e !important; text-decoration: none !important;
   background: #f4f4f4; border: 1px solid #e0e0e0; padding: 6px 0;
   text-align: center; letter-spacing: 1px; display: block; text-transform: uppercase;
   clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%);
-  position: relative; z-index: 1; transition: 0.3s; overflow: hidden;
+  position: relative; 
+  z-index: 50; /* Z-INDEX ALTO: Fica ACIMA dos sensores */
+  transition: 0.2s; overflow: hidden;
+  cursor: pointer;
 }
 .wolf-sig-btn::before {
   content: ''; position: absolute; top: 0; left: 0; bottom: 0; right: 0;
