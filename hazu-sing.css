@@ -1,7 +1,7 @@
-/* --- ASSINATURA: COMIC POP V4.0 (REAL 3D RING) --- */
+/* --- ASSINATURA: COMIC POP V4.1 (CORNER LOOP FIX) --- */
 @import url('https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@400;700&family=Permanent+Marker&display=swap');
 
-/* O PALCO 3D (O Container Pai) */
+/* O PALCO 3D */
 .comic-sig-box {
   --comic-bg: #1a1625;
   --comic-paper: #fffbf0;
@@ -14,98 +14,79 @@
   width: 100%; max-width: 650px; height: 140px;
   margin: 50px auto;
   
-  /* Removemos cor e borda daqui. Agora é só um palco transparente */
-  background: transparent;
-  border: none;
-  box-shadow: none;
+  background: transparent; border: none; box-shadow: none;
   
-  /* Perspectiva para o 3D funcionar */
-  perspective: 1200px;
-  transform-style: preserve-3d; /* Permite que filhos cruzem uns aos outros */
+  perspective: 1200px; /* Profundidade */
+  transform-style: preserve-3d;
   
-  /* Mantemos o layout flex apenas para centralizar, mas o visual mudou */
-  display: flex; align-items: center;
-  padding: 0; 
-  overflow: visible; /* ESSENCIAL para o anel sair pra fora */
+  display: flex; align-items: center; padding: 0; 
+  overflow: visible; 
 }
 
-/* O CARTÃO VISUAL (A caixa amarela de verdade) */
+/* O CARTÃO AMARELO (Visual Principal) */
 .comic-card-visual {
   position: relative;
   width: 100%; height: 100%;
   background-color: var(--comic-yellow);
   border: 4px solid var(--comic-black);
-  box-shadow: 10px 10px 0 var(--comic-black);
   
-  display: flex; align-items: center;
-  padding: 15px; gap: 20px;
+  /* AJUSTE VISUAL: Sombra Rosa Sólida igual à referência */
+  box-shadow: 12px 12px 0 var(--comic-pink);
   
-  /* Fica no eixo Z=0. O que tiver Z negativo fica atrás dele */
+  display: flex; align-items: center; padding: 15px; gap: 20px;
+  
+  /* Z=0: O Plano base */
   transform: translateZ(0); 
-  z-index: 5; /* Prioridade visual */
+  z-index: 5;
   
-  /* A inclinação estética do cartão */
   transform: rotate(-1deg);
   transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .comic-sig-box:hover .comic-card-visual {
   transform: rotate(0deg) scale(1.02);
-  box-shadow: 15px 15px 0 var(--comic-pink);
+  /* No hover a sombra muda de cor/tamanho */
+  box-shadow: 15px 15px 0 var(--comic-cyan);
 }
 
-/* --- O CARROSSEL 3D DIAGONAL --- */
+/* --- O CARROSSEL 3D (A Correção) --- */
 
-/* O Posicionador do Anel */
 .comic-carousel-stage {
   position: absolute;
-  right: -20px; /* Canto direito */
-  top: 50%;
+  /* CORREÇÃO 1: Empurrar bem para fora (-100px) para o eixo ficar na ponta */
+  right: -100px; 
+  top: 55%; /* Levemente mais baixo */
   width: 200px; height: 200px;
   
-  /* A INCLINAÇÃO DIAGONAL PERFEITA */
-  /* rotateY: Gira o eixo */
-  /* rotateZ: Inclina na diagonal (como na sua imagem) */
-  /* translateZ: Puxa um pouco pra frente/trás para ajustar o corte */
-  transform: translateY(-50%) rotateY(-15deg) rotateZ(-25deg) translateZ(0px);
+  /* CORREÇÃO 2: Ângulos ajustados para "abraçar" a quina */
+  transform: translateY(-50%) rotateY(-25deg) rotateX(-10deg) rotateZ(-30deg);
   
-  transform-style: preserve-3d;
-  pointer-events: none;
-  z-index: 4; /* Fica tecnicamente atrás do cartão, mas os itens 3D vão furar isso */
+  transform-style: preserve-3d; pointer-events: none; z-index: 4;
 }
 
-/* O Anel Giratório */
 .comic-carousel-ring {
-  width: 100%; height: 100%;
-  position: absolute;
+  width: 100%; height: 100%; position: absolute;
   transform-style: preserve-3d;
   animation: carousel-spin 6s linear infinite;
 }
 
-/* Itens "HA" */
 .comic-carousel-item {
-  position: absolute;
-  top: 50%; left: 50%;
-  font-family: 'Bangers', cursive;
-  font-size: 2.2em;
+  position: absolute; top: 50%; left: 50%;
+  font-family: 'Bangers', cursive; font-size: 2.2em;
   color: var(--comic-cyan);
   
-  /* Sombra grossa para destacar */
   text-shadow: 
-    2px 2px 0 var(--comic-black),
-    -1px -1px 0 var(--comic-black),
-    1px -1px 0 var(--comic-black),
-    -1px 1px 0 var(--comic-black),
-    1px 1px 0 var(--comic-black);
+    2px 2px 0 var(--comic-black), -1px -1px 0 var(--comic-black),
+    1px -1px 0 var(--comic-black), -1px 1px 0 var(--comic-black),
+    1px 1px 0 var(--comic-black); /* Contorno preto grosso */
     
-  white-space: nowrap;
-  backface-visibility: visible; /* Visível dos dois lados */
+  white-space: nowrap; backface-visibility: visible;
 
-  /* MATEMÁTICA DO CÍRCULO */
+  /* CORREÇÃO 3: Raio maior (150px) para fazer uma curva mais larga */
   transform: 
     translate(-50%, -50%) 
-    rotateY(calc(var(--i) * 24deg)) /* 15 itens * 24 graus = 360 */
-    translateZ(135px); /* RAIO GRANDE: Garante que passe longe na frente e longe atrás */
+    rotateY(calc(var(--i) * 24deg)) 
+    translateZ(150px); 
 }
 
 @keyframes carousel-spin {
@@ -113,11 +94,10 @@
   to { transform: rotateY(360deg); }
 }
 
-/* Velocidade turbo no hover */
 .comic-sig-box:hover .comic-carousel-ring { animation-duration: 2s; }
 
 
-/* --- ELEMENTOS INTERNOS (Mantidos iguais, mas dentro do .comic-card-visual) --- */
+/* --- ELEMENTOS INTERNOS (Padrão) --- */
 
 .comic-sig-pattern {
   position: absolute; inset: 0;
