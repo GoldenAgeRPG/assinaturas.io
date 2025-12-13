@@ -1,0 +1,166 @@
+/* --- ASSINATURA: KUREN SHIN (COMPACT) --- */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cormorant+SC:wght@400;700&family=Mate+SC&display=swap');
+
+/* Container da Assinatura */
+.kuren-sig-box {
+  /* Define as variáveis aqui para garantir que funcione mesmo sem o template do post */
+  --kur-bg: #050508;
+  --kur-gold: #f2d06b;
+  --kur-red: #ff0033;
+  --kur-text: #e0e0e0;
+  
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  height: 180px;
+  margin: 10px auto;
+  
+  /* Fundo e Bordas */
+  background-color: var(--kur-bg);
+  background-image: radial-gradient(circle at 50% 50%, rgba(20, 20, 30, 1) 20%, rgba(5, 5, 8, 1) 80%);
+  border: 1px solid var(--kur-gold);
+  border-radius: 2px;
+  box-shadow: 0 5px 15px #000;
+  
+  /* Layout Flex */
+  display: flex;
+  align-items: center;
+  padding: 0 40px;
+  gap: 20px;
+  overflow: hidden;
+  box-sizing: border-box;
+  
+  /* Animação do Pulso Escarlate */
+  animation: scarlet-pulse-sig 5s infinite ease-in-out;
+}
+
+@keyframes scarlet-pulse-sig {
+  0%, 100% { box-shadow: 0 0 10px rgba(242, 208, 107, 0.1); border-color: var(--kur-gold); }
+  50% { box-shadow: 0 0 20px rgba(255, 0, 51, 0.2); border-color: var(--kur-red); }
+}
+
+@keyframes chain-slide-sig {
+  0% { background-position: 0 0; }
+  100% { background-position: 0 60px; }
+}
+
+/* Correntes Laterais */
+.kuren-sig-box::before, .kuren-sig-box::after {
+  content: ''; position: absolute; top: 0; bottom: 0; width: 20px;
+  background-image: url("data:image/svg+xml,%3Csvg width='30' height='60' viewBox='0 0 30 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cellipse cx='15' cy='15' rx='8' ry='12' fill='none' stroke='%238a7030' stroke-width='3'/%3E%3Cellipse cx='15' cy='45' rx='8' ry='12' fill='none' stroke='%23f2d06b' stroke-width='3'/%3E%3Cpath d='M15 27 L15 33' stroke='%23f2d06b' stroke-width='3'/%3E%3C/svg%3E");
+  background-repeat: repeat-y; 
+  background-size: 100%;
+  opacity: 0.8; z-index: 2;
+  animation: chain-slide-sig 4s linear infinite;
+}
+.kuren-sig-box::before { left: 10px; border-right: 1px solid rgba(255,255,255,0.05); }
+.kuren-sig-box::after { right: 10px; border-left: 1px solid rgba(255,255,255,0.05); }
+
+/* 1. Avatar */
+.kuren-sig-avatar {
+  width: 120px;
+  height: 120px;
+  flex-shrink: 0;
+  border: 1px solid var(--kur-gold);
+  padding: 3px;
+  background: rgba(242, 208, 107, 0.05);
+  position: relative;
+}
+
+.kuren-sig-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: contrast(1.1) saturate(0.9);
+}
+
+.kuren-sig-avatar::after {
+  content: ''; position: absolute; inset: 0;
+  border: 1px solid var(--kur-red); opacity: 0.2; pointer-events: none;
+}
+
+/* 2. Conteúdo Central */
+.kuren-sig-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-left: 1px dashed rgba(242, 208, 107, 0.3);
+  padding-left: 20px;
+  height: 80%;
+}
+
+.kuren-sig-name {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 1.6em;
+  color: var(--kur-gold);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 0 2px 5px rgba(0,0,0,0.8);
+  margin-bottom: 5px;
+}
+
+.kuren-sig-quote {
+  font-family: 'Mate SC', serif;
+  font-size: 0.9em;
+  color: #bbb;
+  font-style: italic;
+  line-height: 1.4;
+}
+
+/* 3. Links (Botões Laterais) */
+.kuren-sig-links {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 100px;
+}
+
+.kuren-sig-btn {
+  display: block;
+  text-align: center;
+  text-decoration: none !important;
+  font-family: 'Cormorant SC', serif;
+  font-weight: 700;
+  font-size: 0.85em;
+  color: var(--kur-text);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 5px 0;
+  border: 1px solid rgba(242, 208, 107, 0.2);
+  background: linear-gradient(90deg, transparent, rgba(255, 0, 51, 0.05));
+  transition: all 0.3s ease;
+}
+
+.kuren-sig-btn:hover {
+  border-color: var(--kur-red);
+  color: var(--kur-gold);
+  text-shadow: 0 0 8px var(--kur-red);
+  background: rgba(255, 0, 51, 0.1);
+  letter-spacing: 2px;
+}
+
+/* Mobile Responsividade */
+@media (max-width: 500px) {
+  .kuren-sig-box {
+    flex-direction: column;
+    height: auto;
+    padding: 20px 30px;
+    text-align: center;
+  }
+  .kuren-sig-content {
+    border-left: none;
+    padding-left: 0;
+    margin: 10px 0;
+    border-top: 1px dashed rgba(242, 208, 107, 0.3);
+    border-bottom: 1px dashed rgba(242, 208, 107, 0.3);
+    padding: 15px 0;
+  }
+  .kuren-sig-links {
+    flex-direction: row;
+    width: 100%;
+    justify-content: center;
+  }
+  .kuren-sig-btn { width: 100%; padding: 5px 10px; }
+}
