@@ -1,0 +1,142 @@
+/* --- ASSINATURA: WOLF STYLE (AMALGAM EDITION) --- */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Rubik+Glitch&display=swap');
+
+/* O PALCO */
+.wolf-3d-scene {
+  perspective: 1000px;
+  width: 550px;
+  height: 180px;
+  margin: 10px auto;
+  position: relative;
+  display: block;
+}
+
+/* ANIMAÇÕES */
+@keyframes holo-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+/* Ajustado para tons de carne/sangue */
+@keyframes flesh-flow { 
+  0% { background-position: 0% 50%; } 
+  100% { background-position: 100% 50%; } 
+}
+@keyframes scan-move { 0% { background-position: 0 0; } 100% { background-position: 40px 0; } }
+
+/* --- A CAIXA DE FÍSICA --- */
+.wolf-sig-box {
+  width: 100%; height: 100%;
+  position: absolute; top: 0; left: 0;
+  z-index: 1;
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* --- A CAIXA VISUAL (Dark/Flesh Theme) --- */
+.wolf-sig-inner {
+  /* Gradiente escuro com tons de vermelho sangue e carne */
+  background: linear-gradient(45deg, #1a0505, #4a0d0d, #2b2b2b, #4a0d0d, #1a0505);
+  background-size: 300% 300%;
+  padding: 3px; /* Borda vermelha escura */
+  width: 100%; height: 100%;
+  box-sizing: border-box;
+  
+  clip-path: polygon(25px 0%, 100% 0%, 100% calc(100% - 25px), calc(100% - 25px) 100%, 0% 100%, 0% 25px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6); /* Sombra mais pesada */
+  
+  animation: holo-float 5s ease-in-out infinite, flesh-flow 6s ease infinite;
+}
+
+/* O Fundo Escuro (Conteúdo) */
+.wolf-sig-content-bg {
+  background: #111111; /* Fundo preto/cinza */
+  width: 100%; height: 100%;
+  display: flex; align-items: center;
+  padding: 20px 25px; 
+  box-sizing: border-box;
+  clip-path: polygon(25px 0%, 100% 0%, 100% calc(100% - 25px), calc(100% - 25px) 100%, 0% 100%, 0% 25px);
+  position: relative;
+}
+
+/* --- SENSORES DE PESO --- */
+.tilt-zone {
+  position: absolute; top: 0; 
+  height: 70%;
+  z-index: 20; 
+}
+.tz-left   { left: 0; width: 33%; }
+.tz-center { left: 33%; width: 34%; }
+.tz-right  { right: 0; width: 33%; }
+
+.tz-left:hover ~ .wolf-sig-box   { transform: rotateY(-8deg) rotateX(5deg); }
+.tz-center:hover ~ .wolf-sig-box { transform: scale(1.05) translateY(-5px); }
+.tz-right:hover ~ .wolf-sig-box  { transform: rotateY(8deg) rotateX(5deg); }
+
+/* --- DETALHES VISUAIS --- */
+.wolf-sig-scanlines {
+  position: absolute; inset: 0;
+  /* Scanlines vermelhas sutis */
+  background: repeating-linear-gradient(90deg, transparent, transparent 19px, rgba(139, 0, 0, 0.1) 20px),
+              radial-gradient(circle at 50% 50%, rgba(139, 0, 0, 0.05), transparent 80%);
+  background-size: 40px 100%; animation: scan-move 10s linear infinite;
+  pointer-events: none;
+}
+
+.wolf-sig-img-wrap {
+  width: 120px; height: 120px;
+  /* Bordas vermelhas e outline preto */
+  border: 1px solid #6e1010; outline: 3px solid #050505;
+  flex-shrink: 0; margin-right: 20px;
+  background: #000; overflow: hidden;
+  box-shadow: 5px 5px 15px rgba(0,0,0,0.5);
+  pointer-events: none;
+}
+.wolf-sig-img { width: 100%; height: 100%; object-fit: cover; filter: saturate(0.6) contrast(1.2); }
+
+.wolf-sig-text-area {
+  flex: 1; display: flex; flex-direction: column; justify-content: center;
+  gap: 10px; min-width: 0;
+  /* Divisória vermelha sutil */
+  border-left: 1px solid rgba(110, 16, 16, 0.4); padding-left: 20px;
+  height: 100%;
+  position: relative; z-index: 50;
+}
+
+.wolf-sig-name {
+  font-family: 'Cinzel', serif; font-size: 24px; 
+  color: #b33e3e; /* Vermelho desaturado */
+  font-weight: 700;
+  text-transform: uppercase; letter-spacing: 2px;
+  text-shadow: 1px 1px 0 rgba(0,0,0,0.5);
+  border-bottom: 2px solid #6e1010; padding-bottom: 5px; margin-bottom: 5px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  pointer-events: none;
+}
+
+/* BOTÕES (HUD Horizontal Dark) */
+.wolf-sig-btn-row {
+  display: flex; gap: 8px; width: 100%; margin-top: auto;
+}
+
+.wolf-sig-btn {
+  flex: 1;
+  font-family: 'Rubik Glitch', cursive; font-size: 10px;
+  color: #7d2e2e !important; text-decoration: none !important;
+  background: #1a1a1a; /* Fundo escuro */
+  border: 1px solid #333; 
+  padding: 8px 0;
+  text-align: center; letter-spacing: 1px; display: block; text-transform: uppercase;
+  clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%);
+  position: relative; 
+  z-index: 100;
+  transition: 0.2s; overflow: hidden;
+  cursor: pointer;
+}
+
+.wolf-sig-btn:hover {
+  color: #fff !important; 
+  border-color: #b33e3e; 
+  transform: translateY(-2px);
+  background: #6e1010; /* Hover vermelho sangue */
+  box-shadow: 0 5px 10px rgba(139, 0, 0, 0.3);
+}
