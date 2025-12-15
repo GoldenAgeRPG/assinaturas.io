@@ -1,0 +1,139 @@
+/* --- ASSINATURA: NARRATOR VERSION --- */
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Inter:wght@400;500&display=swap');
+
+/* CONFIGURAÇÕES GERAIS */
+.nr-box {
+  position: relative;
+  width: 100%; max-width: 650px; height: 100px;
+  margin: 10px auto;
+  background: #0a0505; /* Fundo levemente avermelhado/preto */
+  border: 1px solid #2a1010;
+  /* Borda VERMELHA com brilho neon */
+  border-left: 4px solid #D32F2F;
+  box-shadow: 0 0 15px rgba(0,0,0,0.6);
+  display: flex; align-items: center;
+  padding: 0 25px; gap: 20px;
+  overflow: hidden;
+  font-family: 'Inter', sans-serif;
+  
+  /* ANIMAÇÃO 1: Pulso da Borda Lateral */
+  animation: nr-border-pulse 3s infinite alternate;
+}
+
+/* ANIMAÇÕES (KEYFRAMES - RED EDITION) */
+@keyframes nr-border-pulse {
+  0% { box-shadow: -2px 0 10px rgba(211, 47, 47, 0.2); border-left-color: #D32F2F; }
+  100% { box-shadow: -2px 0 25px rgba(211, 47, 47, 0.8); border-left-color: #ff5252; }
+}
+
+@keyframes nr-scanline {
+  0% { left: -100%; opacity: 0; }
+  50% { opacity: 0.5; }
+  100% { left: 200%; opacity: 0; }
+}
+
+@keyframes nr-radar-ripple {
+  0% { box-shadow: 0 0 0 0 rgba(211, 47, 47, 0.7); }
+  70% { box-shadow: 0 0 0 10px rgba(211, 47, 47, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(211, 47, 47, 0); }
+}
+
+@keyframes nr-icon-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+/* BACKGROUND TECNOLÓGICO */
+.nr-bg-grid {
+  position: absolute; inset: 0;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+  linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 20px 20px;
+  z-index: 0; pointer-events: none;
+}
+
+/* ANIMAÇÃO 2: Scanline (Luz passando) */
+.nr-box::after {
+  content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(211, 47, 47, 0.15), transparent);
+  transform: skewX(-20deg);
+  animation: nr-scanline 4s infinite linear;
+  pointer-events: none; z-index: 1;
+}
+
+/* WATERMARK "NARRATOR" */
+.nr-watermark {
+  position: absolute; right: 10px; bottom: -12px;
+  font-family: 'Rajdhani', sans-serif; font-weight: 900;
+  font-size: 4.5em; color: rgba(255, 50, 50, 0.03); /* Vermelho muito sutil */
+  line-height: 1; pointer-events: none; select-none: none; z-index: 0;
+}
+
+/* ÍCONE PRINCIPAL (RADAR) */
+.nr-avatar {
+  position: relative; z-index: 2;
+  width: 55px; height: 55px;
+  display: flex; justify-content: center; align-items: center;
+  background: #181010;
+  border: 1px solid #D32F2F;
+  border-radius: 50%;
+  color: #D32F2F;
+  flex-shrink: 0;
+  animation: nr-radar-ripple 2s infinite;
+}
+.nr-avatar .material-icons-round { font-size: 30px; }
+
+/* INFORMAÇÕES */
+.nr-info {
+  flex: 1; display: flex; flex-direction: column; justify-content: center;
+  position: relative; z-index: 2; line-height: 1.2;
+}
+
+.nr-rank {
+  font-family: 'Rajdhani', sans-serif; font-weight: 700;
+  font-size: 0.9em; letter-spacing: 2px;
+  color: #D32F2F; text-transform: uppercase;
+}
+
+.nr-name {
+  font-family: 'Rajdhani', sans-serif; font-weight: 700;
+  font-size: 1.8em; color: #fff; text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: 0 0 10px rgba(211, 47, 47, 0.5); /* Glow Vermelho */
+}
+
+.nr-quote {
+  font-size: 0.8em; color: #888; font-style: italic; margin-top: 2px;
+}
+
+/* BOTÕES */
+.nr-actions {
+  display: flex; gap: 10px; position: relative; z-index: 2;
+}
+
+.nr-btn {
+  width: 40px; height: 40px;
+  display: flex; justify-content: center; align-items: center;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid #333;
+  border-radius: 4px;
+  color: #888; text-decoration: none !important;
+  transition: all 0.2s ease;
+  animation: nr-icon-float 3s infinite ease-in-out;
+}
+
+.nr-actions a:nth-child(1) { animation-delay: 0s; }
+.nr-actions a:nth-child(2) { animation-delay: 0.5s; }
+.nr-actions a:nth-child(3) { animation-delay: 1s; }
+
+.nr-btn .material-icons-round { font-size: 20px; }
+
+/* HOVER EFFECT NOS BOTÕES */
+.nr-btn:hover {
+  background: #D32F2F;
+  border-color: #ff5252;
+  color: #fff;
+  box-shadow: 0 0 15px #D32F2F;
+  transform: translateY(-3px) scale(1.1);
+  animation: none;
+}
