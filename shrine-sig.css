@@ -14,87 +14,95 @@
     display: flex; align-items: center;
     padding: 0 40px; gap: 20px;
     overflow: hidden; box-sizing: border-box;
-    transition: 0.3s;
 }
 
-/* Grade Invisível para Rastreio (5x5) */
-.shrine-track-grid {
-    position: absolute; inset: 0;
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: repeat(5, 1fr);
-    z-index: 15;
+/* --- GRADE DE RASTREIO INVISÍVEL --- */
+/* Seleciona os primeiros 25 divs dentro da caixa (nossas células) */
+.shrine-sig-box > div:nth-child(-n+25) {
+    position: absolute;
+    width: 20%; height: 20%;
+    z-index: 20; /* Fica acima de tudo para detectar o mouse */
+    /* background: rgba(255,0,0,0.1); Descomente para ver a grade */
 }
 
-/* Linhas de Corte */
+/* Posicionamento das Colunas */
+.shrine-sig-box > div:nth-child(5n+1) { left: 0; }
+.shrine-sig-box > div:nth-child(5n+2) { left: 20%; }
+.shrine-sig-box > div:nth-child(5n+3) { left: 40%; }
+.shrine-sig-box > div:nth-child(5n+4) { left: 60%; }
+.shrine-sig-box > div:nth-child(5n+5) { left: 80%; }
+
+/* Posicionamento das Linhas */
+.shrine-sig-box > div:nth-child(-n+5) { top: 0; }
+.shrine-sig-box > div:nth-child(n+6):nth-child(-n+10) { top: 20%; }
+.shrine-sig-box > div:nth-child(n+11):nth-child(-n+15) { top: 40%; }
+.shrine-sig-box > div:nth-child(n+16):nth-child(-n+20) { top: 60%; }
+.shrine-sig-box > div:nth-child(n+21):nth-child(-n+25) { top: 80%; }
+
+/* --- LINHAS DE CORTE --- */
 .shrine-cut-v, .shrine-cut-h {
     position: absolute;
     background: var(--sh-red);
-    box-shadow: 0 0 12px var(--sh-red), 0 0 4px #fff;
-    opacity: 0;
-    pointer-events: none;
-    z-index: 10;
-    transition: all 0.1s ease-out; /* Velocidade do rastro */
+    box-shadow: 0 0 10px var(--sh-red), 0 0 2px #fff;
+    opacity: 0; /* Começa invisível */
+    pointer-events: none; /* O mouse passa através delas */
+    z-index: 15; /* Fica abaixo da grade, mas acima do conteúdo */
+    transition: all 0.15s ease-out; /* Movimento suave */
 }
+/* Posições iniciais (centro) */
+.shrine-cut-v { width: 2px; height: 100%; top: 0; left: 50%; }
+.shrine-cut-h { height: 2px; width: 100%; left: 0; top: 50%; }
 
-.shrine-cut-v { width: 1px; height: 100%; top: 0; left: 50%; }
-.shrine-cut-h { height: 1px; width: 100%; left: 0; top: 50%; }
+/* --- LÓGICA DE INTERAÇÃO (A MÁGICA) --- */
+/* Se passar o mouse em QUALQUER célula, mostra as linhas */
+.shrine-sig-box > div:nth-child(-n+25):hover ~ .shrine-cut-v,
+.shrine-sig-box > div:nth-child(-n+25):hover ~ .shrine-cut-h { opacity: 0.7; }
 
-/* Ativação do Corte no Hover */
-.shrine-sig-box:hover .shrine-cut-v,
-.shrine-sig-box:hover .shrine-cut-h { opacity: 0.6; }
+/* Move a Linha Vertical (X) */
+.shrine-sig-box > div:nth-child(5n+1):hover ~ .shrine-cut-v { left: 10%; }
+.shrine-sig-box > div:nth-child(5n+2):hover ~ .shrine-cut-v { left: 30%; }
+.shrine-sig-box > div:nth-child(5n+3):hover ~ .shrine-cut-v { left: 50%; }
+.shrine-sig-box > div:nth-child(5n+4):hover ~ .shrine-cut-v { left: 70%; }
+.shrine-sig-box > div:nth-child(5n+5):hover ~ .shrine-cut-v { left: 90%; }
 
-/* Lógica de Movimento da Grade (Exemplos de mapeamento) */
-.shrine-track-grid div:hover ~ .shrine-cut-v { opacity: 1; }
-.shrine-track-grid div:hover ~ .shrine-cut-h { opacity: 1; }
+/* Move a Linha Horizontal (Y) */
+.shrine-sig-box > div:nth-child(-n+5):hover ~ .shrine-cut-h { top: 10%; }
+.shrine-sig-box > div:nth-child(n+6):nth-child(-n+10):hover ~ .shrine-cut-h { top: 30%; }
+.shrine-sig-box > div:nth-child(n+11):nth-child(-n+15):hover ~ .shrine-cut-h { top: 50%; }
+.shrine-sig-box > div:nth-child(n+16):nth-child(-n+20):hover ~ .shrine-cut-h { top: 70%; }
+.shrine-sig-box > div:nth-child(n+21):nth-child(-n+25):hover ~ .shrine-cut-h { top: 90%; }
 
-/* Mapeamento Horizontal (X) */
-.shrine-track-grid div:nth-child(5n+1):hover ~ .shrine-cut-v { left: 10%; }
-.shrine-track-grid div:nth-child(5n+2):hover ~ .shrine-cut-v { left: 30%; }
-.shrine-track-grid div:nth-child(5n+3):hover ~ .shrine-cut-v { left: 50%; }
-.shrine-track-grid div:nth-child(5n+4):hover ~ .shrine-cut-v { left: 70%; }
-.shrine-track-grid div:nth-child(5n+5):hover ~ .shrine-cut-v { left: 90%; }
 
-/* Mapeamento Vertical (Y) */
-.shrine-track-grid div:nth-child(n+1):nth-child(-n+5):hover ~ .shrine-cut-h { top: 10%; }
-.shrine-track-grid div:nth-child(n+6):nth-child(-n+10):hover ~ .shrine-cut-h { top: 30%; }
-.shrine-track-grid div:nth-child(n+11):nth-child(-n+15):hover ~ .shrine-cut-h { top: 50%; }
-.shrine-track-grid div:nth-child(n+16):nth-child(-n+20):hover ~ .shrine-cut-h { top: 70%; }
-.shrine-track-grid div:nth-child(n+21):nth-child(-n+25):hover ~ .shrine-cut-h { top: 90%; }
-
-/* --- ESTILO VISUAL --- */
+/* --- CONTEÚDO VISUAL --- */
 .shrine-sig-avatar {
     width: 120px; height: 120px; flex-shrink: 0;
     clip-path: polygon(0% 15%, 15% 0%, 100% 0%, 100% 85%, 85% 100%, 0% 100%);
-    background: var(--sh-deep); padding: 2px; position: relative; z-index: 2;
+    background: var(--sh-deep); padding: 2px; 
+    position: relative; z-index: 5; pointer-events: none;
 }
-
 .shrine-sig-avatar img {
     width: 100%; height: 100%; object-fit: cover;
     clip-path: polygon(0% 15%, 15% 0%, 100% 0%, 100% 85%, 85% 100%, 0% 100%);
     filter: grayscale(1) contrast(1.2); transition: 0.3s;
 }
 
-.shrine-sig-box:hover .shrine-sig-avatar img { filter: grayscale(0.2) contrast(1.1); }
-
 .shrine-sig-content {
     flex: 1; border-left: 1px solid rgba(117, 2, 15, 0.4);
-    padding-left: 20px; position: relative; z-index: 2;
+    padding-left: 20px; position: relative; z-index: 5; pointer-events: none;
 }
-
 .shrine-sig-name {
     font-family: 'Cinzel Decorative', serif;
-    font-size: 1.5em; color: var(--sh-bone);
-    text-transform: uppercase;
+    font-size: 1.5em; color: var(--sh-bone); text-transform: uppercase;
 }
-
 .shrine-sig-quote {
-    font-family: 'Spectral', serif;
-    font-size: 0.9em; color: #666; font-style: italic; margin-top: 5px;
+    font-family: 'Spectral', serif; font-size: 0.9em; color: #666; font-style: italic; margin-top: 5px;
 }
 
-.shrine-sig-links { display: flex; flex-direction: column; gap: 8px; position: relative; z-index: 20; }
-
+/* BOTÕES (Precisam de z-index maior que a grade para serem clicáveis) */
+.shrine-sig-links { 
+    display: flex; flex-direction: column; gap: 8px; 
+    position: relative; z-index: 30; /* IMPORTANTE: Maior que o z-index 20 da grade */
+}
 .shrine-sig-btn {
     display: block; width: 85px; text-align: center;
     text-decoration: none !important;
@@ -103,14 +111,17 @@
     border-bottom: 1px solid var(--sh-deep);
     transition: 0.3s;
 }
-
 .shrine-sig-btn:hover {
     color: var(--sh-red); border-bottom-color: var(--sh-red);
     transform: scale(1.1);
 }
 
+/* Responsivo */
 @media (max-width: 500px) {
     .shrine-sig-box { flex-direction: column; height: auto; padding: 20px; text-align: center; }
     .shrine-sig-content { border-left: none; border-top: 1px solid var(--sh-deep); padding: 15px 0; margin: 10px 0; }
     .shrine-sig-links { flex-direction: row; justify-content: center; width: 100%; }
+    /* Em telas pequenas, o efeito de mouse pode ser confuso, então desabilitamos ou simplificamos */
+    .shrine-sig-box > div:nth-child(-n+25) { display: none; } /* Desabilita a grade */
+    .shrine-sig-box:hover .shrine-cut-v, .shrine-sig-box:hover .shrine-cut-h { opacity: 0.5; } /* Mostra o X central fixo no hover */
 }
