@@ -1,60 +1,70 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Kaushan+Script&family=Spectral:ital,wght@0,400;0,700;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Spectral:ital,wght@0,400;1,400&display=swap');
 
-.shrine-sig-box {
-    --sh-red: #75020f;
-    --sh-bone: #b0b0b0;
-    
-    position: relative;
-    width: 100%; max-width: 600px; height: 180px;
-    margin: 30px auto;
-    background: #050505;
-    border: 2px solid #2b0307;
-    display: flex; align-items: center;
-    padding: 0 40px; gap: 20px;
-    box-sizing: border-box;
-    z-index: 1;
+.sh-sig {
+  --red: #75020f; --deep: #2b0307; --bone: #b0b0b0;
+  width: 100%; max-width: 600px; height: 180px;
+  margin: 20px auto; perspective: 1000px;
 }
 
-/* Canvas do Fogo */
-#flameCanvas {
-    position: absolute;
-    top: -50px; left: -50px;
-    width: calc(100% + 100px);
-    height: calc(100% + 100px);
-    pointer-events: none;
-    z-index: -1;
+.sh-card {
+  position: relative; width: 100%; height: 100%;
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
 }
 
-/* --- CORTES (DIAGONAIS CORRIGIDAS) --- */
-@keyframes cleave-anim {
-    0% { width: 0; opacity: 0; left: 0; }
-    10% { width: 140%; opacity: 0.3; left: -20%; }
-    20% { width: 140%; opacity: 0; left: -20%; }
-    100% { width: 0; opacity: 0; left: 0; }
+.sh-sig:hover .sh-card { transform: rotateY(180deg); }
+
+.sh-side {
+  position: absolute; inset: 0; backface-visibility: hidden;
+  background: #050505; border: 2px solid var(--deep);
+  display: flex; align-items: center; padding: 0 30px; gap: 20px;
+  box-sizing: border-box; overflow: hidden;
 }
 
-.shrine-slash-layer { position: absolute; inset: 0; pointer-events: none; z-index: 5; overflow: hidden; }
+.sh-back { transform: rotateY(180deg); border-color: var(--red); }
 
-.slash-rot { position: absolute; width: 100%; height: 1px; left: 0; }
-
-.sig-slash {
-    position: absolute; height: 1px; width: 0;
-    background: var(--sh-red);
-    box-shadow: 0 0 5px var(--sh-red);
-    opacity: 0;
+/* --- CORTES IDLE --- */
+@keyframes cleave {
+  0% { width: 0; opacity: 0; left: 0; }
+  10% { width: 150%; opacity: 0.4; left: -25%; }
+  20% { width: 150%; opacity: 0; left: -25%; }
+  100% { width: 0; opacity: 0; }
 }
 
-.s-left { animation: cleave-anim 5s infinite; }
-.s-right { animation: cleave-anim 5s infinite reverse; animation-delay: 2s; }
+.sh-slashes { position: absolute; inset: 0; pointer-events: none; }
+.sl { position: absolute; height: 1px; background: var(--red); box-shadow: 0 0 5px var(--red); opacity: 0; }
+.s1 { top: 20%; transform: rotate(-25deg); animation: cleave 5s infinite; }
+.s2 { top: 50%; transform: rotate(15deg); animation: cleave 7s infinite 1s; }
+.s3 { top: 80%; transform: rotate(-10deg); animation: cleave 6s infinite 2s; }
+.s4 { top: 35%; transform: rotate(35deg); animation: cleave 8s infinite 0.5s; }
 
-/* Visual Geral */
-.shrine-sig-avatar { width: 110px; height: 110px; flex-shrink: 0; clip-path: polygon(0% 15%, 15% 0%, 100% 0%, 100% 85%, 85% 100%, 0% 100%); background: #2b0307; padding: 2px; }
-.shrine-sig-avatar img { width: 100%; height: 100%; object-fit: cover; clip-path: polygon(0% 15%, 15% 0%, 100% 0%, 100% 85%, 85% 100%, 0% 100%); filter: grayscale(1); transition: 0.5s; }
-.shrine-sig-box:hover .shrine-sig-avatar img { filter: grayscale(0.2); }
+/* --- CONTEÚDO --- */
+.sh-av {
+  width: 110px; height: 110px; flex-shrink: 0;
+  clip-path: polygon(0 15%, 15% 0, 100% 0, 100% 85%, 85% 100%, 0 100%);
+  background: var(--deep); padding: 2px;
+}
+.sh-av img { width: 100%; height: 100%; object-fit: cover; clip-path: inherit; filter: grayscale(1); }
 
-.shrine-sig-content { flex: 1; border-left: 1px solid rgba(117, 2, 15, 0.4); padding-left: 20px; }
-.shrine-sig-name { font-family: 'Cinzel Decorative', serif; font-size: 1.5em; color: var(--sh-bone); text-transform: uppercase; }
-.shrine-sig-quote { font-family: 'Spectral', serif; font-size: 0.9em; color: #555; font-style: italic; }
-.shrine-sig-links { display: flex; flex-direction: column; gap: 8px; z-index: 10; }
-.shrine-sig-btn { display: block; width: 85px; text-align: center; text-decoration: none !important; font-family: 'Kaushan Script', cursive; color: var(--sh-bone); border-bottom: 1px solid #2b0307; transition: 0.3s; }
-.shrine-sig-btn:hover { color: var(--sh-red); transform: translateX(5px); }
+.sh-main { flex: 1; border-left: 1px solid rgba(117,2,15,0.4); padding-left: 20px; }
+.sh-name { font-family: 'Cinzel Decorative', serif; font-size: 1.4em; color: var(--bone); text-transform: uppercase; }
+.sh-quote { font-family: 'Spectral', serif; font-size: 0.9em; color: #666; font-style: italic; margin-top: 5px; }
+
+.sh-desc { 
+  flex: 1; font-family: 'Spectral', serif; font-size: 0.95em; 
+  color: var(--bone); text-align: justify; line-height: 1.3;
+}
+
+/* --- BOTÕES --- */
+.sh-nav { display: flex; flex-direction: column; gap: 8px; }
+.sh-btn {
+  display: block; width: 80px; text-align: center; text-decoration: none !important;
+  font-family: 'Cinzel Decorative', serif; font-size: 0.7em; color: var(--bone);
+  padding: 5px 0; border-bottom: 1px solid var(--deep); transition: 0.3s;
+}
+.sh-btn:hover { color: var(--red); border-bottom-color: var(--red); transform: translateX(5px); }
+
+@media (max-width: 500px) {
+  .sh-side { padding: 15px; }
+  .sh-av { display: none; }
+}
