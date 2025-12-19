@@ -1,7 +1,8 @@
-/* --- ASSINATURA: MALEVOLENT SHRINE --- */
+/* --- ASSINATURA: MALEVOLENT SHRINE (FLAMING AURA) --- */
 @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Kaushan+Script&family=Spectral:ital,wght@0,400;0,700;1,400&display=swap');
 
 .shrine-sig-box {
+    /* Variáveis de Cor do Template */
     --sh-black: #050505;
     --sh-red-deep: #2b0307;
     --sh-red-mid: #51080d;
@@ -16,17 +17,37 @@
     display: flex; align-items: center;
     padding: 0 40px; gap: 20px;
     overflow: hidden; box-sizing: border-box;
-    transition: 0.3s;
+    /* Sombra inicial discreta */
+    box-shadow: 0 0 20px #000;
+    transition: all 0.3s ease;
 }
 
-/* --- ANIMAÇÕES --- */
+/* --- NOVA INTERAÇÃO: AURA FLAMEJANTE --- */
+@keyframes shrine-aura-pulse {
+    0%, 100% {
+        border-color: var(--sh-red-pop);
+        /* Brilho externo e interno pulsante */
+        box-shadow: 0 0 20px var(--sh-red-mid), inset 0 0 30px var(--sh-red-deep);
+    }
+    50% {
+        border-color: #ff0033; /* Vermelho mais vivo no pico */
+        /* Explosão de intensidade */
+        box-shadow: 0 0 50px var(--sh-red-pop), 0 0 80px var(--sh-red-mid), inset 0 0 60px var(--sh-red-mid);
+    }
+}
+
+.shrine-sig-box:hover {
+    /* Ativa a animação da aura no hover */
+    animation: shrine-aura-pulse 2s infinite ease-in-out;
+}
+
+/* --- CORTES (SEMPRE IDLE - NADA MUDA NO HOVER) --- */
 @keyframes cleave-left {
     0% { width: 0; opacity: 0; left: 0; }
     10% { width: 150%; opacity: 1; left: -25%; }
     20% { width: 150%; opacity: 0; left: -25%; }
     100% { width: 0; opacity: 0; left: 0; }
 }
-
 @keyframes cleave-right {
     0% { width: 0; opacity: 0; right: 0; }
     10% { width: 150%; opacity: 1; right: -25%; }
@@ -40,14 +61,13 @@
     position: absolute; height: 1px;
     background: var(--sh-red-pop);
     box-shadow: 0 0 5px var(--sh-red-pop), 0 0 10px var(--sh-red-mid);
-    opacity: 0;
+    opacity: 0.3; /* Opacidade constante */
 }
 
 .s-left { transform-origin: left; animation: cleave-left infinite ease-out; }
 .s-right { transform-origin: right; animation: cleave-right infinite ease-out; }
 
-/* --- CONFIGURAÇÃO INDIVIDUAL (POSIÇÃO, ROTAÇÃO E DELAY FIXO) --- */
-/* O delay fixo garante que eles nunca comecem juntos, mesmo no hover */
+/* Configuração dos Cortes (Ritmo Lento e Constante) */
 .s-1 { top: 15%; transform: rotate(-10deg); animation-duration: 6s; animation-delay: 0.2s; }
 .s-2 { top: 45%; transform: rotate(15deg); animation-duration: 8s; animation-delay: 1.5s; }
 .s-3 { top: 75%; transform: rotate(-5deg); animation-duration: 5s; animation-delay: 0.8s; }
@@ -61,31 +81,20 @@
 .s-11 { top: 55%; transform: rotate(-8deg); animation-duration: 7.8s; animation-delay: 1.9s; }
 .s-12 { top: 90%; transform: rotate(20deg); animation-duration: 5.2s; animation-delay: 3.5s; }
 
-/* --- ESTADO IDLE (BAIXA INTENSIDADE) --- */
-.sig-slash { opacity: 0.2; }
-
-/* --- ESTADO MOUSE (ALTA INTENSIDADE) --- */
-.shrine-sig-box:hover .sig-slash {
-    opacity: 0.9;
-    /* Aceleramos a duração drasticamente para cada corte, mas sem zerar o delay */
-    animation-duration: 0.6s !important;
-}
-
-/* Variações leves de velocidade no hover para evitar "efeito robô" */
-.shrine-sig-box:hover .s-2, .shrine-sig-box:hover .s-5, .shrine-sig-box:hover .s-8 { animation-duration: 0.5s !important; }
-.shrine-sig-box:hover .s-3, .shrine-sig-box:hover .s-7, .shrine-sig-box:hover .s-11 { animation-duration: 0.7s !important; }
-
-/* Resto do visual permanece conforme o template */
+/* --- RESTANTE DOS ELEMENTOS --- */
 .shrine-sig-avatar {
     width: 120px; height: 120px; flex-shrink: 0;
     clip-path: polygon(0% 15%, 15% 0%, 100% 0%, 100% 85%, 85% 100%, 0% 100%);
     background: var(--sh-red-deep); padding: 2px; position: relative; z-index: 5;
+    transition: 0.3s;
 }
 .shrine-sig-avatar img {
     width: 100%; height: 100%; object-fit: cover;
     clip-path: polygon(0% 15%, 15% 0%, 100% 0%, 100% 85%, 85% 100%, 0% 100%);
     filter: grayscale(1) contrast(1.2); transition: 0.5s;
 }
+/* Pequeno brilho no avatar ao passar o mouse na caixa */
+.shrine-sig-box:hover .shrine-sig-avatar { box-shadow: 0 0 15px var(--sh-red-mid); }
 .shrine-sig-box:hover .shrine-sig-avatar img { filter: grayscale(0.2) contrast(1.1); }
 
 .shrine-sig-content {
@@ -112,7 +121,7 @@
 }
 .shrine-sig-btn:hover {
     color: var(--sh-red-pop); border-bottom-color: var(--sh-red-pop);
-    transform: scale(1.1);
+    transform: scale(1.1); text-shadow: 0 0 5px var(--sh-red-pop);
 }
 
 @media (max-width: 500px) {
