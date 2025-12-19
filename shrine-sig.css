@@ -16,11 +16,10 @@
     display: flex; align-items: center;
     padding: 0 40px; gap: 20px;
     overflow: hidden; box-sizing: border-box;
-    box-shadow: 0 0 30px #000;
     transition: 0.3s;
 }
 
-/* --- ANIMAÇÕES ORIGINAIS DO TEMPLATE --- */
+/* --- ANIMAÇÕES --- */
 @keyframes cleave-left {
     0% { width: 0; opacity: 0; left: 0; }
     10% { width: 150%; opacity: 1; left: -25%; }
@@ -35,7 +34,6 @@
     100% { width: 0; opacity: 0; right: 0; }
 }
 
-/* Camada de Cortes */
 .shrine-slash-layer { position: absolute; inset: 0; pointer-events: none; z-index: 10; }
 
 .sig-slash {
@@ -43,30 +41,41 @@
     background: var(--sh-red-pop);
     box-shadow: 0 0 5px var(--sh-red-pop), 0 0 10px var(--sh-red-mid);
     opacity: 0;
-    transition: opacity 0.3s;
 }
 
 .s-left { transform-origin: left; animation: cleave-left infinite ease-out; }
 .s-right { transform-origin: right; animation: cleave-right infinite ease-out; }
 
-/* Configuração Aleatória (Estado Normal) */
-.s-1 { top: 20%; transform: rotate(-15deg); animation-duration: 5s; animation-delay: 0s; opacity: 0.2; }
-.s-2 { top: 50%; transform: rotate(10deg); animation-duration: 7s; animation-delay: 2s; opacity: 0.1; }
-.s-3 { top: 80%; transform: rotate(-5deg); animation-duration: 6s; animation-delay: 1s; opacity: 0.2; }
-.s-4 { top: 35%; transform: rotate(20deg); animation-duration: 8s; animation-delay: 4s; opacity: 0.1; }
-.s-5 { top: 65%; transform: rotate(-25deg); animation-duration: 5.5s; animation-delay: 3s; opacity: 0.2; }
-.s-6 { top: 10%; transform: rotate(5deg); animation-duration: 9s; animation-delay: 0.5s; opacity: 0.1; }
+/* --- CONFIGURAÇÃO INDIVIDUAL (POSIÇÃO, ROTAÇÃO E DELAY FIXO) --- */
+/* O delay fixo garante que eles nunca comecem juntos, mesmo no hover */
+.s-1 { top: 15%; transform: rotate(-10deg); animation-duration: 6s; animation-delay: 0.2s; }
+.s-2 { top: 45%; transform: rotate(15deg); animation-duration: 8s; animation-delay: 1.5s; }
+.s-3 { top: 75%; transform: rotate(-5deg); animation-duration: 5s; animation-delay: 0.8s; }
+.s-4 { top: 30%; transform: rotate(25deg); animation-duration: 7s; animation-delay: 2.3s; }
+.s-5 { top: 60%; transform: rotate(-20deg); animation-duration: 9s; animation-delay: 3.1s; }
+.s-6 { top: 85%; transform: rotate(5deg); animation-duration: 6.5s; animation-delay: 0.5s; }
+.s-7 { top: 10%; transform: rotate(-30deg); animation-duration: 7.5s; animation-delay: 4.2s; }
+.s-8 { top: 40%; transform: rotate(40deg); animation-duration: 5.5s; animation-delay: 1.1s; }
+.s-9 { top: 70%; transform: rotate(-15deg); animation-duration: 8.5s; animation-delay: 2.8s; }
+.s-10 { top: 25%; transform: rotate(12deg); animation-duration: 6.2s; animation-delay: 5.0s; }
+.s-11 { top: 55%; transform: rotate(-8deg); animation-duration: 7.8s; animation-delay: 1.9s; }
+.s-12 { top: 90%; transform: rotate(20deg); animation-duration: 5.2s; animation-delay: 3.5s; }
 
-/* --- INTERAÇÃO: AUMENTO DE INTENSIDADE --- */
-.shrine-sig-box:hover { border-color: var(--sh-red-pop); box-shadow: 0 0 40px rgba(117, 2, 15, 0.3); }
+/* --- ESTADO IDLE (BAIXA INTENSIDADE) --- */
+.sig-slash { opacity: 0.2; }
 
+/* --- ESTADO MOUSE (ALTA INTENSIDADE) --- */
 .shrine-sig-box:hover .sig-slash {
-    opacity: 0.8;
-    animation-duration: 0.8s !important; /* Todos ficam extremamente rápidos */
-    animation-delay: 0s !important;
+    opacity: 0.9;
+    /* Aceleramos a duração drasticamente para cada corte, mas sem zerar o delay */
+    animation-duration: 0.6s !important;
 }
 
-/* --- ELEMENTOS VISUAIS --- */
+/* Variações leves de velocidade no hover para evitar "efeito robô" */
+.shrine-sig-box:hover .s-2, .shrine-sig-box:hover .s-5, .shrine-sig-box:hover .s-8 { animation-duration: 0.5s !important; }
+.shrine-sig-box:hover .s-3, .shrine-sig-box:hover .s-7, .shrine-sig-box:hover .s-11 { animation-duration: 0.7s !important; }
+
+/* Resto do visual permanece conforme o template */
 .shrine-sig-avatar {
     width: 120px; height: 120px; flex-shrink: 0;
     clip-path: polygon(0% 15%, 15% 0%, 100% 0%, 100% 85%, 85% 100%, 0% 100%);
