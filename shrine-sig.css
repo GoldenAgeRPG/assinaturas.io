@@ -1,0 +1,151 @@
+/* --- ASSINATURA: MALEVOLENT SHRINE (CLEAVE EDITION) --- */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Kaushan+Script&family=Spectral:ital,wght@0,400;0,700;1,400&display=swap');
+
+.shrine-sig-box {
+    --shrine-red: #75020f;
+    --shrine-deep: #2b0307;
+    --shrine-bone: #b0b0b0;
+    --shrine-black: #050505;
+
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    height: 180px;
+    margin: 10px auto;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    padding: 0 40px;
+    gap: 20px;
+    
+    background-color: var(--shrine-black);
+    background-image: radial-gradient(circle at center, var(--shrine-deep) 0%, var(--shrine-black) 100%);
+    border: 2px solid var(--shrine-deep);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+    overflow: hidden;
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* INTERAÇÃO: O CORTE (CLEAVE) */
+.shrine-sig-slash {
+    position: absolute;
+    top: -100%;
+    left: -100%;
+    width: 300%;
+    height: 10px;
+    background: linear-gradient(90deg, transparent, #fff, var(--shrine-red), transparent);
+    transform: rotate(-45deg);
+    opacity: 0;
+    z-index: 10;
+    pointer-events: none;
+}
+
+.shrine-sig-box:hover {
+    border-color: var(--shrine-red);
+    box-shadow: 0 0 25px rgba(117, 2, 15, 0.4);
+}
+
+.shrine-sig-box:hover .shrine-sig-slash {
+    animation: cleave-flash 0.4s ease-out forwards;
+}
+
+@keyframes cleave-flash {
+    0% { top: -100%; left: -100%; opacity: 1; }
+    100% { top: 150%; left: 150%; opacity: 0; }
+}
+
+/* AVATAR COM RECORTE ASSIMÉTRICO */
+.shrine-sig-avatar {
+    width: 120px;
+    height: 120px;
+    flex-shrink: 0;
+    background: var(--shrine-deep);
+    clip-path: polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%);
+    padding: 2px;
+    transition: 0.3s;
+}
+
+.shrine-sig-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    clip-path: polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%);
+    filter: grayscale(0.5) contrast(1.2);
+    transition: 0.3s;
+}
+
+.shrine-sig-box:hover .shrine-sig-avatar {
+    transform: translateX(-5px);
+}
+
+.shrine-sig-box:hover .shrine-sig-avatar img {
+    filter: grayscale(0) contrast(1.3) sepia(0.2);
+}
+
+/* CONTEÚDO */
+.shrine-sig-content {
+    flex: 1;
+    border-left: 1px solid var(--shrine-red);
+    padding-left: 20px;
+}
+
+.shrine-sig-name {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 1.6em;
+    font-weight: 700;
+    color: var(--shrine-bone);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 5px;
+    transition: 0.3s;
+}
+
+.shrine-sig-box:hover .shrine-sig-name {
+    color: var(--shrine-red);
+    text-shadow: 0 0 10px var(--shrine-red);
+}
+
+.shrine-sig-quote {
+    font-family: 'Spectral', serif;
+    font-size: 0.95em;
+    color: #888;
+    font-style: italic;
+    line-height: 1.3;
+}
+
+/* BOTÕES ESTILO LÂMINA */
+.shrine-sig-links {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.shrine-sig-btn {
+    display: block;
+    width: 90px;
+    text-align: right;
+    text-decoration: none !important;
+    font-family: 'Kaushan Script', cursive;
+    font-size: 1.1em;
+    color: var(--shrine-bone);
+    padding: 2px 10px;
+    border-right: 3px solid var(--shrine-red-deep);
+    background: linear-gradient(to right, transparent, rgba(117, 2, 15, 0.1));
+    transition: all 0.3s ease;
+}
+
+.shrine-sig-btn:hover {
+    color: #fff;
+    border-right-color: var(--shrine-red);
+    padding-right: 15px;
+    background: linear-gradient(to right, transparent, var(--shrine-red));
+    text-shadow: 0 0 5px #fff;
+}
+
+/* RESPONSIVO */
+@media (max-width: 500px) {
+    .shrine-sig-box { flex-direction: column; height: auto; padding: 20px; text-align: center; }
+    .shrine-sig-content { border-left: none; border-top: 1px solid var(--shrine-red); padding-left: 0; padding-top: 15px; margin: 10px 0; }
+    .shrine-sig-links { flex-direction: row; width: 100%; justify-content: center; }
+    .shrine-sig-btn { text-align: center; border-right: none; border-bottom: 2px solid var(--shrine-red); }
+}
