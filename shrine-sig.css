@@ -1,13 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Kaushan+Script&family=Spectral:ital,wght@0,400;0,700;1,400&display=swap');
 
 .shrine-sig-box {
-    --sh-red-pop: #75020f;
-    --sh-red-mid: #51080d;
+    --sh-red: #75020f;
     --sh-bone: #b0b0b0;
     
     position: relative;
     width: 100%; max-width: 600px; height: 180px;
-    margin: 20px auto;
+    margin: 30px auto;
     background: #050505;
     border: 2px solid #2b0307;
     display: flex; align-items: center;
@@ -16,54 +15,46 @@
     z-index: 1;
 }
 
-/* Canvas da Aura Flamante */
-#shrine-canvas {
+/* Canvas do Fogo */
+#flameCanvas {
     position: absolute;
-    top: -40px; left: -40px;
-    width: calc(100% + 80px);
-    height: calc(100% + 80px);
+    top: -50px; left: -50px;
+    width: calc(100% + 100px);
+    height: calc(100% + 100px);
     pointer-events: none;
     z-index: -1;
 }
 
-/* --- CORTES DIAGONAIS (IDLE CONSTANTE) --- */
-@keyframes cleave-left {
+/* --- CORTES (DIAGONAIS CORRIGIDAS) --- */
+@keyframes cleave-anim {
     0% { width: 0; opacity: 0; left: 0; }
-    10% { width: 140%; opacity: 0.4; left: -20%; }
+    10% { width: 140%; opacity: 0.3; left: -20%; }
     20% { width: 140%; opacity: 0; left: -20%; }
     100% { width: 0; opacity: 0; left: 0; }
 }
 
-@keyframes cleave-right {
-    0% { width: 0; opacity: 0; right: 0; }
-    10% { width: 140%; opacity: 0.4; right: -20%; }
-    20% { width: 140%; opacity: 0; right: -20%; }
-    100% { width: 0; opacity: 0; right: 0; }
-}
-
 .shrine-slash-layer { position: absolute; inset: 0; pointer-events: none; z-index: 5; overflow: hidden; }
 
+.slash-rot { position: absolute; width: 100%; height: 1px; left: 0; }
+
 .sig-slash {
-    position: absolute; height: 1px;
-    background: var(--sh-red-pop);
-    box-shadow: 0 0 5px var(--sh-red-pop);
+    position: absolute; height: 1px; width: 0;
+    background: var(--sh-red);
+    box-shadow: 0 0 5px var(--sh-red);
     opacity: 0;
 }
 
-/* Classes Individuais com Rotação (Fixing Horizontal) */
-.s-1 { top: 20%; transform: rotate(-35deg); animation: cleave-left 5s infinite; }
-.s-2 { top: 50%; transform: rotate(20deg); animation: cleave-right 6.5s infinite; animation-delay: 1s; }
-.s-3 { top: 80%; transform: rotate(-15deg); animation: cleave-left 4.8s infinite; animation-delay: 2s; }
-.s-4 { top: 10%; transform: rotate(45deg); animation: cleave-right 7s infinite; animation-delay: 0.5s; }
-.s-5 { top: 65%; transform: rotate(-25deg); animation: cleave-left 5.5s infinite; animation-delay: 3s; }
-.s-6 { top: 30%; transform: rotate(10deg); animation: cleave-right 6s infinite; animation-delay: 1.5s; }
+.s-left { animation: cleave-anim 5s infinite; }
+.s-right { animation: cleave-anim 5s infinite reverse; animation-delay: 2s; }
 
 /* Visual Geral */
-.shrine-sig-avatar { width: 115px; height: 115px; flex-shrink: 0; clip-path: polygon(0% 15%, 15% 0%, 100% 0%, 100% 85%, 85% 100%, 0% 100%); background: #2b0307; padding: 2px; }
-.shrine-sig-avatar img { width: 100%; height: 100%; object-fit: cover; clip-path: polygon(0% 15%, 15% 0%, 100% 0%, 100% 85%, 85% 100%, 0% 100%); filter: grayscale(1); }
+.shrine-sig-avatar { width: 110px; height: 110px; flex-shrink: 0; clip-path: polygon(0% 15%, 15% 0%, 100% 0%, 100% 85%, 85% 100%, 0% 100%); background: #2b0307; padding: 2px; }
+.shrine-sig-avatar img { width: 100%; height: 100%; object-fit: cover; clip-path: polygon(0% 15%, 15% 0%, 100% 0%, 100% 85%, 85% 100%, 0% 100%); filter: grayscale(1); transition: 0.5s; }
+.shrine-sig-box:hover .shrine-sig-avatar img { filter: grayscale(0.2); }
+
 .shrine-sig-content { flex: 1; border-left: 1px solid rgba(117, 2, 15, 0.4); padding-left: 20px; }
 .shrine-sig-name { font-family: 'Cinzel Decorative', serif; font-size: 1.5em; color: var(--sh-bone); text-transform: uppercase; }
 .shrine-sig-quote { font-family: 'Spectral', serif; font-size: 0.9em; color: #555; font-style: italic; }
-.shrine-sig-links { display: flex; flex-direction: column; gap: 8px; }
+.shrine-sig-links { display: flex; flex-direction: column; gap: 8px; z-index: 10; }
 .shrine-sig-btn { display: block; width: 85px; text-align: center; text-decoration: none !important; font-family: 'Kaushan Script', cursive; color: var(--sh-bone); border-bottom: 1px solid #2b0307; transition: 0.3s; }
-.shrine-sig-btn:hover { color: var(--sh-red-pop); transform: translateX(5px); }
+.shrine-sig-btn:hover { color: var(--sh-red); transform: translateX(5px); }
