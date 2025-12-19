@@ -1,132 +1,116 @@
-/* --- ASSINATURA: MALEVOLENT --- */
+/* --- ASSINATURA: MALEVOLENT SHRINE --- */
 @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Kaushan+Script&family=Spectral:ital,wght@0,400;0,700;1,400&display=swap');
 
-.shrine-v5-sig-box {
-    --sig-red: #75020f;
-    --sig-deep: #2b0307;
-    --sig-bone: #b0b0b0;
+.shrine-sig-box {
+    --sh-red: #75020f;
+    --sh-deep: #2b0307;
+    --sh-bone: #b0b0b0;
     
     position: relative;
     width: 100%; max-width: 600px; height: 180px;
     margin: 10px auto;
     background: #050505;
-    border: 2px solid var(--sig-deep);
+    border: 2px solid var(--sh-deep);
     display: flex; align-items: center;
     padding: 0 40px; gap: 20px;
     overflow: hidden; box-sizing: border-box;
-    transition: 0.4s;
-}
-
-/* --- ANIMAÇÕES ORIGINAIS DO TEMPLATE --- */
-@keyframes sig-cleave-left {
-    0% { width: 0; opacity: 0; left: 0; }
-    5% { width: 150%; opacity: 1; left: -25%; }
-    15% { width: 150%; opacity: 0; left: -25%; }
-    100% { width: 0; opacity: 0; left: 0; }
-}
-
-@keyframes sig-cleave-right {
-    0% { width: 0; opacity: 0; right: 0; }
-    5% { width: 150%; opacity: 1; right: -25%; }
-    15% { width: 150%; opacity: 0; right: -25%; }
-    100% { width: 0; opacity: 0; right: 0; }
-}
-
-.sig-slash-layer {
-    position: absolute; inset: 0;
-    pointer-events: none; z-index: 5;
-}
-
-.sig-slash {
-    position: absolute; height: 1px;
-    background: var(--sig-red);
-    box-shadow: 0 0 8px var(--sig-red);
-    opacity: 0;
-}
-
-/* --- CONFIGURAÇÃO DO LOOP (INTENSIDADE REDUZIDA) --- */
-.shrine-v5-sig-box:hover .sig-slash { opacity: 1; }
-
-/* Corte 1: Esquerda para Direita */
-.shrine-v5-sig-box:hover .s-loop-1 { 
-    top: 30%; left: 0; transform: rotate(-15deg); 
-    animation: sig-cleave-left 3s infinite linear; 
-}
-
-/* Corte 2: Direita para Esquerda (Atrasado) */
-.shrine-v5-sig-box:hover .s-loop-2 { 
-    top: 60%; right: 0; transform: rotate(10deg); 
-    animation: sig-cleave-right 3s infinite linear;
-    animation-delay: 1s; 
-}
-
-/* Corte 3: Esquerda para Direita (Mais lento) */
-.shrine-v5-sig-box:hover .s-loop-3 { 
-    top: 15%; left: 0; transform: rotate(40deg); 
-    animation: sig-cleave-left 4s infinite linear;
-    animation-delay: 2s;
-}
-
-/* --- ESTILIZAÇÃO COMPLEMENTAR --- */
-.shrine-v5-sig-avatar {
-    width: 120px; height: 120px; flex-shrink: 0;
-    clip-path: polygon(0% 15%, 15% 0%, 100% 0%, 100% 85%, 85% 100%, 0% 100%);
-    background: var(--sig-deep); padding: 2px;
-}
-
-.shrine-v5-sig-avatar img {
-    width: 100%; height: 100%; object-fit: cover;
-    clip-path: polygon(0% 15%, 15% 0%, 100% 0%, 100% 85%, 85% 100%, 0% 100%);
-    filter: grayscale(1) brightness(0.7);
-    transition: 0.5s;
-}
-
-.shrine-v5-sig-box:hover .shrine-v5-sig-avatar img {
-    filter: grayscale(0.2) brightness(1);
-}
-
-.shrine-v5-sig-content {
-    flex: 1; border-left: 1px solid rgba(117, 2, 15, 0.4);
-    padding-left: 20px;
-}
-
-.shrine-v5-sig-name {
-    font-family: 'Cinzel Decorative', serif;
-    font-size: 1.5em; color: var(--sig-bone);
-    text-transform: uppercase; transition: 0.3s;
-}
-
-.shrine-v5-sig-box:hover .shrine-v5-sig-name {
-    color: var(--sig-red);
-    text-shadow: 0 0 10px var(--sig-red);
-}
-
-.shrine-v5-sig-quote {
-    font-family: 'Spectral', serif;
-    font-size: 0.9em; color: #777;
-    font-style: italic; margin-top: 5px;
-}
-
-.shrine-v5-sig-links { display: flex; flex-direction: column; gap: 8px; }
-
-.shrine-v5-sig-btn {
-    display: block; width: 85px; text-align: center;
-    text-decoration: none !important;
-    font-family: 'Kaushan Script', cursive;
-    color: var(--sig-bone); font-size: 1.1em;
-    border-bottom: 1px solid var(--sig-deep);
     transition: 0.3s;
 }
 
-.shrine-v5-sig-btn:hover {
-    color: var(--sig-red);
-    border-bottom-color: var(--sig-red);
-    transform: translateX(5px);
+/* Grade Invisível para Rastreio (5x5) */
+.shrine-track-grid {
+    position: absolute; inset: 0;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    z-index: 15;
 }
 
-/* RESPONSIVO */
+/* Linhas de Corte */
+.shrine-cut-v, .shrine-cut-h {
+    position: absolute;
+    background: var(--sh-red);
+    box-shadow: 0 0 12px var(--sh-red), 0 0 4px #fff;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 10;
+    transition: all 0.1s ease-out; /* Velocidade do rastro */
+}
+
+.shrine-cut-v { width: 1px; height: 100%; top: 0; left: 50%; }
+.shrine-cut-h { height: 1px; width: 100%; left: 0; top: 50%; }
+
+/* Ativação do Corte no Hover */
+.shrine-sig-box:hover .shrine-cut-v,
+.shrine-sig-box:hover .shrine-cut-h { opacity: 0.6; }
+
+/* Lógica de Movimento da Grade (Exemplos de mapeamento) */
+.shrine-track-grid div:hover ~ .shrine-cut-v { opacity: 1; }
+.shrine-track-grid div:hover ~ .shrine-cut-h { opacity: 1; }
+
+/* Mapeamento Horizontal (X) */
+.shrine-track-grid div:nth-child(5n+1):hover ~ .shrine-cut-v { left: 10%; }
+.shrine-track-grid div:nth-child(5n+2):hover ~ .shrine-cut-v { left: 30%; }
+.shrine-track-grid div:nth-child(5n+3):hover ~ .shrine-cut-v { left: 50%; }
+.shrine-track-grid div:nth-child(5n+4):hover ~ .shrine-cut-v { left: 70%; }
+.shrine-track-grid div:nth-child(5n+5):hover ~ .shrine-cut-v { left: 90%; }
+
+/* Mapeamento Vertical (Y) */
+.shrine-track-grid div:nth-child(n+1):nth-child(-n+5):hover ~ .shrine-cut-h { top: 10%; }
+.shrine-track-grid div:nth-child(n+6):nth-child(-n+10):hover ~ .shrine-cut-h { top: 30%; }
+.shrine-track-grid div:nth-child(n+11):nth-child(-n+15):hover ~ .shrine-cut-h { top: 50%; }
+.shrine-track-grid div:nth-child(n+16):nth-child(-n+20):hover ~ .shrine-cut-h { top: 70%; }
+.shrine-track-grid div:nth-child(n+21):nth-child(-n+25):hover ~ .shrine-cut-h { top: 90%; }
+
+/* --- ESTILO VISUAL --- */
+.shrine-sig-avatar {
+    width: 120px; height: 120px; flex-shrink: 0;
+    clip-path: polygon(0% 15%, 15% 0%, 100% 0%, 100% 85%, 85% 100%, 0% 100%);
+    background: var(--sh-deep); padding: 2px; position: relative; z-index: 2;
+}
+
+.shrine-sig-avatar img {
+    width: 100%; height: 100%; object-fit: cover;
+    clip-path: polygon(0% 15%, 15% 0%, 100% 0%, 100% 85%, 85% 100%, 0% 100%);
+    filter: grayscale(1) contrast(1.2); transition: 0.3s;
+}
+
+.shrine-sig-box:hover .shrine-sig-avatar img { filter: grayscale(0.2) contrast(1.1); }
+
+.shrine-sig-content {
+    flex: 1; border-left: 1px solid rgba(117, 2, 15, 0.4);
+    padding-left: 20px; position: relative; z-index: 2;
+}
+
+.shrine-sig-name {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 1.5em; color: var(--sh-bone);
+    text-transform: uppercase;
+}
+
+.shrine-sig-quote {
+    font-family: 'Spectral', serif;
+    font-size: 0.9em; color: #666; font-style: italic; margin-top: 5px;
+}
+
+.shrine-sig-links { display: flex; flex-direction: column; gap: 8px; position: relative; z-index: 20; }
+
+.shrine-sig-btn {
+    display: block; width: 85px; text-align: center;
+    text-decoration: none !important;
+    font-family: 'Kaushan Script', cursive;
+    color: var(--sh-bone); font-size: 1.1em;
+    border-bottom: 1px solid var(--sh-deep);
+    transition: 0.3s;
+}
+
+.shrine-sig-btn:hover {
+    color: var(--sh-red); border-bottom-color: var(--sh-red);
+    transform: scale(1.1);
+}
+
 @media (max-width: 500px) {
-    .shrine-v5-sig-box { flex-direction: column; height: auto; padding: 20px; text-align: center; }
-    .shrine-v5-sig-content { border-left: none; border-top: 1px solid var(--sig-deep); padding: 15px 0; margin: 10px 0; }
-    .shrine-v5-sig-links { flex-direction: row; width: 100%; justify-content: center; gap: 15px; }
+    .shrine-sig-box { flex-direction: column; height: auto; padding: 20px; text-align: center; }
+    .shrine-sig-content { border-left: none; border-top: 1px solid var(--sh-deep); padding: 15px 0; margin: 10px 0; }
+    .shrine-sig-links { flex-direction: row; justify-content: center; width: 100%; }
 }
