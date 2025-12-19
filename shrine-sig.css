@@ -1,154 +1,132 @@
-/* --- ASSINATURA: MALEVOLENT V5 (HOVER CLEAVE) --- */
+/* --- ASSINATURA: MALEVOLENT --- */
 @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Kaushan+Script&family=Spectral:ital,wght@0,400;0,700;1,400&display=swap');
 
 .shrine-v5-sig-box {
-    --sig-red-pop: #75020f;
-    --sig-red-mid: #51080d;
+    --sig-red: #75020f;
+    --sig-deep: #2b0307;
     --sig-bone: #b0b0b0;
     
     position: relative;
-    width: 100%;
-    max-width: 600px;
-    height: 180px;
+    width: 100%; max-width: 600px; height: 180px;
     margin: 10px auto;
     background: #050505;
-    border: 2px solid #2b0307;
-    display: flex;
-    align-items: center;
-    padding: 0 40px;
-    gap: 20px;
-    overflow: hidden;
-    box-sizing: border-box;
-    transition: 0.3s;
+    border: 2px solid var(--sig-deep);
+    display: flex; align-items: center;
+    padding: 0 40px; gap: 20px;
+    overflow: hidden; box-sizing: border-box;
+    transition: 0.4s;
 }
 
-/* --- REPLICAÇÃO DAS ANIMAÇÕES DO TEMPLATE --- */
-@keyframes sig-strike-left {
+/* --- ANIMAÇÕES ORIGINAIS DO TEMPLATE --- */
+@keyframes sig-cleave-left {
     0% { width: 0; opacity: 0; left: 0; }
-    10% { width: 150%; opacity: 1; left: -25%; }
-    20% { width: 150%; opacity: 0; left: -25%; }
+    5% { width: 150%; opacity: 1; left: -25%; }
+    15% { width: 150%; opacity: 0; left: -25%; }
     100% { width: 0; opacity: 0; left: 0; }
 }
 
-@keyframes sig-strike-right {
+@keyframes sig-cleave-right {
     0% { width: 0; opacity: 0; right: 0; }
-    10% { width: 150%; opacity: 1; right: -25%; }
-    20% { width: 150%; opacity: 0; right: -25%; }
+    5% { width: 150%; opacity: 1; right: -25%; }
+    15% { width: 150%; opacity: 0; right: -25%; }
     100% { width: 0; opacity: 0; right: 0; }
 }
 
-/* Camada de Cortes */
 .sig-slash-layer {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    z-index: 5;
+    position: absolute; inset: 0;
+    pointer-events: none; z-index: 5;
 }
 
 .sig-slash {
-    position: absolute;
-    height: 1px;
-    background: var(--sig-red-pop);
-    box-shadow: 0 0 5px var(--sig-red-pop);
+    position: absolute; height: 1px;
+    background: var(--sig-red);
+    box-shadow: 0 0 8px var(--sig-red);
     opacity: 0;
 }
 
-/* Gatilho de Hover: Ativa os cortes */
-.shrine-v5-sig-box:hover .sig-slash {
-    opacity: 1;
+/* --- CONFIGURAÇÃO DO LOOP (INTENSIDADE REDUZIDA) --- */
+.shrine-v5-sig-box:hover .sig-slash { opacity: 1; }
+
+/* Corte 1: Esquerda para Direita */
+.shrine-v5-sig-box:hover .s-loop-1 { 
+    top: 30%; left: 0; transform: rotate(-15deg); 
+    animation: sig-cleave-left 3s infinite linear; 
 }
 
-.shrine-v5-sig-box:hover .s-1 { top: 20%; left: 0; transform: rotate(-15deg); animation: sig-strike-left 0.4s ease-out; }
-.shrine-v5-sig-box:hover .s-2 { top: 50%; right: 0; transform: rotate(10deg); animation: sig-strike-right 0.5s ease-out; }
-.shrine-v5-sig-box:hover .s-3 { top: 80%; left: 0; transform: rotate(-5deg); animation: sig-strike-left 0.3s ease-out; }
-.shrine-v5-sig-box:hover .s-4 { top: 10%; right: 0; transform: rotate(45deg); animation: sig-strike-right 0.6s ease-out; }
-.shrine-v5-sig-box:hover .s-5 { top: 60%; left: 0; transform: rotate(-30deg); animation: sig-strike-left 0.4s ease-out; }
+/* Corte 2: Direita para Esquerda (Atrasado) */
+.shrine-v5-sig-box:hover .s-loop-2 { 
+    top: 60%; right: 0; transform: rotate(10deg); 
+    animation: sig-cleave-right 3s infinite linear;
+    animation-delay: 1s; 
+}
 
-/* Avatar Estilo Shrine */
+/* Corte 3: Esquerda para Direita (Mais lento) */
+.shrine-v5-sig-box:hover .s-loop-3 { 
+    top: 15%; left: 0; transform: rotate(40deg); 
+    animation: sig-cleave-left 4s infinite linear;
+    animation-delay: 2s;
+}
+
+/* --- ESTILIZAÇÃO COMPLEMENTAR --- */
 .shrine-v5-sig-avatar {
-    width: 120px;
-    height: 120px;
-    flex-shrink: 0;
-    position: relative;
-    z-index: 2;
+    width: 120px; height: 120px; flex-shrink: 0;
     clip-path: polygon(0% 15%, 15% 0%, 100% 0%, 100% 85%, 85% 100%, 0% 100%);
-    background: var(--sig-red-mid);
-    padding: 2px;
+    background: var(--sig-deep); padding: 2px;
 }
 
 .shrine-v5-sig-avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    width: 100%; height: 100%; object-fit: cover;
     clip-path: polygon(0% 15%, 15% 0%, 100% 0%, 100% 85%, 85% 100%, 0% 100%);
-    filter: grayscale(0.8) contrast(1.2);
-    transition: 0.3s;
+    filter: grayscale(1) brightness(0.7);
+    transition: 0.5s;
 }
 
 .shrine-v5-sig-box:hover .shrine-v5-sig-avatar img {
-    filter: grayscale(0) contrast(1.1);
-    transform: scale(1.1);
+    filter: grayscale(0.2) brightness(1);
 }
 
-/* Conteúdo */
 .shrine-v5-sig-content {
-    flex: 1;
-    z-index: 2;
-    border-left: 1px solid rgba(117, 2, 15, 0.3);
+    flex: 1; border-left: 1px solid rgba(117, 2, 15, 0.4);
     padding-left: 20px;
 }
 
 .shrine-v5-sig-name {
     font-family: 'Cinzel Decorative', serif;
-    font-size: 1.5em;
-    color: var(--sig-bone);
-    text-transform: uppercase;
-    transition: 0.3s;
+    font-size: 1.5em; color: var(--sig-bone);
+    text-transform: uppercase; transition: 0.3s;
 }
 
 .shrine-v5-sig-box:hover .shrine-v5-sig-name {
-    color: var(--sig-red-pop);
-    text-shadow: 0 0 10px var(--sig-red-mid);
+    color: var(--sig-red);
+    text-shadow: 0 0 10px var(--sig-red);
 }
 
 .shrine-v5-sig-quote {
     font-family: 'Spectral', serif;
-    font-size: 0.9em;
-    color: #666;
-    font-style: italic;
-    margin-top: 5px;
+    font-size: 0.9em; color: #777;
+    font-style: italic; margin-top: 5px;
 }
 
-/* Botões */
-.shrine-v5-sig-links {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    z-index: 2;
-}
+.shrine-v5-sig-links { display: flex; flex-direction: column; gap: 8px; }
 
 .shrine-v5-sig-btn {
-    display: block;
-    width: 80px;
-    text-align: center;
+    display: block; width: 85px; text-align: center;
     text-decoration: none !important;
     font-family: 'Kaushan Script', cursive;
-    color: var(--sig-bone);
-    font-size: 1.1em;
-    border-bottom: 1px solid var(--sig-red-mid);
+    color: var(--sig-bone); font-size: 1.1em;
+    border-bottom: 1px solid var(--sig-deep);
     transition: 0.3s;
 }
 
 .shrine-v5-sig-btn:hover {
-    color: var(--sig-red-pop);
-    border-bottom-color: var(--sig-red-pop);
-    letter-spacing: 1px;
+    color: var(--sig-red);
+    border-bottom-color: var(--sig-red);
     transform: translateX(5px);
 }
 
-/* Responsivo */
+/* RESPONSIVO */
 @media (max-width: 500px) {
     .shrine-v5-sig-box { flex-direction: column; height: auto; padding: 20px; text-align: center; }
-    .shrine-v5-sig-content { border-left: none; border-top: 1px solid var(--sig-red-mid); padding: 15px 0; margin: 10px 0; }
-    .shrine-v5-sig-links { flex-direction: row; width: 100%; justify-content: center; }
+    .shrine-v5-sig-content { border-left: none; border-top: 1px solid var(--sig-deep); padding: 15px 0; margin: 10px 0; }
+    .shrine-v5-sig-links { flex-direction: row; width: 100%; justify-content: center; gap: 15px; }
 }
