@@ -1,102 +1,34 @@
-/* --- ASSINATURA: MALEVOLENT SHRINE --- */
 @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Kaushan+Script&family=Spectral:ital,wght@0,400;0,700;1,400&display=swap');
 
 .shrine-sig-box {
-    /* Variáveis de Cor */
-    --sh-bg: #050505;
+    --sh-black: #050505;
     --sh-red-deep: #2b0307;
-    --sh-red-mid: #51080d;
     --sh-red-pop: #75020f;
-    --sh-red-bright: #ff0033; /* Cor extra para o fogo */
     --sh-bone: #b0b0b0;
     
     position: relative;
     width: 100%; max-width: 600px; height: 180px;
-    margin: 10px auto;
-    /* Importante: o fundo precisa ser sólido para cobrir o centro da aura */
-    background-color: var(--sh-bg);
-    /* Borda inicial sutil */
+    margin: 20px auto;
+    background-color: var(--sh-black);
     border: 2px solid var(--sh-red-deep);
     display: flex; align-items: center;
     padding: 0 40px; gap: 20px;
-    /* Removemos overflow:hidden para a aura vazar para fora */
-    /* overflow: hidden;  <-- REMOVIDO */
     box-sizing: border-box;
-    box-shadow: 0 0 20px #000;
-    transition: all 0.3s ease;
-    /* Z-index 0 para criar um contexto de empilhamento para os pseudo-elementos */
     z-index: 0;
 }
 
-/* --- NOVA INTERAÇÃO: AURA FLAMEJANTE (Pseudo-elementos) --- */
-
-/* Animação de rotação contínua */
-@keyframes flame-spin {
-    100% { transform: rotate(360deg); }
-}
-
-/* Configuração base para as duas camadas da aura */
-.shrine-sig-box::before,
-.shrine-sig-box::after {
-    content: '';
+/* Canvas da Aura */
+#flameCanvas {
     position: absolute;
-    /* Tamanho um pouco maior que a caixa para vazar nas bordas */
-    top: -8px; left: -8px; right: -8px; bottom: -8px;
-    /* Fica atrás do conteúdo principal */
+    /* Faz o canvas ser maior que a box para a aura vazar para fora */
+    top: -50px; left: -50px;
+    width: calc(100% + 100px);
+    height: calc(100% + 100px);
+    pointer-events: none; /* Não interfere nos cliques */
     z-index: -1;
-    /* Gradiente cônico cria o efeito de "raios" de energia */
-    background: conic-gradient(
-        from 0deg, 
-        transparent 0%, 
-        var(--sh-red-deep) 10%, 
-        var(--sh-red-pop) 20%, 
-        var(--sh-red-bright) 25%, /* Ponto mais quente */
-        var(--sh-red-pop) 30%, 
-        var(--sh-red-deep) 40%,
-        transparent 50%
-    );
-    /* O blur é essencial para transformar os raios em "fogo/energia" */
-    filter: blur(15px);
-    border-radius: 8px; /* Um pouco arredondado para suavizar os cantos da chama */
-    opacity: 0; /* Invisível por padrão */
-    transition: opacity 0.5s ease-in-out;
 }
 
-/* Camada 1 da Aura (Rotação normal) */
-.shrine-sig-box::before {
-    /* Gira em 4 segundos */
-    animation: flame-spin 4s linear infinite;
-}
-
-/* Camada 2 da Aura (Rotação inversa e mais rápida, cores diferentes para caos) */
-.shrine-sig-box::after {
-    /* Cores ligeiramente diferentes para dar profundidade */
-    background: conic-gradient(
-        from 180deg, 
-        transparent 10%, 
-        var(--sh-red-mid) 20%, 
-        #ff3300 30%, /* Um tom mais alaranjado/quente */
-        var(--sh-red-mid) 40%, 
-        transparent 60%
-    );
-    filter: blur(25px); /* Mais borrado que a primeira camada */
-    /* Gira ao contrário e mais rápido (2.5s) */
-    animation: flame-spin 2.5s linear infinite reverse;
-}
-
-/* ATIVAÇÃO NO HOVER */
-.shrine-sig-box:hover {
-    border-color: var(--sh-red-pop); /* Borda física muda de cor */
-}
-
-/* Mostra as camadas de fogo */
-.shrine-sig-box:hover::before,
-.shrine-sig-box:hover::after {
-    opacity: 1;
-}
-
-
-/* --- CORTES (SEMPRE IDLE - Mantidos exatamente como antes) --- */
+/* --- CORTES IDLE (IGUAL AO TEMPLATE) --- */
 @keyframes cleave-left {
     0% { width: 0; opacity: 0; left: 0; }
     10% { width: 150%; opacity: 1; left: -25%; }
@@ -110,77 +42,28 @@
     100% { width: 0; opacity: 0; right: 0; }
 }
 
-/* Adicionado overflow: hidden APENAS na camada de cortes para eles não vazarem */
-.shrine-slash-layer { position: absolute; inset: 0; pointer-events: none; z-index: 10; overflow: hidden; }
+.shrine-slash-layer { position: absolute; inset: 0; pointer-events: none; z-index: 5; overflow: hidden; }
+.sig-slash { position: absolute; height: 1px; background: var(--sh-red-pop); box-shadow: 0 0 5px var(--sh-red-pop); opacity: 0.2; }
+.s-left { transform-origin: left; animation: cleave-left 6s infinite ease-out; }
+.s-right { transform-origin: right; animation: cleave-right 7s infinite ease-out; }
 
-.sig-slash {
-    position: absolute; height: 1px;
-    background: var(--sh-red-pop);
-    box-shadow: 0 0 5px var(--sh-red-pop), 0 0 10px var(--sh-red-mid);
-    opacity: 0.3; /* Opacidade constante */
-}
+/* Posicionamento dos Cortes */
+.s-1 { top: 20%; animation-delay: 0s; }
+.s-2 { top: 50%; animation-delay: 2s; }
+.s-3 { top: 80%; animation-delay: 1s; }
+.s-4 { top: 35%; animation-delay: 4s; }
+.s-5 { top: 65%; animation-delay: 3s; }
+.s-6 { top: 15%; animation-delay: 5s; }
 
-.s-left { transform-origin: left; animation: cleave-left infinite ease-out; }
-.s-right { transform-origin: right; animation: cleave-right infinite ease-out; }
+/* Restante do Visual */
+.shrine-sig-avatar { width: 110px; height: 110px; flex-shrink: 0; clip-path: polygon(0% 15%, 15% 0%, 100% 0%, 100% 85%, 85% 100%, 0% 100%); background: var(--sh-red-deep); padding: 2px; z-index: 10; }
+.shrine-sig-avatar img { width: 100%; height: 100%; object-fit: cover; clip-path: polygon(0% 15%, 15% 0%, 100% 0%, 100% 85%, 85% 100%, 0% 100%); filter: grayscale(1); transition: 0.5s; }
+.shrine-sig-box:hover .shrine-sig-avatar img { filter: grayscale(0.2); }
 
-/* Configuração dos Cortes (Ritmo Lento e Constante) */
-.s-1 { top: 15%; transform: rotate(-10deg); animation-duration: 6s; animation-delay: 0.2s; }
-.s-2 { top: 45%; transform: rotate(15deg); animation-duration: 8s; animation-delay: 1.5s; }
-.s-3 { top: 75%; transform: rotate(-5deg); animation-duration: 5s; animation-delay: 0.8s; }
-.s-4 { top: 30%; transform: rotate(25deg); animation-duration: 7s; animation-delay: 2.3s; }
-.s-5 { top: 60%; transform: rotate(-20deg); animation-duration: 9s; animation-delay: 3.1s; }
-.s-6 { top: 85%; transform: rotate(5deg); animation-duration: 6.5s; animation-delay: 0.5s; }
-.s-7 { top: 10%; transform: rotate(-30deg); animation-duration: 7.5s; animation-delay: 4.2s; }
-.s-8 { top: 40%; transform: rotate(40deg); animation-duration: 5.5s; animation-delay: 1.1s; }
-.s-9 { top: 70%; transform: rotate(-15deg); animation-duration: 8.5s; animation-delay: 2.8s; }
-.s-10 { top: 25%; transform: rotate(12deg); animation-duration: 6.2s; animation-delay: 5.0s; }
-.s-11 { top: 55%; transform: rotate(-8deg); animation-duration: 7.8s; animation-delay: 1.9s; }
-.s-12 { top: 90%; transform: rotate(20deg); animation-duration: 5.2s; animation-delay: 3.5s; }
+.shrine-sig-content { flex: 1; border-left: 1px solid rgba(117, 2, 15, 0.4); padding-left: 20px; z-index: 10; }
+.shrine-sig-name { font-family: 'Cinzel Decorative', serif; font-size: 1.5em; color: var(--sh-bone); text-transform: uppercase; }
+.shrine-sig-quote { font-family: 'Spectral', serif; font-size: 0.9em; color: #555; font-style: italic; }
 
-/* --- RESTANTE DOS ELEMENTOS --- */
-.shrine-sig-avatar {
-    width: 120px; height: 120px; flex-shrink: 0;
-    clip-path: polygon(0% 15%, 15% 0%, 100% 0%, 100% 85%, 85% 100%, 0% 100%);
-    background: var(--sh-red-deep); padding: 2px; position: relative; z-index: 5;
-    transition: 0.3s;
-}
-.shrine-sig-avatar img {
-    width: 100%; height: 100%; object-fit: cover;
-    clip-path: polygon(0% 15%, 15% 0%, 100% 0%, 100% 85%, 85% 100%, 0% 100%);
-    filter: grayscale(1) contrast(1.2); transition: 0.5s;
-}
-/* Avatar fica colorido no hover da caixa */
-.shrine-sig-box:hover .shrine-sig-avatar img { filter: grayscale(0.2) contrast(1.1) sepia(0.2); }
-
-.shrine-sig-content {
-    flex: 1; border-left: 1px solid rgba(117, 2, 15, 0.4);
-    padding-left: 20px; position: relative; z-index: 5;
-}
-.shrine-sig-name {
-    font-family: 'Cinzel Decorative', serif;
-    font-size: 1.5em; color: var(--sh-bone); text-transform: uppercase;
-}
-.shrine-sig-quote {
-    font-family: 'Spectral', serif; font-size: 0.9em; color: #555; font-style: italic; margin-top: 5px;
-}
-
-.shrine-sig-links { display: flex; flex-direction: column; gap: 8px; position: relative; z-index: 15; }
-
-.shrine-sig-btn {
-    display: block; width: 85px; text-align: center;
-    text-decoration: none !important;
-    font-family: 'Kaushan Script', cursive;
-    color: var(--sh-bone); font-size: 1.1em;
-    border-bottom: 1px solid var(--sh-red-deep);
-    transition: 0.3s;
-}
-.shrine-sig-btn:hover {
-    color: var(--sh-red-pop); border-bottom-color: var(--sh-red-pop);
-    transform: scale(1.1); text-shadow: 0 0 5px var(--sh-red-pop);
-}
-
-@media (max-width: 500px) {
-    .shrine-sig-box { flex-direction: column; height: auto; padding: 20px; text-align: center; }
-    .shrine-sig-content { border-left: none; border-top: 1px solid var(--sh-red-deep); padding: 15px 0; margin: 10px 0; }
-    .shrine-sig-links { flex-direction: row; justify-content: center; width: 100%; }
-}
+.shrine-sig-links { display: flex; flex-direction: column; gap: 8px; z-index: 20; }
+.shrine-sig-btn { display: block; width: 80px; text-align: center; text-decoration: none !important; font-family: 'Kaushan Script', cursive; color: var(--sh-bone); border-bottom: 1px solid var(--sh-red-deep); transition: 0.3s; }
+.shrine-sig-btn:hover { color: var(--sh-red-pop); border-bottom-color: var(--sh-red-pop); transform: scale(1.1); }
