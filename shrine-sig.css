@@ -1,47 +1,102 @@
-/* --- ASSINATURA: MALEVOLENT SHRINE (FLAMING AURA) --- */
+/* --- ASSINATURA: MALEVOLENT SHRINE --- */
 @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Kaushan+Script&family=Spectral:ital,wght@0,400;0,700;1,400&display=swap');
 
 .shrine-sig-box {
-    /* Variáveis de Cor do Template */
-    --sh-black: #050505;
+    /* Variáveis de Cor */
+    --sh-bg: #050505;
     --sh-red-deep: #2b0307;
     --sh-red-mid: #51080d;
     --sh-red-pop: #75020f;
+    --sh-red-bright: #ff0033; /* Cor extra para o fogo */
     --sh-bone: #b0b0b0;
     
     position: relative;
     width: 100%; max-width: 600px; height: 180px;
     margin: 10px auto;
-    background-color: var(--sh-black);
+    /* Importante: o fundo precisa ser sólido para cobrir o centro da aura */
+    background-color: var(--sh-bg);
+    /* Borda inicial sutil */
     border: 2px solid var(--sh-red-deep);
     display: flex; align-items: center;
     padding: 0 40px; gap: 20px;
-    overflow: hidden; box-sizing: border-box;
-    /* Sombra inicial discreta */
+    /* Removemos overflow:hidden para a aura vazar para fora */
+    /* overflow: hidden;  <-- REMOVIDO */
+    box-sizing: border-box;
     box-shadow: 0 0 20px #000;
     transition: all 0.3s ease;
+    /* Z-index 0 para criar um contexto de empilhamento para os pseudo-elementos */
+    z-index: 0;
 }
 
-/* --- NOVA INTERAÇÃO: AURA FLAMEJANTE --- */
-@keyframes shrine-aura-pulse {
-    0%, 100% {
-        border-color: var(--sh-red-pop);
-        /* Brilho externo e interno pulsante */
-        box-shadow: 0 0 20px var(--sh-red-mid), inset 0 0 30px var(--sh-red-deep);
-    }
-    50% {
-        border-color: #ff0033; /* Vermelho mais vivo no pico */
-        /* Explosão de intensidade */
-        box-shadow: 0 0 50px var(--sh-red-pop), 0 0 80px var(--sh-red-mid), inset 0 0 60px var(--sh-red-mid);
-    }
+/* --- NOVA INTERAÇÃO: AURA FLAMEJANTE (Pseudo-elementos) --- */
+
+/* Animação de rotação contínua */
+@keyframes flame-spin {
+    100% { transform: rotate(360deg); }
 }
 
+/* Configuração base para as duas camadas da aura */
+.shrine-sig-box::before,
+.shrine-sig-box::after {
+    content: '';
+    position: absolute;
+    /* Tamanho um pouco maior que a caixa para vazar nas bordas */
+    top: -8px; left: -8px; right: -8px; bottom: -8px;
+    /* Fica atrás do conteúdo principal */
+    z-index: -1;
+    /* Gradiente cônico cria o efeito de "raios" de energia */
+    background: conic-gradient(
+        from 0deg, 
+        transparent 0%, 
+        var(--sh-red-deep) 10%, 
+        var(--sh-red-pop) 20%, 
+        var(--sh-red-bright) 25%, /* Ponto mais quente */
+        var(--sh-red-pop) 30%, 
+        var(--sh-red-deep) 40%,
+        transparent 50%
+    );
+    /* O blur é essencial para transformar os raios em "fogo/energia" */
+    filter: blur(15px);
+    border-radius: 8px; /* Um pouco arredondado para suavizar os cantos da chama */
+    opacity: 0; /* Invisível por padrão */
+    transition: opacity 0.5s ease-in-out;
+}
+
+/* Camada 1 da Aura (Rotação normal) */
+.shrine-sig-box::before {
+    /* Gira em 4 segundos */
+    animation: flame-spin 4s linear infinite;
+}
+
+/* Camada 2 da Aura (Rotação inversa e mais rápida, cores diferentes para caos) */
+.shrine-sig-box::after {
+    /* Cores ligeiramente diferentes para dar profundidade */
+    background: conic-gradient(
+        from 180deg, 
+        transparent 10%, 
+        var(--sh-red-mid) 20%, 
+        #ff3300 30%, /* Um tom mais alaranjado/quente */
+        var(--sh-red-mid) 40%, 
+        transparent 60%
+    );
+    filter: blur(25px); /* Mais borrado que a primeira camada */
+    /* Gira ao contrário e mais rápido (2.5s) */
+    animation: flame-spin 2.5s linear infinite reverse;
+}
+
+/* ATIVAÇÃO NO HOVER */
 .shrine-sig-box:hover {
-    /* Ativa a animação da aura no hover */
-    animation: shrine-aura-pulse 2s infinite ease-in-out;
+    border-color: var(--sh-red-pop); /* Borda física muda de cor */
 }
 
-/* --- CORTES (SEMPRE IDLE - NADA MUDA NO HOVER) --- */
+/* Mostra as camadas de fogo */
+.shrine-sig-box:hover::before,
+.shrine-sig-box:hover::after {
+    opacity: 1;
+}
+
+
+/* --- CORTES (SEMPRE IDLE - Mantidos exatamente como antes) --- */
 @keyframes cleave-left {
     0% { width: 0; opacity: 0; left: 0; }
     10% { width: 150%; opacity: 1; left: -25%; }
@@ -55,7 +110,8 @@
     100% { width: 0; opacity: 0; right: 0; }
 }
 
-.shrine-slash-layer { position: absolute; inset: 0; pointer-events: none; z-index: 10; }
+/* Adicionado overflow: hidden APENAS na camada de cortes para eles não vazarem */
+.shrine-slash-layer { position: absolute; inset: 0; pointer-events: none; z-index: 10; overflow: hidden; }
 
 .sig-slash {
     position: absolute; height: 1px;
@@ -93,9 +149,8 @@
     clip-path: polygon(0% 15%, 15% 0%, 100% 0%, 100% 85%, 85% 100%, 0% 100%);
     filter: grayscale(1) contrast(1.2); transition: 0.5s;
 }
-/* Pequeno brilho no avatar ao passar o mouse na caixa */
-.shrine-sig-box:hover .shrine-sig-avatar { box-shadow: 0 0 15px var(--sh-red-mid); }
-.shrine-sig-box:hover .shrine-sig-avatar img { filter: grayscale(0.2) contrast(1.1); }
+/* Avatar fica colorido no hover da caixa */
+.shrine-sig-box:hover .shrine-sig-avatar img { filter: grayscale(0.2) contrast(1.1) sepia(0.2); }
 
 .shrine-sig-content {
     flex: 1; border-left: 1px solid rgba(117, 2, 15, 0.4);
