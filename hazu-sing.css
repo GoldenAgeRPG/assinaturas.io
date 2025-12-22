@@ -1,7 +1,6 @@
-/* --- ASSINATURA: COMIC POP V4.1 (CORNER LOOP FIX) --- */
+/* --- ASSINATURA: COMIC POP  --- */
 @import url('https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@400;700&family=Permanent+Marker&display=swap');
 
-/* O PALCO 3D */
 .comic-sig-box {
   --comic-bg: #1a1625;
   --comic-paper: #fffbf0;
@@ -13,54 +12,36 @@
   position: relative;
   width: 100%; max-width: 650px; height: 140px;
   margin: 50px auto;
-  
-  background: transparent; border: none; box-shadow: none;
-  
-  perspective: 1200px; /* Profundidade */
+  perspective: 1200px;
   transform-style: preserve-3d;
-  
   display: flex; align-items: center; padding: 0; 
   overflow: visible; 
 }
 
-/* O CARTÃO AMARELO (Visual Principal) */
 .comic-card-visual {
   position: relative;
   width: 100%; height: 100%;
   background-color: var(--comic-yellow);
   border: 4px solid var(--comic-black);
-  
-  /* AJUSTE VISUAL: Sombra Rosa Sólida igual à referência */
   box-shadow: 12px 12px 0 var(--comic-pink);
-  
   display: flex; align-items: center; padding: 15px; gap: 20px;
-  
-  /* Z=0: O Plano base */
-  transform: translateZ(0); 
+  transform: translateZ(0) rotate(-1deg);
   z-index: 5;
-  
-  transform: rotate(-1deg);
   transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .comic-sig-box:hover .comic-card-visual {
   transform: rotate(0deg) scale(1.02);
-  /* No hover a sombra muda de cor/tamanho */
   box-shadow: 15px 15px 0 var(--comic-cyan);
 }
 
-/* --- O CARROSSEL 3D (A Correção) --- */
-
+/* CARROSSEL 3D */
 .comic-carousel-stage {
   position: absolute;
-  /* CORREÇÃO 1: Empurrar bem para fora (-100px) para o eixo ficar na ponta */
   right: -100px; 
-  top: 55%; /* Levemente mais baixo */
+  top: 55%;
   width: 200px; height: 200px;
-  
-  /* CORREÇÃO 2: Ângulos ajustados para "abraçar" a quina */
   transform: translateY(-50%) rotateY(-25deg) rotateX(-10deg) rotateZ(-30deg);
-  
   transform-style: preserve-3d; pointer-events: none; z-index: 4;
 }
 
@@ -74,19 +55,9 @@
   position: absolute; top: 50%; left: 50%;
   font-family: 'Bangers', cursive; font-size: 2.2em;
   color: var(--comic-cyan);
-  
-  text-shadow: 
-    2px 2px 0 var(--comic-black), -1px -1px 0 var(--comic-black),
-    1px -1px 0 var(--comic-black), -1px 1px 0 var(--comic-black),
-    1px 1px 0 var(--comic-black); /* Contorno preto grosso */
-    
+  text-shadow: 2px 2px 0 var(--comic-black), -1px -1px 0 var(--comic-black), 1px -1px 0 var(--comic-black), -1px 1px 0 var(--comic-black), 1px 1px 0 var(--comic-black);
   white-space: nowrap; backface-visibility: visible;
-
-  /* CORREÇÃO 3: Raio maior (150px) para fazer uma curva mais larga */
-  transform: 
-    translate(-50%, -50%) 
-    rotateY(calc(var(--i) * 24deg)) 
-    translateZ(150px); 
+  transform: translate(-50%, -50%) rotateY(calc(var(--i) * 24deg)) translateZ(150px); 
 }
 
 @keyframes carousel-spin {
@@ -94,26 +65,22 @@
   to { transform: rotateY(360deg); }
 }
 
-.comic-sig-box:hover .comic-carousel-ring { animation-duration: 2s; }
-
-
-/* --- ELEMENTOS INTERNOS (Padrão) --- */
-
+/* ELEMENTOS INTERNOS */
 .comic-sig-pattern {
   position: absolute; inset: 0;
   background-image: radial-gradient(var(--comic-black) 15%, transparent 15%);
   background-size: 10px 10px; opacity: 0.05; pointer-events: none;
-  animation: halftone-scroll 4s linear infinite; overflow: hidden;
+  animation: halftone-scroll 4s linear infinite;
 }
+
 @keyframes halftone-scroll { 0% { background-position: 0 0; } 100% { background-position: 20px 20px; } }
 
 .comic-sig-img-wrap {
   width: 100px; height: 100px; background: #fff;
   border: 4px solid var(--comic-black); transform: rotate(-3deg); flex-shrink: 0;
-  position: relative; z-index: 2; box-shadow: 5px 5px 0 var(--comic-cyan); transition: 0.3s;
+  position: relative; z-index: 2; box-shadow: 5px 5px 0 var(--comic-cyan);
 }
-.comic-sig-img { width: 100%; height: 100%; object-fit: cover; filter: contrast(1.2) saturate(1.2); }
-.comic-sig-box:hover .comic-sig-img-wrap { transform: rotate(3deg) scale(1.1); box-shadow: -5px 5px 0 var(--comic-cyan); }
+.comic-sig-img { width: 100%; height: 100%; object-fit: cover; }
 
 .comic-sig-content { flex: 1; display: flex; flex-direction: column; justify-content: center; position: relative; z-index: 2; }
 .comic-sig-name {
@@ -122,18 +89,29 @@
 }
 .comic-sig-quote {
   font-family: 'Permanent Marker', cursive; font-size: 0.9em; color: var(--comic-black);
-  background: #fff; padding: 2px 8px; display: inline-block; transform: rotate(1deg); border: 2px solid var(--comic-black);
-  margin-bottom: 12px; align-self: flex-start; box-shadow: 3px 3px 0 rgba(0,0,0,0.1);
+  background: #fff; padding: 2px 8px; display: inline-block; border: 2px solid var(--comic-black);
 }
 
-.comic-sig-actions { display: flex; gap: 10px; }
+.comic-sig-actions { display: flex; gap: 10px; margin-top: 10px; }
 .comic-sig-btn {
-  font-family: 'Bangers', cursive; font-size: 1.1em; letter-spacing: 1px;
+  font-family: 'Bangers', cursive; font-size: 1.1em;
   color: var(--comic-black) !important; text-decoration: none !important;
   background: var(--comic-cyan); border: 3px solid var(--comic-black); padding: 5px 15px; box-shadow: 4px 4px 0 var(--comic-black);
-  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform: translateY(0);
 }
-.comic-sig-actions a:nth-child(1) { background: var(--comic-cyan); transform: rotate(-2deg); }
-.comic-sig-actions a:nth-child(2) { background: var(--comic-pink); color: #fff !important; transform: rotate(1deg); }
-.comic-sig-actions a:nth-child(3) { background: #fff; transform: rotate(-1deg); }
-.comic-sig-btn:hover { transform: translateY(4px) rotate(0deg) !important; box-shadow: 0 0 0 var(--comic-black); filter: brightness(1.1); }
+
+/* --- AJUSTE PARA MOBILE (MANTENDO O CARROSSEL) --- */
+@media (max-width: 768px) {
+  .comic-sig-box {
+    /* Encolhe a assinatura toda para caber na largura do celular */
+    transform: scale(0.55); 
+    transform-origin: left center;
+    margin: 20px 0 20px 5%; /* Ajusta margem lateral para não cortar o carrossel */
+    width: 160%; /* Compensa o scale para não sumir o espaço */
+  }
+
+  /* O carrossel continua aqui, apenas reposicionado levemente */
+  .comic-carousel-stage {
+    right: -60px !important; 
+    transform: translateY(-50%) scale(0.9) rotateY(-25deg) rotateX(-10deg) rotateZ(-30deg) !important;
+  }
+}
