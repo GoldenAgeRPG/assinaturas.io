@@ -1,18 +1,18 @@
-/* --- ASSINATURA: ISSHIN KYORAKU (SMOOTH MOTION) --- */
+/* --- ASSINATURA: ISSHIN KYORAKU --- */
 @import url('https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@700;900&family=Kaushan+Script&family=Cormorant+Garamond:ital,wght@1,400&family=Sawarabi+Mincho&display=swap');
 
 :root {
   --sig-bg: #050203;
-  --sig-pink: #ff5e94;
+  --sig-pink: #ff5e94;      /* Rosa Vibrante */
   --sig-faded: #9e4a6b;
   --sig-gold: #c4a055;
   --sig-text: #e6dada;
   
-  /* Variável para a curva de animação suave */
+  /* Curva de Animação Suave (Material Design) */
   --smooth-ease: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* CONTAINER PRINCIPAL */
+/* CONTAINER PRINCIPAL (RETÂNGULO CLÁSSICO) */
 .isshin-sig-container {
   width: 550px; height: 160px;
   margin: 10px auto;
@@ -22,14 +22,14 @@
   background-color: var(--sig-bg);
   background-image: radial-gradient(circle at 70% 50%, #150508 0%, #000000 90%);
   
+  /* BORDA: Volta ao estilo original (Lateral Esquerda Grossa) */
   border: 1px solid var(--sig-faded);
-  border-top: 8px solid var(--sig-pink); 
-  border-radius: 20px 20px 6px 6px;
+  border-left: 6px solid var(--sig-pink); 
   
   box-shadow: 0 5px 15px rgba(0,0,0,0.5);
   overflow: hidden;
   
-  /* SUAVIZAÇÃO: Tempo aumentado para 0.5s e curva suave */
+  /* Animação Suave */
   transition: all 0.5s var(--smooth-ease);
 }
 
@@ -40,14 +40,15 @@
   transform: translateY(-2px);
 }
 
-/* ÁREA DA IMAGEM */
+/* ÁREA DA IMAGEM (RETANGULAR) */
 .isshin-sig-img-wrap {
-  width: 160px; height: 100%;
+  width: 140px; height: 100%;
   flex-shrink: 0;
   position: relative;
   overflow: hidden;
-  clip-path: polygon(0 0, 100% 0, 85% 100%, 0% 100%);
-  filter: drop-shadow(2px 0 0 var(--sig-pink)); 
+  
+  /* Sem clip-path, apenas a borda divisória */
+  border-right: 1px solid var(--sig-faded);
   z-index: 2;
 }
 
@@ -58,19 +59,19 @@
   object-position: center top; 
   filter: grayscale(100%) brightness(0.7) contrast(1.1);
   
-  /* SUAVIZAÇÃO: 0.8s para um efeito cinematográfico lento */
+  /* Animação lenta e suave na imagem (0.8s) */
   transition: filter 0.8s var(--smooth-ease), transform 0.8s var(--smooth-ease);
 }
 
 .isshin-sig-container:hover .isshin-sig-img {
   filter: grayscale(0%) brightness(1) contrast(1.1);
-  transform: scale(1.05); /* Zoom mais sutil (1.05 em vez de 1.1) */
+  transform: scale(1.05); /* Zoom sutil */
 }
 
 /* ÁREA DE CONTEÚDO */
 .isshin-sig-content {
   flex: 1;
-  padding: 15px 15px 15px 5px;
+  padding: 15px 25px;
   display: flex; flex-direction: column; justify-content: center;
   position: relative;
   z-index: 1;
@@ -79,16 +80,16 @@
 /* ÍCONE DE FLOR (Fundo) */
 .isshin-sig-content::after {
   content: '❀';
-  position: absolute; top: 5px; right: 15px;
-  font-size: 50px; color: var(--sig-pink);
+  position: absolute; top: 10px; right: 20px;
+  font-size: 40px; color: var(--sig-pink);
   opacity: 0.05; pointer-events: none;
   
-  /* SUAVIZAÇÃO: Movimento bem lento (1.2s) */
+  /* Movimento lento (1.2s) */
   transition: transform 1.2s var(--smooth-ease), opacity 0.8s ease;
 }
 .isshin-sig-container:hover .isshin-sig-content::after {
-  transform: rotate(45deg) scale(1.2);
-  opacity: 0.15;
+  transform: rotate(180deg) scale(1.2);
+  opacity: 0.2;
 }
 
 /* NOME */
@@ -105,11 +106,11 @@
 
 /* LINHA DECORATIVA */
 .isshin-sig-line {
-  width: 40px; height: 2px;
+  width: 50px; height: 2px;
   background: var(--sig-faded);
   margin-bottom: 10px;
   
-  /* SUAVIZAÇÃO: Acompanha o tempo do texto (0.6s) */
+  /* Linha crescendo suavemente (0.6s) */
   transition: width 0.6s var(--smooth-ease), background 0.6s ease;
 }
 .isshin-sig-container:hover .isshin-sig-line {
@@ -132,26 +133,24 @@
   position: absolute; top: 0; left: 0;
   white-space: nowrap;
   
-  /* SUAVIZAÇÃO: Troca fluida sem "pulo" (0.6s) */
+  /* Troca fluida (0.6s) */
   transition: all 0.6s var(--smooth-ease);
 }
 
 /* LINKS */
 .isshin-sig-links {
   position: absolute; top: 0; left: 0;
-  display: flex; gap: 8px;
+  display: flex; gap: 10px;
   
-  /* Começa um pouco mais perto para o movimento ser menos brusco */
   transform: translateY(30px); 
   opacity: 0;
   
-  /* SUAVIZAÇÃO: Mesma curva da frase */
   transition: all 0.6s var(--smooth-ease);
 }
 
 /* HOVER EFFECT (TROCA) */
 .isshin-sig-container:hover .isshin-sig-quote {
-  transform: translateY(-30px); /* Sobe menos, fica mais suave */
+  transform: translateY(-30px);
   opacity: 0;
 }
 .isshin-sig-container:hover .isshin-sig-links {
@@ -166,8 +165,8 @@
   color: var(--sig-text);
   background: rgba(255, 94, 148, 0.05);
   border: 1px solid var(--sig-faded);
-  padding: 4px 12px;
-  transition: 0.4s ease; /* Levemente mais lento */
+  padding: 5px 15px;
+  transition: 0.4s ease;
 }
 .isshin-sig-btn:hover {
   background: var(--sig-pink);
