@@ -1,0 +1,160 @@
+/* --- ASSINATURA: MARI EL-MELLOI (MERCURY TRANSMUTATION) --- */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Syncopate:wght@400;700&family=Montserrat:wght@400;600&display=swap');
+
+:root {
+  --sig-m-bg: #1a1a1a;
+  --sig-m-dark: #0f0f0f;
+  --sig-m-chrome: #e8e8e8;
+  --sig-m-mid: #a0a0a0;
+  --sig-m-blue: #c0e0ff; /* O Accent Blue do template */
+}
+
+/* CONTAINER PRINCIPAL */
+.mari-sig-container {
+  width: 550px; height: 170px;
+  margin: 10px auto;
+  position: relative;
+  display: flex;
+  background-color: var(--sig-m-dark);
+  /* Borda Cromada */
+  border: 2px solid var(--sig-m-mid);
+  border-image: linear-gradient(to bottom, var(--sig-m-chrome), var(--sig-m-dark)) 1;
+  box-shadow: 0 10px 30px #000;
+  overflow: hidden;
+  transition: all 0.5s ease;
+}
+
+/* ÁREA DA IMAGEM (ESQUERDA) */
+.mari-sig-img-box {
+  width: 150px; height: 100%;
+  position: relative; z-index: 5;
+  border-right: 2px solid var(--sig-m-mid);
+  background: #000;
+  overflow: hidden;
+}
+
+.mari-sig-img {
+  width: 100%; height: 100%; object-fit: cover;
+  filter: grayscale(100%) contrast(1.2) brightness(0.8);
+  transition: 0.6s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+/* Efeito Hover na Imagem: Ganha cor e luz */
+.mari-sig-container:hover .mari-sig-img {
+  filter: grayscale(0%) contrast(1.1) brightness(1.1);
+  transform: scale(1.05);
+}
+
+/* ÁREA DE CONTEÚDO (DIREITA) */
+.mari-sig-content {
+  flex: 1; position: relative;
+  display: flex; flex-direction: column;
+  justify-content: center; padding: 20px;
+  z-index: 4;
+}
+
+/* --- FUNDO ANIMADO (ONDAS DE MERCÚRIO) --- */
+/* Só se movem quando passa o mouse */
+.mari-sig-wave-layer {
+  position: absolute; bottom: 0; left: 0; width: 100%; height: 60%;
+  pointer-events: none; z-index: 0; opacity: 0.3;
+  transition: opacity 0.5s;
+}
+.mari-sig-wave {
+  position: absolute; bottom: 0; left: 0; width: 100%; height: 100%;
+  background-repeat: repeat-x; background-position: 0 bottom;
+  background-size: 600px 100%;
+  /* Parado por padrão */
+  animation-play-state: paused;
+}
+/* Onda Clara */
+.ms-w1 {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1200 120' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,60 Q300,0 600,60 T1200,60 V120 H0 Z' fill='%23e8e8e8' opacity='0.4'/%3E%3C/svg%3E");
+  animation: wave-scroll-sig 4s linear infinite; z-index: 2;
+}
+/* Onda Escura */
+.ms-w2 {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1200 120' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,80 Q300,30 600,80 T1200,80 V120 H0 Z' fill='%23505050' opacity='0.5'/%3E%3C/svg%3E");
+  animation: wave-scroll-sig-rev 6s linear infinite; bottom: -10px; z-index: 1;
+}
+
+@keyframes wave-scroll-sig { 0% { background-position: 0 bottom; } 100% { background-position: 600px bottom; } }
+@keyframes wave-scroll-sig-rev { 0% { background-position: 0 bottom; } 100% { background-position: -600px bottom; } }
+
+/* INTERAÇÃO ÚNICA: O Metal Derrete */
+.mari-sig-container:hover .mari-sig-wave-layer { opacity: 0.8; }
+.mari-sig-container:hover .mari-sig-wave { animation-play-state: running; }
+
+/* --- TEXTOS --- */
+.mari-sig-name {
+  font-family: 'Syncopate', sans-serif; /* Fonte usada na assinatura do template */
+  font-weight: 700; font-size: 1.8em; text-transform: uppercase;
+  background: linear-gradient(to bottom, #fff 40%, var(--sig-m-mid) 80%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 2px 2px #000);
+  position: relative; z-index: 5;
+  transition: transform 0.4s ease;
+  margin-bottom: 5px;
+}
+.mari-sig-quote {
+  font-family: 'Cinzel Decorative', cursive;
+  color: var(--sig-m-blue); font-size: 0.85em; letter-spacing: 1px;
+  position: relative; z-index: 5;
+  transition: all 0.4s ease;
+}
+
+/* No Hover, o texto sobe para dar espaço aos links */
+.mari-sig-container:hover .mari-sig-name { transform: translateY(-15px); }
+.mari-sig-container:hover .mari-sig-quote { opacity: 0; transform: translateY(-10px); }
+
+/* --- LINKS (EMERGEM DO MERCÚRIO) --- */
+.mari-sig-links-wrap {
+  position: absolute; bottom: 20px; left: 20px; right: 20px;
+  display: flex; gap: 10px;
+  z-index: 10;
+}
+
+.mari-sig-btn {
+  flex: 1; text-align: center;
+  font-family: 'Montserrat', sans-serif; font-size: 0.75em; font-weight: 600;
+  text-transform: uppercase; text-decoration: none !important;
+  color: var(--sig-m-dark);
+  
+  /* Aparência de Lingote de Prata */
+  background: linear-gradient(135deg, var(--sig-m-chrome), var(--sig-m-mid));
+  border: 1px solid #fff;
+  padding: 8px 0;
+  clip-path: polygon(10px 0, 100% 0, 100% 100%, 0% 100%, 0% 10px); /* Corte tecnológico */
+  
+  /* Estado Inicial: Escondido embaixo */
+  transform: translateY(60px); opacity: 0;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Efeito elástico */
+}
+
+/* Efeito Hover no Botão */
+.mari-sig-btn:hover {
+  background: linear-gradient(135deg, #fff, var(--sig-m-blue));
+  box-shadow: 0 0 15px var(--sig-m-blue);
+  color: #000;
+}
+
+/* ANIMAÇÃO EM CASCATA DOS LINKS */
+/* Quando passa o mouse no container, os botões sobem um por um */
+.mari-sig-container:hover .mari-sig-btn:nth-child(1) { transform: translateY(0); opacity: 1; transition-delay: 0.1s; }
+.mari-sig-container:hover .mari-sig-btn:nth-child(2) { transform: translateY(0); opacity: 1; transition-delay: 0.2s; }
+.mari-sig-container:hover .mari-sig-btn:nth-child(3) { transform: translateY(0); opacity: 1; transition-delay: 0.3s; }
+
+/* BOLHAS (Decorativas) */
+.sig-bubble {
+  position: absolute; background: var(--sig-m-blue);
+  border-radius: 50%; opacity: 0;
+  bottom: -20px;
+  box-shadow: 0 0 5px #fff;
+}
+@keyframes sig-bubble-rise { 0% { transform: translateY(0); opacity: 0; } 50% { opacity: 1; } 100% { transform: translateY(-100px); opacity: 0; } }
+
+/* Bolhas só ativam no hover */
+.mari-sig-container:hover .sig-bubble { animation: sig-bubble-rise 3s infinite linear; }
+.sb1 { width: 8px; height: 8px; left: 20%; animation-delay: 0.1s; }
+.sb2 { width: 12px; height: 12px; left: 60%; animation-delay: 1.5s; }
+.sb3 { width: 5px; height: 5px; left: 80%; animation-delay: 0.5s; }
