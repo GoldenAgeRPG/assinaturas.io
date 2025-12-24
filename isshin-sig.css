@@ -1,15 +1,18 @@
-/* --- ASSINATURA: ISSHIN KYORAKU (TORII BEAM STYLE) --- */
+/* --- ASSINATURA: ISSHIN KYORAKU (SMOOTH MOTION) --- */
 @import url('https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@700;900&family=Kaushan+Script&family=Cormorant+Garamond:ital,wght@1,400&family=Sawarabi+Mincho&display=swap');
 
 :root {
   --sig-bg: #050203;
-  --sig-pink: #ff5e94;      /* Rosa Vibrante */
+  --sig-pink: #ff5e94;
   --sig-faded: #9e4a6b;
   --sig-gold: #c4a055;
   --sig-text: #e6dada;
+  
+  /* Variável para a curva de animação suave */
+  --smooth-ease: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* CONTAINER PRINCIPAL (ESTILO VIGA DE TORII) */
+/* CONTAINER PRINCIPAL */
 .isshin-sig-container {
   width: 550px; height: 160px;
   margin: 10px auto;
@@ -19,81 +22,69 @@
   background-color: var(--sig-bg);
   background-image: radial-gradient(circle at 70% 50%, #150508 0%, #000000 90%);
   
-  /* MUDANÇA: Borda grossa no topo (Teto do Torii) e cantos arredondados */
   border: 1px solid var(--sig-faded);
   border-top: 8px solid var(--sig-pink); 
-  border-radius: 20px 20px 6px 6px; /* Curva acentuada no topo */
+  border-radius: 20px 20px 6px 6px;
   
   box-shadow: 0 5px 15px rgba(0,0,0,0.5);
   overflow: hidden;
-  transition: all 0.4s ease;
+  
+  /* SUAVIZAÇÃO: Tempo aumentado para 0.5s e curva suave */
+  transition: all 0.5s var(--smooth-ease);
 }
 
-/* Efeito de Brilho no Hover */
+/* Hover Container */
 .isshin-sig-container:hover {
   border-color: var(--sig-pink);
   box-shadow: 0 10px 30px rgba(255, 94, 148, 0.25);
-  transform: translateY(-2px); /* Leve flutuação */
+  transform: translateY(-2px);
 }
 
-/* ÁREA DA IMAGEM (CORTE DIAGONAL) */
+/* ÁREA DA IMAGEM */
 .isshin-sig-img-wrap {
-  width: 160px; /* Um pouco mais largo para compensar o corte */
-  height: 100%;
+  width: 160px; height: 100%;
   flex-shrink: 0;
   position: relative;
   overflow: hidden;
-  
-  /* MUDANÇA: Clip-path para criar o corte diagonal */
-  /* Isso cria um trapézio: Reto na esquerda, inclinado na direita */
   clip-path: polygon(0 0, 100% 0, 85% 100%, 0% 100%);
-  
-  /* Borda direita simulada com drop-shadow no container da imagem */
   filter: drop-shadow(2px 0 0 var(--sig-pink)); 
   z-index: 2;
 }
 
-/* Linha separadora diagonal (Elemento visual extra) */
-.isshin-sig-img-wrap::after {
-  content: ''; position: absolute; top: 0; right: 0; width: 5px; height: 100%;
-  background: var(--sig-pink);
-  transform: skewX(-10deg); /* Inclinação para acompanhar o corte */
-  transform-origin: top;
-  opacity: 0.5;
-}
-
+/* Imagem */
 .isshin-sig-img {
   width: 100%; height: 100%; 
   object-fit: cover;
-  /* Ajuste para a imagem preencher bem o corte diagonal */
   object-position: center top; 
-  
   filter: grayscale(100%) brightness(0.7) contrast(1.1);
-  transition: filter 0.5s ease, transform 0.5s ease;
+  
+  /* SUAVIZAÇÃO: 0.8s para um efeito cinematográfico lento */
+  transition: filter 0.8s var(--smooth-ease), transform 0.8s var(--smooth-ease);
 }
 
-/* Interação na Imagem */
 .isshin-sig-container:hover .isshin-sig-img {
   filter: grayscale(0%) brightness(1) contrast(1.1);
-  transform: scale(1.1);
+  transform: scale(1.05); /* Zoom mais sutil (1.05 em vez de 1.1) */
 }
 
-/* ÁREA DE CONTEÚDO (DIREITA) */
+/* ÁREA DE CONTEÚDO */
 .isshin-sig-content {
   flex: 1;
-  padding: 15px 15px 15px 5px; /* Padding ajustado */
+  padding: 15px 15px 15px 5px;
   display: flex; flex-direction: column; justify-content: center;
   position: relative;
   z-index: 1;
 }
 
-/* ÍCONE DECORATIVO DE FLOR */
+/* ÍCONE DE FLOR (Fundo) */
 .isshin-sig-content::after {
   content: '❀';
   position: absolute; top: 5px; right: 15px;
   font-size: 50px; color: var(--sig-pink);
   opacity: 0.05; pointer-events: none;
-  transition: transform 0.8s ease, opacity 0.5s;
+  
+  /* SUAVIZAÇÃO: Movimento bem lento (1.2s) */
+  transition: transform 1.2s var(--smooth-ease), opacity 0.8s ease;
 }
 .isshin-sig-container:hover .isshin-sig-content::after {
   transform: rotate(45deg) scale(1.2);
@@ -112,7 +103,21 @@
 }
 .isshin-sig-name span { color: var(--sig-pink); }
 
-/* ÁREA DE TROCA (FRASE vs LINKS) */
+/* LINHA DECORATIVA */
+.isshin-sig-line {
+  width: 40px; height: 2px;
+  background: var(--sig-faded);
+  margin-bottom: 10px;
+  
+  /* SUAVIZAÇÃO: Acompanha o tempo do texto (0.6s) */
+  transition: width 0.6s var(--smooth-ease), background 0.6s ease;
+}
+.isshin-sig-container:hover .isshin-sig-line {
+  width: 100%;
+  background: var(--sig-pink);
+}
+
+/* ÁREA DE TROCA */
 .isshin-sig-swap-area {
   position: relative;
   height: 40px;
@@ -125,22 +130,28 @@
   font-size: 1.1em; color: var(--sig-gold);
   opacity: 0.8;
   position: absolute; top: 0; left: 0;
-  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  white-space: nowrap; /* Evita quebra de linha feia na animação */
+  white-space: nowrap;
+  
+  /* SUAVIZAÇÃO: Troca fluida sem "pulo" (0.6s) */
+  transition: all 0.6s var(--smooth-ease);
 }
 
 /* LINKS */
 .isshin-sig-links {
   position: absolute; top: 0; left: 0;
   display: flex; gap: 8px;
-  transform: translateY(50px);
+  
+  /* Começa um pouco mais perto para o movimento ser menos brusco */
+  transform: translateY(30px); 
   opacity: 0;
-  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  
+  /* SUAVIZAÇÃO: Mesma curva da frase */
+  transition: all 0.6s var(--smooth-ease);
 }
 
-/* HOVER EFFECT */
+/* HOVER EFFECT (TROCA) */
 .isshin-sig-container:hover .isshin-sig-quote {
-  transform: translateY(-50px);
+  transform: translateY(-30px); /* Sobe menos, fica mais suave */
   opacity: 0;
 }
 .isshin-sig-container:hover .isshin-sig-links {
@@ -156,23 +167,11 @@
   background: rgba(255, 94, 148, 0.05);
   border: 1px solid var(--sig-faded);
   padding: 4px 12px;
-  transition: 0.3s;
+  transition: 0.4s ease; /* Levemente mais lento */
 }
 .isshin-sig-btn:hover {
   background: var(--sig-pink);
   color: #000;
   box-shadow: 0 0 10px var(--sig-pink);
   border-color: var(--sig-pink);
-}
-
-/* LINHA DECORATIVA */
-.isshin-sig-line {
-  width: 40px; height: 2px;
-  background: var(--sig-faded);
-  margin-bottom: 10px;
-  transition: width 0.4s ease;
-}
-.isshin-sig-container:hover .isshin-sig-line {
-  width: 100%;
-  background: var(--sig-pink);
 }
