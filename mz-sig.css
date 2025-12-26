@@ -1,155 +1,157 @@
 @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Montserrat:wght@300;600&display=swap');
 
-.mz-sig-box {
-    /* Cores Escurecidas e Sóbrias */
-    --mz-black: #050505;
-    --mz-shadow-red: #3b0000; /* Vermelho sangue seco */
-    --mz-border: #1a1a1a;
-    --mz-text: #a0a0a0;
-
-    position: relative; 
-    width: 100%; 
-    max-width: 650px; 
+.mz-dark-box {
+    --black: #000000;
+    --blood: #4a0000;
+    --text: #888;
+    
+    position: relative;
+    width: 100%;
+    max-width: 650px;
     height: 160px;
-    margin: 20px auto; 
-    background: var(--mz-black); 
-    border: 1px solid var(--mz-border);
-    display: flex; 
-    align-items: center; 
-    padding: 0 40px; 
+    margin: 20px auto;
+    background: var(--black);
+    /* Formato Geométrico: Trapézio Assimétrico */
+    clip-path: polygon(4% 0%, 100% 0%, 96% 100%, 0% 100%);
+    border-left: 4px solid var(--blood);
+    display: flex;
+    align-items: center;
+    padding: 0 50px;
     gap: 30px;
-    box-sizing: border-box; 
-    overflow: hidden; 
+    box-sizing: border-box;
+    overflow: hidden;
     z-index: 1;
-    transition: 0.5s ease;
+    transition: filter 0.6s ease;
 }
 
-/* --- EFEITO IDLE: SOMBRA VISCOSA --- */
-@keyframes ink-pulse {
-    0%, 100% { transform: scale(1); opacity: 0.4; }
-    50% { transform: scale(1.1); opacity: 0.6; }
+/* --- EFEITO IDLE: SOMBRA LÍQUIDA --- */
+@keyframes shadow-flow {
+    0%, 100% { border-radius: 50%; transform: scale(1) translate(0, 0); }
+    50% { border-radius: 30% 70%; transform: scale(1.2) translate(10px, -5px); }
 }
 
-.mz-sig-ink {
-    position: absolute; 
-    bottom: -20px; 
-    left: 40px; 
-    width: 120px; 
-    height: 40px;
-    background: var(--mz-shadow-red);
-    filter: blur(25px);
-    border-radius: 50%;
+.mz-ink-devour {
+    position: absolute;
+    bottom: -50px;
+    left: -20px;
+    width: 120%;
+    height: 60px;
+    background: var(--blood);
+    filter: blur(40px);
+    opacity: 0.2;
     z-index: 0;
     pointer-events: none;
-    animation: ink-pulse 6s infinite ease-in-out;
-    transition: 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+    animation: shadow-flow 8s infinite ease-in-out;
 }
 
-/* INTERAÇÃO MOUSE: EXPANSÃO DA SOMBRA */
-.mz-sig-box:hover {
-    border-color: var(--mz-shadow-red);
-    box-shadow: inset 0 0 40px #000;
+/* INTERAÇÃO: ESCURIDÃO DEVORADORA */
+.mz-dark-box:hover {
+    /* A assinatura escurece ao ser tocada */
+    filter: brightness(0.7);
 }
 
-.mz-sig-box:hover .mz-sig-ink {
-    transform: scale(4);
-    opacity: 0.2;
-    left: 20%;
+.mz-dark-box:hover .mz-ink-devour {
+    /* A sombra sobe e consome o espaço */
+    height: 100%;
+    bottom: 0;
+    opacity: 0.4;
+    background: #000;
+    filter: blur(60px);
 }
 
-/* --- AVATAR ZENIN --- */
-.mz-sig-av {
-    width: 80px; 
-    height: 80px; 
+/* --- AVATAR --- */
+.mz-dark-av {
+    width: 90px;
+    height: 90px;
     flex-shrink: 0;
-    border: 1px solid var(--mz-border); 
+    background: var(--black);
+    border: 1px solid #1a1a1a;
     transform: rotate(45deg);
-    overflow: hidden; 
-    background: #000; 
+    overflow: hidden;
     z-index: 2;
-    transition: 0.4s ease;
+    transition: 0.5s;
 }
 
-.mz-sig-av img {
-    width: 142%; 
-    height: 142%; 
+.mz-dark-av img {
+    width: 150%;
+    height: 150%;
     object-fit: cover;
-    transform: rotate(-45deg) translate(-15%, -15%);
-    filter: grayscale(1) brightness(0.6);
-    transition: 0.4s ease;
+    transform: rotate(-45deg) translate(-18%, -18%);
+    filter: grayscale(1) contrast(1.3);
+    transition: 0.5s;
 }
 
-.mz-sig-box:hover .mz-sig-av {
-    border-color: var(--mz-shadow-red);
-    box-shadow: 0 0 15px var(--mz-shadow-red);
-}
-
-.mz-sig-box:hover .mz-sig-av img {
-    filter: grayscale(0.6) brightness(0.9);
+.mz-dark-box:hover .mz-dark-av {
+    border-color: var(--blood);
+    transform: rotate(45deg) scale(0.95);
 }
 
 /* --- TEXTOS --- */
-.mz-sig-info { 
-    flex: 1; 
-    z-index: 2; 
-    border-left: 1px solid var(--mz-border); 
+.mz-dark-info {
+    flex: 1;
+    z-index: 2;
+    border-left: 1px solid #111;
     padding-left: 25px;
 }
 
-.mz-sig-name { 
-    font-family: 'Cinzel Decorative', cursive; 
-    font-size: 1.7em; 
-    color: var(--mz-text);
-    text-transform: uppercase; 
-    letter-spacing: 2px;
-    transition: 0.3s;
+.mz-dark-name {
+    font-family: 'Cinzel Decorative', cursive;
+    font-size: 1.6em;
+    color: #666; /* Cor base mais escura */
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    transition: 0.5s;
 }
 
-.mz-sig-box:hover .mz-sig-name {
-    color: #fff;
-    text-shadow: 0 0 10px var(--mz-shadow-red);
+.mz-dark-box:hover .mz-dark-name {
+    color: var(--blood); /* Revela a cor de sangue na escuridão */
+    text-shadow: 0 0 15px #000;
 }
 
-.mz-sig-line { 
-    font-family: 'Montserrat', sans-serif; 
-    font-size: 0.75em; 
-    color: #444; 
-    text-transform: uppercase; 
-    letter-spacing: 4px; 
-    margin-top: 5px; 
+.mz-dark-sub {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.7em;
+    color: #333;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    margin-top: 5px;
 }
 
 /* --- LINKS --- */
-.mz-sig-links { 
-    display: flex; 
-    flex-direction: column; 
-    gap: 10px; 
-    z-index: 5; 
+.mz-dark-links {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 5;
 }
 
-.mz-sig-btn {
-    display: block; 
-    width: 80px; 
-    text-align: center; 
+.mz-dark-btn {
+    display: block;
+    width: 80px;
+    text-align: center;
     text-decoration: none !important;
-    font-family: 'Montserrat', sans-serif; 
-    font-weight: 600; 
-    font-size: 0.65em;
-    color: #666; 
-    text-transform: uppercase; 
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 0.6em;
+    color: #444;
+    text-transform: uppercase;
     padding: 6px 0;
-    border: 1px solid #151515; 
-    background: #080808; 
+    border: 1px solid #0a0a0a;
+    background: #000;
     transition: 0.3s;
 }
 
-.mz-sig-btn:hover { 
-    color: #fff; 
-    border-color: var(--mz-shadow-red); 
-    background: #100000; 
+.mz-dark-btn:hover {
+    color: #888;
+    border-color: var(--blood);
+    background: #050000;
 }
 
-@media (max-width: 500px) { 
-    .mz-sig-av { display: none; } 
-    .mz-sig-info { border-left: none; padding-left: 0; } 
+/* Responsividade */
+@media (max-width: 500px) {
+    .mz-dark-box { clip-path: none; padding: 20px; text-align: center; flex-direction: column; height: auto; }
+    .mz-dark-av { display: none; }
+    .mz-dark-info { border-left: none; padding-left: 0; margin-bottom: 15px; }
+    .mz-dark-links { flex-direction: row; }
 }
