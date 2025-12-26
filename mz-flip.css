@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Montserrat:wght@400;600&display=swap');
+
+.mz-sig {
+  --mz-b1: #8a0000; --mz-b2: #ff1a1a; --mz-txt: #e0e0e0;
+  width: 100%; max-width: 600px; height: 180px;
+  margin: 20px auto; perspective: 1200px;
+}
+
+.mz-card {
+  position: relative; width: 100%; height: 100%;
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.mz-sig:hover .mz-card { transform: rotateY(180deg); }
+
+.mz-side {
+  position: absolute; inset: 0; backface-visibility: hidden;
+  background: #0a0a0a; border: 1px solid #222;
+  display: flex; align-items: center; padding: 0 30px; gap: 20px;
+  box-sizing: border-box; overflow: hidden;
+}
+
+.mz-front::before {
+  content: ''; position: absolute; left: 0; top: 0; width: 3px; height: 100%;
+  background: linear-gradient(to bottom, var(--mz-b1), var(--mz-b2), var(--mz-b1));
+}
+
+.mz-back { transform: rotateY(180deg); border-right: 3px solid var(--mz-b2); }
+
+/* --- CORTES SANGRENTOS IDLE --- */
+@keyframes cleave {
+  0% { width: 0; opacity: 0; left: 0; }
+  10% { width: 150%; opacity: 0.5; left: -25%; }
+  25% { width: 150%; opacity: 0; left: -25%; }
+  100% { width: 0; opacity: 0; }
+}
+
+.mz-slashes { position: absolute; inset: 0; pointer-events: none; }
+.mzl { position: absolute; height: 1px; background: var(--mz-b2); box-shadow: 0 0 8px var(--mz-b1); opacity: 0; }
+.s1 { top: 30%; transform: rotate(-15deg); animation: cleave 6s infinite; }
+.s2 { top: 60%; transform: rotate(10deg); animation: cleave 8s infinite 2s; }
+.s3 { top: 15%; transform: rotate(35deg); animation: cleave 7s infinite 4s; }
+.s4 { top: 80%; transform: rotate(-5deg); animation: cleave 9s infinite 1s; }
+
+/* --- AVATAR LOSANGO --- */
+.mz-av-box {
+  width: 90px; height: 90px; flex-shrink: 0;
+  border: 2px solid var(--mz-b2); transform: rotate(45deg);
+  overflow: hidden; background: #000;
+  box-shadow: 0 0 15px rgba(138, 0, 0, 0.5);
+}
+.mz-av-box img { 
+  width: 145%; height: 145%; object-fit: cover; 
+  transform: rotate(-45deg) translate(-15%, -15%);
+  filter: grayscale(0.5) contrast(1.2); 
+}
+
+/* --- TEXTOS --- */
+.mz-main { flex: 1; }
+.mz-name { font-family: 'Cinzel Decorative', serif; font-size: 1.5em; color: var(--mz-b2); letter-spacing: 1px; }
+.mz-quote { font-family: 'Montserrat', sans-serif; font-size: 0.85em; color: #888; font-style: italic; margin-top: 5px; }
+.mz-desc { flex: 1; font-family: 'Montserrat', sans-serif; font-size: 0.9em; color: #bbb; text-align: justify; line-height: 1.4; border-left: 2px solid var(--mz-b1); padding-left: 15px; }
+
+/* --- BOTÕES --- */
+.mz-nav { display: flex; flex-direction: column; gap: 6px; }
+.mz-btn {
+  display: block; width: 75px; text-align: center; text-decoration: none !important;
+  font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 0.65em; 
+  color: var(--mz-txt); text-transform: uppercase; letter-spacing: 1px;
+  padding: 6px 0; border: 1px solid #333; background: #111; transition: 0.3s;
+}
+.mz-btn:hover { border-color: var(--mz-b2); box-shadow: 0 0 10px var(--mz-b1); color: #fff; }
+
+@media (max-width: 500px) { .mz-av-box { display: none; } }
