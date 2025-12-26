@@ -1,76 +1,155 @@
 @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Montserrat:wght@300;600&display=swap');
 
-.mz-shadow-box {
-    --blood: #8a0000; --bright: #ff1a1a; --dark: #0a0a0a;
-    position: relative; width: 100%; max-width: 650px; height: 160px;
-    margin: 20px auto; background: var(--dark); border: 1px solid #1a1a1a;
-    display: flex; align-items: center; padding: 0 40px; gap: 30px;
-    box-sizing: border-box; overflow: hidden; z-index: 1;
+.mz-sig-box {
+    /* Cores Escurecidas e Sóbrias */
+    --mz-black: #050505;
+    --mz-shadow-red: #3b0000; /* Vermelho sangue seco */
+    --mz-border: #1a1a1a;
+    --mz-text: #a0a0a0;
+
+    position: relative; 
+    width: 100%; 
+    max-width: 650px; 
+    height: 160px;
+    margin: 20px auto; 
+    background: var(--mz-black); 
+    border: 1px solid var(--mz-border);
+    display: flex; 
+    align-items: center; 
+    padding: 0 40px; 
+    gap: 30px;
+    box-sizing: border-box; 
+    overflow: hidden; 
+    z-index: 1;
+    transition: 0.5s ease;
 }
 
-/* --- EFEITO IDLE: PISCINA DE SOMBRA LÍQUIDA --- */
-@keyframes shadow-ripple {
-    0%, 100% { border-radius: 40% 60% 70% 30% / 40% 40% 60% 50%; transform: translate(0,0) rotate(0deg); }
-    33% { border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%; transform: translate(10px, 5px) rotate(2deg); }
-    66% { border-radius: 30% 70% 70% 30% / 50% 60% 30% 40%; transform: translate(-5px, 10px) rotate(-1deg); }
+/* --- EFEITO IDLE: SOMBRA VISCOSA --- */
+@keyframes ink-pulse {
+    0%, 100% { transform: scale(1); opacity: 0.4; }
+    50% { transform: scale(1.1); opacity: 0.6; }
 }
 
-.mz-shadow-pool {
-    position: absolute; inset: -20px; z-index: 0; opacity: 0.4;
-    background: radial-gradient(circle at center, var(--mz-blood) 0%, transparent 70%);
-    filter: blur(30px); animation: shadow-ripple 12s infinite linear;
+.mz-sig-ink {
+    position: absolute; 
+    bottom: -20px; 
+    left: 40px; 
+    width: 120px; 
+    height: 40px;
+    background: var(--mz-shadow-red);
+    filter: blur(25px);
+    border-radius: 50%;
+    z-index: 0;
+    pointer-events: none;
+    animation: ink-pulse 6s infinite ease-in-out;
+    transition: 0.8s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
-/* --- EFEITO MOUSE: VÓRTICE DE INVOCAÇÃO --- */
-.mz-summon-vortex {
-    position: absolute; width: 300px; height: 300px;
-    background: conic-gradient(from 0deg, transparent, var(--blood), var(--bright), transparent);
-    top: 50%; left: 20%; transform: translate(-50%, -50%) scale(0);
-    border-radius: 50%; filter: blur(40px); opacity: 0;
-    transition: transform 0.8s ease, opacity 0.5s ease;
-    z-index: 0; pointer-events: none;
+/* INTERAÇÃO MOUSE: EXPANSÃO DA SOMBRA */
+.mz-sig-box:hover {
+    border-color: var(--mz-shadow-red);
+    box-shadow: inset 0 0 40px #000;
 }
 
-.mz-shadow-box:hover .mz-summon-vortex {
-    transform: translate(-50%, -50%) scale(2) rotate(360deg);
-    opacity: 0.6;
+.mz-sig-box:hover .mz-sig-ink {
+    transform: scale(4);
+    opacity: 0.2;
+    left: 20%;
 }
 
-/* --- DESIGN DO AVATAR --- */
-.mz-diamond-av {
-    width: 85px; height: 85px; flex-shrink: 0;
-    border: 2px solid var(--bright); transform: rotate(45deg);
-    overflow: hidden; background: #000; z-index: 2;
-    box-shadow: 0 0 20px var(--blood); transition: 0.4s;
+/* --- AVATAR ZENIN --- */
+.mz-sig-av {
+    width: 80px; 
+    height: 80px; 
+    flex-shrink: 0;
+    border: 1px solid var(--mz-border); 
+    transform: rotate(45deg);
+    overflow: hidden; 
+    background: #000; 
+    z-index: 2;
+    transition: 0.4s ease;
 }
 
-.mz-diamond-av img {
-    width: 140%; height: 140%; object-fit: cover;
+.mz-sig-av img {
+    width: 142%; 
+    height: 142%; 
+    object-fit: cover;
     transform: rotate(-45deg) translate(-15%, -15%);
-    filter: grayscale(1) brightness(0.8); transition: 0.4s;
+    filter: grayscale(1) brightness(0.6);
+    transition: 0.4s ease;
 }
 
-.mz-shadow-box:hover .mz-diamond-av { box-shadow: 0 0 30px var(--bright); border-color: #fff; }
-.mz-shadow-box:hover .mz-diamond-av img { filter: grayscale(0.2) brightness(1); }
-
-/* --- INFO TEXTO --- */
-.mz-info { flex: 1; z-index: 2; border-left: 2px solid var(--blood); padding-left: 20px; }
-.mz-title-name { 
-    font-family: 'Cinzel Decorative', cursive; font-size: 1.8em; 
-    background: linear-gradient(to right, var(--blood), var(--bright));
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    text-transform: uppercase; letter-spacing: 2px;
+.mz-sig-box:hover .mz-sig-av {
+    border-color: var(--mz-shadow-red);
+    box-shadow: 0 0 15px var(--mz-shadow-red);
 }
-.mz-sub-text { font-family: 'Montserrat', sans-serif; font-size: 0.8em; color: #555; text-transform: uppercase; letter-spacing: 3px; margin-top: 5px; }
+
+.mz-sig-box:hover .mz-sig-av img {
+    filter: grayscale(0.6) brightness(0.9);
+}
+
+/* --- TEXTOS --- */
+.mz-sig-info { 
+    flex: 1; 
+    z-index: 2; 
+    border-left: 1px solid var(--mz-border); 
+    padding-left: 25px;
+}
+
+.mz-sig-name { 
+    font-family: 'Cinzel Decorative', cursive; 
+    font-size: 1.7em; 
+    color: var(--mz-text);
+    text-transform: uppercase; 
+    letter-spacing: 2px;
+    transition: 0.3s;
+}
+
+.mz-sig-box:hover .mz-sig-name {
+    color: #fff;
+    text-shadow: 0 0 10px var(--mz-shadow-red);
+}
+
+.mz-sig-line { 
+    font-family: 'Montserrat', sans-serif; 
+    font-size: 0.75em; 
+    color: #444; 
+    text-transform: uppercase; 
+    letter-spacing: 4px; 
+    margin-top: 5px; 
+}
 
 /* --- LINKS --- */
-.mz-links-panel { display: flex; flex-direction: column; gap: 8px; z-index: 5; }
-.mz-link-item {
-    display: block; width: 80px; text-align: center; text-decoration: none !important;
-    font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 0.7em;
-    color: #999; text-transform: uppercase; padding: 5px 0;
-    border: 1px solid #222; background: #0a0a0a; transition: 0.3s;
+.mz-sig-links { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 10px; 
+    z-index: 5; 
 }
-.mz-link-item:hover { color: #fff; border-color: var(--bright); background: var(--blood); box-shadow: 0 0 10px var(--blood); }
 
-@media (max-width: 500px) { .mz-diamond-av { display: none; } .mz-info { border-left: none; padding-left: 0; } }
+.mz-sig-btn {
+    display: block; 
+    width: 80px; 
+    text-align: center; 
+    text-decoration: none !important;
+    font-family: 'Montserrat', sans-serif; 
+    font-weight: 600; 
+    font-size: 0.65em;
+    color: #666; 
+    text-transform: uppercase; 
+    padding: 6px 0;
+    border: 1px solid #151515; 
+    background: #080808; 
+    transition: 0.3s;
+}
+
+.mz-sig-btn:hover { 
+    color: #fff; 
+    border-color: var(--mz-shadow-red); 
+    background: #100000; 
+}
+
+@media (max-width: 500px) { 
+    .mz-sig-av { display: none; } 
+    .mz-sig-info { border-left: none; padding-left: 0; } 
+}
