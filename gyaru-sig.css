@@ -1,4 +1,4 @@
-/* --- ASSINATURA GYARU: THE REAL DREAM VERSION --- */
+/* --- ASSINATURA GYARU: ABSOLUTE FINAL VERSION --- */
 @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Pacifico&family=Quicksand:wght@700&display=swap');
 
 .gyaru-sig-box {
@@ -9,45 +9,61 @@
   
   position: relative;
   width: 100%; 
-  max-width: 600px; /* Reduzi para focar o carrossel */
-  height: 200px;
+  max-width: 650px; 
+  height: 140px; /* Altura do card */
   margin: 50px auto;
-  perspective: 2000px; /* Profundidade maior */
+  background: transparent;
+  perspective: 1200px;
+  transform-style: preserve-3d;
   display: flex; 
   align-items: center;
-  justify-content: center;
 }
 
-/* O PALCO DO CARROSSEL: Agora com tamanho fixo para não vazar */
+/* O CARTÃO (Visual Principal) */
+.gyaru-sig-card {
+  position: relative;
+  width: 100%; height: 100%;
+  background-color: var(--sig-pink);
+  border: 4px solid var(--sig-white);
+  border-radius: 30px;
+  box-shadow: 12px 12px 0 var(--sig-accent);
+  display: flex; align-items: center; padding: 15px; gap: 20px;
+  transform: rotate(-1deg);
+  z-index: 5;
+}
+
+/* --- O CARROSSEL (LÓGICA DO SEU PRIMEIRO TEMPLATE) --- */
 .gyaru-carousel-stage {
   position: absolute;
-  width: 500px; /* Tamanho controlado */
-  height: 500px;
-  left: 50%;
-  top: 50%;
-  /* Posição Diagonal conforme o print */
-  transform: translate(-50%, -50%) rotateX(-15deg) rotateY(-20deg) rotateZ(-35deg);
-  transform-style: preserve-3d;
-  pointer-events: none;
-  z-index: 10;
+  /* Posicionamento idêntico ao que você me mandou no começo */
+  right: -100px; 
+  top: 55%; 
+  width: 200px; height: 200px;
+  transform: translateY(-50%) rotateY(-25deg) rotateX(-10deg) rotateZ(-30deg);
+  transform-style: preserve-3d; 
+  pointer-events: none; 
+  z-index: 4;
 }
 
 .gyaru-carousel-ring {
-  width: 100%; height: 100%;
-  position: absolute;
+  width: 100%; height: 100%; position: absolute;
   transform-style: preserve-3d;
-  animation: gyaru-spin 12s linear infinite;
+  animation: gyaru-spin 6s linear infinite;
 }
 
 .gyaru-carousel-item {
-  position: absolute;
-  top: 50%; left: 50%;
-  font-size: 2.5em;
-  filter: drop-shadow(4px 4px 0 var(--sig-accent));
-  white-space: nowrap;
+  position: absolute; top: 50%; left: 50%;
+  font-family: 'Fredoka One', cursive; 
+  font-size: 2.2em;
+  color: var(--sig-yellow); /* Amarelo do template */
+  text-shadow: 
+    2px 2px 0 #000, -1px -1px 0 #000,
+    1px -1px 0 #000, -1px 1px 0 #000,
+    1px 1px 0 #000;
+  white-space: nowrap; 
   backface-visibility: visible;
-  /* Raio menor e mais controlado (200px) para não fugir da tela */
-  transform: translate(-50%, -50%) rotateY(calc(var(--i) * 45deg)) translateZ(200px);
+  /* Raio largo para abraçar a quina */
+  transform: translate(-50%, -50%) rotateY(calc(var(--i) * 24deg)) translateZ(150px);
 }
 
 @keyframes gyaru-spin {
@@ -55,60 +71,31 @@
   to { transform: rotateY(360deg); }
 }
 
-/* CARD PRINCIPAL */
-.gyaru-sig-card {
-  position: relative;
-  width: 100%;
-  height: 140px;
-  background-color: var(--sig-pink);
-  border: 5px solid var(--sig-white);
-  border-radius: 30px;
-  box-shadow: 15px 15px 0 var(--sig-accent);
-  display: flex;
-  align-items: center;
-  padding: 20px;
-  gap: 20px;
-  z-index: 5;
-  transform: rotate(-1deg);
-}
-
+/* CONTEÚDO INTERNO */
 .gyaru-sig-img-wrap {
-  width: 100px; height: 100px;
-  background: #fff;
-  border: 4px solid var(--sig-accent);
-  border-radius: 20px;
-  transform: rotate(-5deg);
-  flex-shrink: 0;
-  overflow: hidden;
-  box-shadow: 5px 5px 0 #fff;
+  width: 90px; height: 90px; background: #fff;
+  border: 4px solid var(--sig-accent); border-radius: 20px;
+  transform: rotate(-3deg); flex-shrink: 0;
+  position: relative; z-index: 2; box-shadow: 5px 5px 0 var(--sig-white);
 }
-
 .gyaru-sig-img { width: 100%; height: 100%; object-fit: cover; }
 
+.gyaru-sig-content { flex: 1; display: flex; flex-direction: column; justify-content: center; }
 .gyaru-sig-name {
-  font-family: 'Fredoka One', cursive;
-  font-size: 2.5em; color: #fff;
-  text-shadow: 4px 4px 0 var(--sig-accent);
-  line-height: 1; margin: 0;
+  font-family: 'Fredoka One', cursive; font-size: 2.2em; color: #fff;
+  text-shadow: 2px 2px 0 var(--sig-accent), 4px 4px 0 #000; line-height: 1; margin-bottom: 5px;
 }
-
 .gyaru-sig-quote {
-  font-family: 'Pacifico', cursive;
-  font-size: 1.1em; color: var(--sig-yellow);
-  text-shadow: 2px 2px 0 #000;
-  margin: 5px 0 15px 0;
+  font-family: 'Pacifico', cursive; font-size: 0.95em; color: var(--sig-yellow);
+  background: rgba(0,0,0,0.2); padding: 2px 10px; border-radius: 10px;
+  align-self: flex-start; margin-bottom: 10px;
 }
 
-.gyaru-sig-actions { display: flex; gap: 10px; }
-
+.gyaru-sig-actions { display: flex; gap: 8px; }
 .gyaru-sig-btn {
-  font-family: 'Quicksand', sans-serif;
-  font-weight: 700; font-size: 0.9em;
+  font-family: 'Quicksand', sans-serif; font-weight: 700; font-size: 0.8em;
   color: #fff !important; text-decoration: none !important;
-  background: var(--sig-accent);
-  padding: 6px 18px; border-radius: 50px;
-  border: 2px solid #fff;
-  transition: 0.3s;
+  background: var(--sig-accent); border: 2px solid #fff; padding: 4px 12px;
+  border-radius: 50px; box-shadow: 3px 3px 0 #000; transition: 0.2s;
 }
-
-.gyaru-sig-btn:hover { background: var(--sig-yellow); color: #000 !important; transform: scale(1.1); }
+.gyaru-sig-btn:hover { transform: translateY(2px); box-shadow: 0 0 0 #000; background: var(--sig-yellow); color: #000 !important; }
