@@ -1,4 +1,3 @@
-/* --- ASSINATURA: GYARU POP REWRITE --- */
 @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Pacifico&family=Quicksand:wght@700&display=swap');
 
 .gyaru-sig-box {
@@ -9,52 +8,49 @@
   --sig-white: #ffffff;
   
   position: relative;
-  width: 100%; max-width: 650px; height: 160px;
+  width: 100%; 
+  max-width: 650px; 
+  height: 180px;
   margin: 60px auto;
-  perspective: 1200px;
-  display: flex; align-items: center;
+  perspective: 1500px;
+  display: flex; 
+  align-items: center;
+  overflow: visible !important;
 }
 
-/* O CARD PRINCIPAL */
-.gyaru-sig-card {
-  position: relative;
-  width: 100%; height: 120px;
-  background-color: var(--sig-pink);
-  border: 4px solid var(--sig-white);
-  border-radius: 25px;
-  box-shadow: 8px 8px 0 var(--sig-accent), 0 10px 20px rgba(0,0,0,0.2);
-  display: flex; align-items: center; padding: 15px; gap: 20px;
-  transform: rotate(-1deg);
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  z-index: 5;
-  overflow: visible;
-}
-
-.gyaru-sig-box:hover .gyaru-sig-card {
-  transform: rotate(0deg) scale(1.02);
-  box-shadow: 10px 10px 0 var(--sig-yellow);
-}
-
-/* CARROSSEL DE ÍCONES (O DREAM) */
+/* CARROSSEL DIAGONAL (ESTILO COMIC) */
 .gyaru-carousel-stage {
   position: absolute;
-  right: -80px; top: 50%;
-  width: 180px; height: 180px;
-  transform: translateY(-50%) rotateY(-20deg) rotateZ(-10deg);
-  transform-style: preserve-3d; pointer-events: none; z-index: 4;
+  left: 50%; 
+  top: 50%;
+  width: 100%; 
+  height: 250px;
+  
+  /* ÂNGULO DO SEU PRINT: Diagonal atravessando o card */
+  transform: translate(-50%, -50%) rotateY(-25deg) rotateX(-10deg) rotateZ(-30deg);
+  transform-style: preserve-3d; 
+  pointer-events: none; 
+  z-index: 6; /* Acima do plano rosa */
 }
 
 .gyaru-carousel-ring {
-  width: 100%; height: 100%; position: absolute;
+  width: 100%; 
+  height: 100%; 
+  position: absolute;
   transform-style: preserve-3d;
   animation: gyaru-spin 8s linear infinite;
 }
 
 .gyaru-carousel-item {
-  position: absolute; top: 50%; left: 50%;
-  font-size: 1.8em;
-  filter: drop-shadow(2px 2px 0 var(--sig-accent));
-  transform: translate(-50%, -50%) rotateY(calc(var(--i) * 45deg)) translateZ(120px);
+  position: absolute; 
+  top: 50%; 
+  left: 50%;
+  font-size: 2.2em;
+  filter: drop-shadow(3px 3px 0 var(--sig-accent));
+  white-space: nowrap;
+  
+  /* Raio maior para abraçar o card inteiro no giro */
+  transform: translate(-50%, -50%) rotateY(calc(var(--i) * 45deg)) translateZ(280px);
 }
 
 @keyframes gyaru-spin {
@@ -62,39 +58,105 @@
   to { transform: rotateY(360deg); }
 }
 
-/* ELEMENTOS DE DECORAÇÃO */
+/* CARD PRINCIPAL */
+.gyaru-sig-card {
+  position: relative;
+  width: 100%; 
+  height: 130px;
+  background-color: var(--sig-pink);
+  border: 4px solid var(--sig-white);
+  border-radius: 25px;
+  box-shadow: 12px 12px 0 var(--sig-accent);
+  display: flex; 
+  align-items: center; 
+  padding: 15px; 
+  gap: 20px;
+  transform: rotate(-1deg);
+  z-index: 5;
+  transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.gyaru-sig-box:hover .gyaru-sig-card {
+  transform: rotate(0deg) scale(1.02);
+  box-shadow: 15px 15px 0 var(--sig-yellow);
+}
+
+/* ELEMENTOS INTERNOS */
 .gyaru-sig-img-wrap {
-  width: 90px; height: 90px; background: var(--sig-white);
-  border: 3px solid var(--sig-accent); border-radius: 20px;
-  transform: rotate(-5deg); flex-shrink: 0;
-  position: relative; z-index: 2; overflow: hidden;
+  width: 100px; 
+  height: 100px; 
+  background: var(--sig-white);
+  border: 4px solid var(--sig-accent); 
+  border-radius: 20px;
+  transform: rotate(-5deg); 
+  flex-shrink: 0;
+  position: relative; 
+  z-index: 2; 
+  overflow: hidden;
   box-shadow: 4px 4px 0 var(--sig-white);
 }
 
-.gyaru-sig-img { width: 100%; height: 100%; object-fit: cover; }
+.gyaru-sig-img { 
+  width: 100%; 
+  height: 100%; 
+  object-fit: cover; 
+}
+
+.gyaru-sig-content { 
+  flex: 1; 
+}
 
 .gyaru-sig-name {
-  font-family: 'Fredoka One', cursive; font-size: 2.2em; color: var(--sig-white);
-  text-shadow: 3px 3px 0 var(--sig-accent); line-height: 1; margin-bottom: 5px;
+  font-family: 'Fredoka One', cursive; 
+  font-size: 2.4em; 
+  color: var(--sig-white);
+  text-shadow: 3px 3px 0 var(--sig-accent); 
+  line-height: 1; 
+  margin-bottom: 5px;
 }
 
 .gyaru-sig-quote {
-  font-family: 'Pacifico', cursive; font-size: 1em; color: var(--sig-yellow);
-  text-shadow: 1px 1px 2px var(--sig-dark); margin-bottom: 10px;
+  font-family: 'Pacifico', cursive; 
+  font-size: 1.1em; 
+  color: var(--sig-yellow);
+  text-shadow: 1px 1px 2px var(--sig-dark); 
+  margin-bottom: 12px;
 }
 
-/* BOTÕES ESTILO ADESIVO */
-.gyaru-sig-actions { display: flex; gap: 8px; }
+.gyaru-sig-actions { 
+  display: flex; 
+  gap: 10px; 
+}
+
 .gyaru-sig-btn {
-  font-family: 'Quicksand', sans-serif; font-weight: 700; font-size: 0.85em;
-  color: var(--sig-white) !important; text-decoration: none !important;
-  background: var(--sig-accent); border: 2px solid var(--sig-white);
-  padding: 4px 12px; border-radius: 50px;
+  font-family: 'Quicksand', sans-serif; 
+  font-weight: 700; 
+  font-size: 0.9em;
+  color: var(--sig-white) !important; 
+  text-decoration: none !important;
+  background: var(--sig-accent); 
+  border: 2px solid var(--sig-white);
+  padding: 5px 15px; 
+  border-radius: 50px;
   transition: 0.2s;
+  box-shadow: 3px 3px 0 rgba(0,0,0,0.1);
 }
-.gyaru-sig-btn:hover { background: var(--sig-yellow); color: var(--sig-dark) !important; transform: scale(1.1); }
 
-/* ADESIVOS EXTRA NOS CANTOS */
+.gyaru-sig-btn:hover { 
+  background: var(--sig-yellow); 
+  color: var(--sig-dark) !important; 
+  transform: translateY(-3px); 
+}
+
+/* STICKERS DECORATIVOS */
 .sig-deco { position: absolute; z-index: 10; pointer-events: none; }
-.sig-bunny { top: -30px; left: -20px; width: 50px; height: 50px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 50 50'%3E%3Cpath fill='%23fff' stroke='%23ff6bb3' stroke-width='2' d='M25,30 C15,30 10,20 10,15 C10,5 15,2 18,5 C20,7 22,15 25,15 C28,15 30,7 32,5 C35,2 40,5 40,15 C40,20 35,30 25,30 Z'/%3E%3C/svg%3E"); background-size: contain; background-repeat: no-repeat; transform: rotate(-15deg); }
-.sig-star { bottom: -10px; right: 20px; width: 30px; height: 30px; background: var(--sig-yellow); clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); }
+.sig-bunny { 
+  top: -20px; 
+  left: -20px; 
+  width: 60px; 
+  height: 60px; 
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 50 50'%3E%3Cpath fill='%23fff' stroke='%23ff6bb3' stroke-width='2' d='M25,30 C15,30 10,20 10,15 C10,5 15,2 18,5 C20,7 22,15 25,15 C28,15 30,7 32,5 C35,2 40,5 40,15 C40,20 35,30 25,30 Z'/%3E%3C/svg%3E"); 
+  background-size: contain; 
+  background-repeat: no-repeat; 
+  transform: rotate(-15deg); 
+}
