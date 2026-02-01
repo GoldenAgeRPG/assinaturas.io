@@ -99,3 +99,51 @@
   border-radius: 50px; box-shadow: 3px 3px 0 #000; transition: 0.2s;
 }
 .gyaru-sig-btn:hover { transform: translateY(2px); box-shadow: 0 0 0 #000; background: var(--sig-yellow); color: #000 !important; }
+
+/* --- ADESIVOS EXTRAS (DECORA) --- */
+.sig-sticker {
+  position: absolute;
+  z-index: 15; /* Fica acima do card e do carrossel */
+  filter: drop-shadow(3px 3px 2px rgba(0,0,0,0.3));
+  pointer-events: none;
+}
+
+/* Coelhinho no canto superior esquerdo */
+.sig-bunny {
+  top: -25px;
+  left: -20px;
+  width: 60px;
+  height: 60px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 50 50'%3E%3Cpath fill='%23fff' stroke='%23ff6bb3' stroke-width='2' d='M25,30 C15,30 10,20 10,15 C10,5 15,2 18,5 C20,7 22,15 25,15 C28,15 30,7 32,5 C35,2 40,5 40,15 C40,20 35,30 25,30 Z'/%3E%3Ccircle fill='%23ff9ec7' cx='18' cy='18' r='3'/%3E%3Ccircle fill='%23ff9ec7' cx='32' cy='18' r='3'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  animation: sig-wiggle 3s ease-in-out infinite;
+}
+
+/* Laço rosa no canto inferior direito */
+.sig-bow {
+  bottom: -15px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23ff3399' d='M20,40 Q10,20 30,20 Q50,40 20,40 M80,40 Q90,20 70,20 Q50,40 80,40' /%3E%3Ccircle fill='%23fff' cx='50' cy='40' r='8' /%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  transform: rotate(15deg);
+}
+
+/* Cerejinhas perto da foto */
+.sig-cherry {
+  top: 10px;
+  left: 80px;
+  width: 35px;
+  height: 35px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 50 50'%3E%3Ccircle fill='%23ff0066' cx='15' cy='35' r='8'/%3E%3Ccircle fill='%23ff0066' cx='35' cy='35' r='8'/%3E%3Cpath stroke='%2300cc00' stroke-width='2' fill='none' d='M25,10 Q15,25 15,35 M25,10 Q35,25 35,35'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+@keyframes sig-wiggle {
+  0%, 100% { transform: rotate(-15deg); }
+  50% { transform: rotate(-10deg) scale(1.1); }
+}
