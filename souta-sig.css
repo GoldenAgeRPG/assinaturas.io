@@ -2,8 +2,12 @@
   width: 700px;
   height: 220px;
   perspective: 1000px;
-  margin: 20px auto; /* Centraliza a assinatura no post do fórum */
+  margin: 20px auto;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.souta-hidden-toggle {
+  display: none;
 }
 
 .souta-sig-card {
@@ -12,15 +16,13 @@
   border-radius: 15px;
   position: relative;
   transform-style: preserve-3d;
-  transition: transform 0.5s ease;
+  transition: transform 0.5s ease, box-shadow 0.5s ease;
   box-shadow: 0 0 30px rgba(160, 90, 255, 0.2);
-  
   background-image:
     linear-gradient(to right, rgba(25, 25, 35, 0.95) 0%, rgba(25, 25, 35, 0.7) 100%),
     url('https://i.imgur.com/1LQXgzN.jpeg');
   background-size: cover;
   background-position: center;
-  
   display: flex;
   align-items: center;
   padding: 0 30px;
@@ -40,10 +42,13 @@
   transform: translateZ(-1px);
 }
 
+/* Hover alterado: projeta para frente sem tombar para os lados */
 .souta-sig-card:hover {
-  transform: rotateY(-15deg) rotateX(10deg);
+  transform: scale(1.02) translateZ(10px);
+  box-shadow: 0 10px 40px rgba(160, 90, 255, 0.3);
 }
 
+/* Avatar / Player */
 .souta-sig-avatar {
   width: 140px;
   height: 140px;
@@ -53,7 +58,86 @@
   background-size: cover;
   background-position: center;
   box-shadow: 0 0 15px rgba(255, 150, 255, 0.3);
-  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.souta-sig-avatar::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* Ícone de Play centralizado */
+.souta-play-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.5);
+  width: 0; 
+  height: 0; 
+  border-top: 15px solid transparent;
+  border-bottom: 15px solid transparent;
+  border-left: 25px solid rgba(255, 255, 255, 0.9);
+  opacity: 0;
+  z-index: 2;
+  transition: all 0.3s ease;
+  filter: drop-shadow(0 0 10px #ff5ee6);
+}
+
+.souta-sig-avatar:hover::after { opacity: 1; }
+.souta-sig-avatar:hover .souta-play-icon { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+
+/* Equalizador do Player */
+.souta-eq {
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 4px;
+  height: 30px;
+  align-items: flex-end;
+  opacity: 0;
+  z-index: 2;
+  transition: opacity 0.3s ease;
+}
+
+.souta-eq span {
+  width: 6px;
+  background: linear-gradient(to top, #ff5ee6, #00f0ff);
+  border-radius: 3px;
+  animation: eq-bounce 0.5s infinite alternate ease-in;
+  box-shadow: 0 0 8px rgba(0, 240, 255, 0.6);
+}
+
+.souta-eq span:nth-child(2) { animation-delay: 0.1s; }
+.souta-eq span:nth-child(3) { animation-delay: 0.3s; }
+.souta-eq span:nth-child(4) { animation-delay: 0.2s; }
+.souta-eq span:nth-child(5) { animation-delay: 0.4s; }
+
+@keyframes eq-bounce {
+  0% { height: 5px; }
+  100% { height: 100%; }
+}
+
+/* Estado: Quando o áudio está tocando */
+#souta-play-toggle:checked ~ .souta-sig-card .souta-sig-avatar {
+  box-shadow: 0 0 20px #ff5ee6, 0 0 40px rgba(0, 240, 255, 0.5);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+#souta-play-toggle:checked ~ .souta-sig-card .souta-sig-avatar::after { opacity: 0.6; }
+#souta-play-toggle:checked ~ .souta-sig-card .souta-play-icon { opacity: 0; }
+#souta-play-toggle:checked ~ .souta-sig-card .souta-eq { opacity: 1; }
+
+.souta-sig-avatar:hover {
+  transform: translateZ(70px) scale(1.05);
 }
 
 .souta-sig-divider {
@@ -103,12 +187,6 @@
   text-transform: uppercase;
   text-decoration: none;
   transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.3s, border-color 0.3s, box-shadow 0.3s, color 0.3s;
-}
-
-.souta-sig-avatar:hover {
-  transform: translateZ(70px) scale(1.05);
-  box-shadow: -15px 15px 20px rgba(0,0,0,0.6), 0 0 25px rgba(255, 150, 255, 0.6);
-  cursor: pointer;
 }
 
 .souta-sig-name:hover {
