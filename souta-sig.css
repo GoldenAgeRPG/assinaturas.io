@@ -17,7 +17,7 @@
   position: relative;
   transform-style: preserve-3d;
   transition: transform 0.5s ease, box-shadow 0.5s ease;
-  transform: scale(1) translateZ(0px); /* Correção do Glitch 3D */
+  transform: translate3d(0, 0, 0) scale(1); /* Mantém na GPU */
   
   border: 1px solid rgba(180, 100, 255, 0.2);
   box-shadow: 0 0 30px rgba(20, 10, 30, 0.8), inset 0 0 20px rgba(160, 90, 255, 0.1);
@@ -48,7 +48,7 @@
 }
 
 .souta-sig-card:hover {
-  transform: scale(1.02) translateZ(10px);
+  transform: translate3d(0, 0, 10px) scale(1.02);
   box-shadow: 0 15px 40px rgba(160, 90, 255, 0.25), inset 0 0 30px rgba(160, 90, 255, 0.15);
   border-color: rgba(180, 100, 255, 0.4);
 }
@@ -64,7 +64,12 @@
   box-shadow: 0 0 20px rgba(15, 15, 20, 0.8);
   border: 2px solid rgba(255, 255, 255, 0.05);
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  transform: translateZ(0px) scale(1); /* Correção do Glitch 3D */
+  
+  /* Correção do Glitch */
+  transform: translate3d(0, 0, 1px) scale(1);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  
   cursor: pointer;
   position: relative;
   overflow: hidden;
@@ -140,7 +145,7 @@
 #souta-play-toggle:checked ~ .souta-sig-card .souta-eq { opacity: 1; }
 
 .souta-sig-avatar:hover {
-  transform: translateZ(60px) scale(1.05);
+  transform: translate3d(0, 0, 60px) scale(1.05);
 }
 
 .souta-sig-divider {
@@ -148,6 +153,7 @@
   height: 100px;
   background: linear-gradient(to bottom, transparent, rgba(180, 100, 255, 0.4), transparent);
   margin: 0 35px;
+  transform: translate3d(0, 0, 1px);
 }
 
 .souta-sig-info {
@@ -171,10 +177,14 @@
   color: transparent;
   filter: drop-shadow(0px 0px 8px rgba(180, 100, 255, 0.6));
   transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.4s ease;
-  transform: translateZ(0px) scale(1); /* Correção do Glitch 3D */
+  
+  /* Correção do Glitch */
+  transform: translate3d(0, 0, 1px) scale(1);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  
   display: inline-block;
   align-self: flex-start;
-  will-change: transform;
 }
 
 .souta-sig-buttons {
@@ -198,7 +208,11 @@
   text-decoration: none !important;
   overflow: hidden;
   transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color 0.3s, box-shadow 0.3s, color 0.3s;
-  transform: translateZ(0px) scale(1); /* Correção do Glitch 3D */
+  
+  /* Correção do Glitch */
+  transform: translate3d(0, 0, 1px) scale(1);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 
 .souta-sig-btn::before {
@@ -212,7 +226,7 @@
 }
 
 .souta-sig-name:hover {
-  transform: translateZ(40px) scale(1.02);
+  transform: translate3d(0, 0, 40px) scale(1.02);
   filter: drop-shadow(0px 0px 15px rgba(180, 100, 255, 1));
 }
 
@@ -220,7 +234,7 @@
   border-color: rgba(180, 100, 255, 0.8);
   color: #ffffff;
   box-shadow: 0 0 15px rgba(180, 100, 255, 0.4), inset 0 0 10px rgba(180, 100, 255, 0.2);
-  transform: translateZ(35px) scale(1.08);
+  transform: translate3d(0, 0, 35px) scale(1.08);
 }
 
 .souta-sig-btn:hover::before {
