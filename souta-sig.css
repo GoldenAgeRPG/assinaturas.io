@@ -17,12 +17,11 @@
   position: relative;
   transform-style: preserve-3d;
   transition: transform 0.5s ease, box-shadow 0.5s ease;
+  transform: scale(1) translateZ(0px); /* Correção do Glitch 3D */
   
-  /* Borda sutil e sombras complexas para profundidade */
   border: 1px solid rgba(180, 100, 255, 0.2);
   box-shadow: 0 0 30px rgba(20, 10, 30, 0.8), inset 0 0 20px rgba(160, 90, 255, 0.1);
   
-  /* Fundo mais denso para contraste */
   background-image:
     linear-gradient(135deg, rgba(15, 15, 20, 0.95) 0%, rgba(25, 20, 35, 0.8) 100%),
     url('https://i.imgur.com/1LQXgzN.jpeg');
@@ -35,7 +34,6 @@
   box-sizing: border-box;
 }
 
-/* Padrão de grade de fundo aprimorado */
 .souta-sig-card::before {
   content: '';
   position: absolute;
@@ -55,7 +53,6 @@
   border-color: rgba(180, 100, 255, 0.4);
 }
 
-/* Avatar / Player */
 .souta-sig-avatar {
   width: 130px;
   height: 130px;
@@ -67,6 +64,7 @@
   box-shadow: 0 0 20px rgba(15, 15, 20, 0.8);
   border: 2px solid rgba(255, 255, 255, 0.05);
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform: translateZ(0px) scale(1); /* Correção do Glitch 3D */
   cursor: pointer;
   position: relative;
   overflow: hidden;
@@ -145,7 +143,6 @@
   transform: translateZ(60px) scale(1.05);
 }
 
-/* Divisória em Gradiente */
 .souta-sig-divider {
   width: 2px;
   height: 100px;
@@ -162,7 +159,6 @@
   transform-style: preserve-3d;
 }
 
-/* Título Estilizado */
 .souta-sig-name {
   font-size: 26px;
   font-weight: 900;
@@ -175,8 +171,10 @@
   color: transparent;
   filter: drop-shadow(0px 0px 8px rgba(180, 100, 255, 0.6));
   transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.4s ease;
+  transform: translateZ(0px) scale(1); /* Correção do Glitch 3D */
   display: inline-block;
   align-self: flex-start;
+  will-change: transform;
 }
 
 .souta-sig-buttons {
@@ -185,7 +183,6 @@
   transform-style: preserve-3d;
 }
 
-/* Botões Modernos / Glassmorphism */
 .souta-sig-btn {
   position: relative;
   background: rgba(25, 20, 35, 0.6);
@@ -193,17 +190,17 @@
   border: 1px solid rgba(180, 100, 255, 0.2);
   color: #dcdcdc;
   padding: 10px 22px;
-  border-radius: 4px; /* Bordas mais retas */
+  border-radius: 4px;
   font-size: 10px;
   font-weight: 800;
   letter-spacing: 1.5px;
   text-transform: uppercase;
-  text-decoration: none !important; /* Força a remoção do sublinhado no fórum */
+  text-decoration: none !important;
   overflow: hidden;
   transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color 0.3s, box-shadow 0.3s, color 0.3s;
+  transform: translateZ(0px) scale(1); /* Correção do Glitch 3D */
 }
 
-/* Efeito de varredura (Sweep) no botão */
 .souta-sig-btn::before {
   content: '';
   position: absolute;
