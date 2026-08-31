@@ -149,7 +149,7 @@
 
 .vk-sig-name {
     font-family: 'My Soul', cursive; /* Fonte alterada */
-    font-size: 3.2em; /* tamanho do nome */
+    font-size: 2.2em; /* tamanho do nome */
     color: var(--vk-orange);
     text-shadow: 2px 2px 0 var(--vk-navy);
     margin-bottom: -5px;
