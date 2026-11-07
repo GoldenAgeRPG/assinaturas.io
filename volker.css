@@ -7,7 +7,7 @@
     --vk-navy: #012169;
     --vk-dark-purple: #012169;
     --vk-magenta: #12377D;
-    --vk-redbrown: #914B58;
+    --vk-redbrown: #009739;
     --vk-orange: #C8AF55;
     --vk-paper: #F2EFE9;
 
@@ -78,15 +78,15 @@
 .vk-ofuda-decor .vk-stamp {
     width: 22px;
     height: 22px;
-    border: 1.5px solid #D32F2F;
-    color: #D32F2F;
+    border: 1.5px solid #009739;
+    color: #009739;
     font-size: 11px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 2px;
     font-family: 'Noto Serif JP', serif;
-    background: rgba(211, 47, 47, 0.05);
+    background: rgba(0, 151, 57, 0.05);
 }
 
 .vk-sig-box:hover .vk-ofuda-decor {
@@ -210,7 +210,7 @@
     right: 0;
     width: 6px;
     height: 100%;
-    background: #D32F2F;
+    background: #009739;
     transition: 0.3s;
 }
 
