@@ -1,126 +1,126 @@
-/* ========================================================
-   VLAD / SINGULARITY — Assinatura Forumeiros
-   ======================================================== */
-@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Noto+Serif+JP:wght@700;900&family=Share+Tech+Mono&display=swap');
+/* ==============================================================
+   VLADIMIR — SINGULARITY  | Assinatura Forumeiros
+   ============================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Share+Tech+Mono&family=Cinzel:wght@700;800&display=swap');
 
-.vlad-sig {
-  --vl-red: #ba1732;
-  --vl-bright: #fb6a7f;
-  --vl-dark: #24030d;
-  --vl-text: #eee5e9;
-  --vl-muted: #b0a3ad;
-  box-sizing: border-box;
-  position: relative;
-  isolation: isolate;
-  display: block;
-  width: 680px;
-  max-width: 100%;
-  min-height: 218px;
-  margin: 18px auto;
-  overflow: hidden;
-  border: 2px solid #5e1929;
-  border-radius: 5px;
-  outline: 1px solid #0c0509;
-  background:
-    repeating-linear-gradient(0deg, transparent 0 3px, rgba(255,60,80,.012) 3px 4px),
-    radial-gradient(ellipse at 79% 51%, #1e0712 0%, #08050b 48%, #030204 100%);
-  box-shadow:
-    0 0 0 5px #0b070c,
-    0 0 0 6px rgba(153,37,59,.26),
-    0 18px 40px rgba(0,0,0,.6),
-    inset 0 0 35px rgba(178,0,28,.13);
-  color: var(--vl-text);
-  font: 400 13px/1.5 'Chakra Petch', Arial, sans-serif;
-  text-align: left;
+.vs3-frame, .vs3-frame *, .vs3-frame *::before, .vs3-frame *::after {box-sizing:border-box !important;}
+.vs3-frame {
+ position:relative !important; display:block !important; float:none !important;
+ width:680px !important; max-width:100% !important; height:220px !important;
+ min-height:220px !important; max-height:none !important;
+ margin:15px auto !important; padding:0 !important; overflow:hidden !important;
+ isolation:isolate; border:2px solid #6d1b30 !important; border-radius:9px !important;
+ color:#f4e3e9 !important; text-align:left !important;
+ background:repeating-linear-gradient(0deg,transparent 0 3px,rgba(249,27,68,.018) 3px 4px),radial-gradient(ellipse at 83% 48%,#310917 0%,#10060e 41%,#05040a 100%) !important;
+ box-shadow:0 0 0 4px #09050a,0 0 0 5px rgba(152,17,45,.46),0 16px 36px rgba(0,0,0,.75), inset 0 0 36px rgba(208,20,61,.16) !important;
+ font:normal 13px/1.35 'Chakra Petch',Arial,sans-serif !important;
 }
-.vlad-sig *, .vlad-sig *::before, .vlad-sig *::after { box-sizing: border-box; }
+.vs3-frame::before {content:'';position:absolute;z-index:15;left:0;top:0;right:0;height:2px;pointer-events:none;background:linear-gradient(90deg,#900b2c,#ff7693 34%,#16020a 63%,#8c0c29);box-shadow:0 0 14px #c2204a;}
+.vs3-frame::after {content:'';position:absolute;z-index:15;left:0;bottom:0;right:0;height:3px;pointer-events:none;background:linear-gradient(90deg,#30020e,#b41338 33%,#270410 72%,#ed254c);box-shadow:0 0 18px rgba(241,33,75,.52);}
 
-/* Uma borda luminosa percorrendo o topo: acabamento do container */
-.vlad-sig::before {
-  content: '';
-  pointer-events: none;
-  position: absolute;
-  z-index: 10;
-  top: 0; left: 0;
-  width: 100%; height: 3px;
-  background: linear-gradient(90deg, #a60724 0%, #fe8292 24%, #4a0512 42%, transparent 100%);
-  box-shadow: 0 0 15px #9f0a28;
+/* Retrato — fluxo proprio: nao empurra nem encobre textos */
+.vs3-frame > .vs3-portrait {
+ position:absolute !important; display:block !important; float:none !important;
+ left:0 !important; top:0 !important; bottom:0 !important;
+ width:28% !important; height:100% !important; padding:0 !important; margin:0 !important;
+ overflow:hidden !important; z-index:3 !important;
+ border:0 !important; border-right:1px solid #48101f !important;
+ background:linear-gradient(125deg,#28040d,#040209) !important;
 }
-.vlad-sig::after {
-  content: '';
-  pointer-events: none;
-  position: absolute;
-  z-index: 10;
-  left: 0; right: 0; bottom: 0; height: 3px;
-  background: linear-gradient(90deg, #5f0a1e, #130409 48%, #ce173d 95%);
+.vs3-frame > .vs3-portrait > img {
+ display:block !important; position:absolute !important; float:none !important;
+ top:0 !important; left:0 !important; width:100% !important; height:100% !important;
+ max-width:none !important; max-height:none !important; object-fit:cover !important;
+ object-position:center 23% !important; margin:0 !important; padding:0 !important;
+ border:none !important; filter:brightness(.9) contrast(1.17) saturate(.89);
+ transition:filter .6s ease,transform .7s ease;
+}
+.vs3-frame > .vs3-portrait::after {content:'';position:absolute;z-index:2;inset:0;pointer-events:none;background:linear-gradient(to right,transparent 35%,rgba(8,3,10,.05) 54%,#09040c 100%),linear-gradient(0deg,rgba(7,3,10,.78),transparent 37%,rgba(65,5,22,.16));}
+.vs3-frame:hover > .vs3-portrait > img {transform:scale(1.055);filter:brightness(1.05) contrast(1.19) saturate(1.05);}
+
+/* Poeira espacial e atmosfera na area direita */
+.vs3-frame > .vs3-sky {
+ position:absolute !important; display:block !important; float:none !important;
+ inset:0 !important; width:100% !important; height:100% !important; z-index:1 !important;
+ pointer-events:none; opacity:.6;
+ background-image:radial-gradient(circle at 45% 15%,#a23c57 0 1px,transparent 2px),radial-gradient(circle at 55% 76%,#ff8598 0 1px,transparent 2px),radial-gradient(circle at 71% 10%,#e2496b 0 1px,transparent 2px),radial-gradient(circle at 82% 84%,#b85170 0 1px,transparent 2px),radial-gradient(circle at 96% 28%,#ff8296 0 1px,transparent 2px),radial-gradient(circle at 64% 49%,#89405a 0 1px,transparent 2px);
+ animation:vs3-stars 7s ease-in-out infinite alternate;
 }
 
-/* Retrato: sempre presente, com fade de integracao no lado direito */
-.vlad-sig__portrait {
-  position: absolute;
-  z-index: 3;
-  top: 0; bottom: 0; left: 0;
-  width: 191px;
-  overflow: hidden;
-  background: radial-gradient(circle at 50% 40%, #351220, #080509 80%);
-  border-right: 1px solid rgba(246,75,106,.23);
+/* Efeito espacial em DIVS, sem spans nem JS */
+.vs3-frame > .vs3-bh {
+ position:absolute !important; display:block !important; float:none !important;
+ right:1% !important; top:5% !important; width:34% !important; height:90% !important;
+ margin:0 !important; padding:0 !important; overflow:visible !important;
+ opacity:1 !important; visibility:visible !important; z-index:4 !important;
+ pointer-events:none;
+ animation:vs3-hover 5.5s ease-in-out infinite;
 }
-.vlad-sig__portrait::before {
-  content: 'V';
-  position: absolute;
-  z-index: 0;
-  top: 42px; left: 52px;
-  font: 900 94px/1 Georgia, serif;
-  color: #43101f;
-  text-shadow: 0 0 35px #aa1232;
+.vs3-frame > .vs3-bh > div {display:block !important;float:none !important;visibility:visible !important;pointer-events:none;}
+.vs3-bh .vs3-halo {
+ position:absolute !important; left:50% !important; top:50% !important;
+ width:99% !important; height:115% !important; margin:0 !important; padding:0 !important;
+ transform:translate(-50%,-50%);border-radius:50% !important;
+ background:radial-gradient(circle,transparent 30%,rgba(225,16,63,.33) 39%,rgba(133,3,36,.36) 52%,transparent 75%);
+ filter:blur(13px);animation:vs3-pulse 3.5s ease-in-out infinite alternate;
 }
-.vlad-sig__portrait img {
-  position: absolute;
-  z-index: 1;
-  top: 0; left: 0;
-  display: block;
-  width: 100%; height: 100%;
-  object-fit: cover;
-  object-position: center 24%;
-  border: 0;
-  filter: contrast(1.14) saturate(.87) brightness(.88);
-  transition: transform .9s ease, filter .9s ease;
+.vs3-bh .vs3-orbit {
+ position:absolute !important;left:50% !important;top:50% !important;
+ width:91% !important;height:102% !important;margin:0 !important;padding:0 !important;
+ border-radius:50% !important;border:1px dashed rgba(243,73,111,.36) !important;
+ box-shadow:0 0 12px rgba(244,36,79,.17),inset 0 0 14px rgba(244,36,79,.13);
+ animation:vs3-orbit 22s linear infinite;
 }
-.vlad-sig__portrait::after {
-  content: '';
-  position: absolute;
-  z-index: 2;
-  inset: 0;
-  pointer-events: none;
-  background: linear-gradient(90deg, transparent 0%, rgba(7,4,9,.03) 55%, #08050b 99%),
-    linear-gradient(0deg, rgba(6,2,8,.72), transparent 26%, transparent 79%, rgba(63,4,18,.28));
-  box-shadow: inset 0 0 16px #080309;
+.vs3-bh .vs3-orbit::after {content:'';position:absolute;left:49%;top:-4px;width:7px;height:7px;border-radius:50%;background:#ffe3e4;box-shadow:0 0 11px 3px #f65b7c,0 0 24px 7px rgba(204,14,57,.5);}
+.vs3-bh .vs3-disk {
+ position:absolute !important; left:50% !important; top:50% !important;
+ width:85% !important; height:95% !important; padding:0 !important; margin:0 !important;
+ border-radius:50% !important;
+ background:conic-gradient(from 0deg,transparent 0deg,#790d2a 18deg,#ee3a64 38deg,#ffb4b4 70deg,#440616 100deg,transparent 130deg,#a40c39 172deg,#fd5b78 214deg,#ffc6bd 235deg,#6c0929 280deg,transparent 310deg,#c11948 344deg,transparent 360deg);
+ -webkit-mask-image:radial-gradient(circle,transparent 0 33%,black 40% 61%,transparent 70%);
+ mask-image:radial-gradient(circle,transparent 0 33%,black 40% 61%,transparent 70%);
+ filter:drop-shadow(0 0 12px #fc3c66);
+ animation:vs3-spin 7s linear infinite;
 }
-.vlad-sig:hover .vlad-sig__portrait img {
-  transform: scale(1.075);
-  filter: contrast(1.18) saturate(1.05) brightness(1);
+.vs3-bh .vs3-disk2 {
+ position:absolute !important; left:50% !important; top:50% !important;
+ width:72% !important; height:79% !important; margin:0 !important; padding:0 !important;
+ border-radius:50% !important;
+ background:conic-gradient(from 70deg,transparent 0deg,#ee335d 38deg,#ffc7c3 61deg,transparent 92deg,#ab0b37 148deg,transparent 196deg,#f85c79 259deg,transparent 323deg,#fe8c94 360deg);
+ -webkit-mask-image:radial-gradient(circle,transparent 0 27%,black 40% 61%,transparent 72%);
+ mask-image:radial-gradient(circle,transparent 0 27%,black 40% 61%,transparent 72%);
+ filter:blur(2px); opacity:.86;
+ animation:vs3-spin-reverse 11s linear infinite;
+}
+.vs3-bh .vs3-core {
+ position:absolute !important;left:50% !important;top:50% !important;
+ width:41% !important;height:48% !important;margin:0 !important;padding:0 !important;
+ transform:translate(-50%,-50%);border-radius:50% !important;
+ background:radial-gradient(circle at 42% 36%,#000 0 65%,#090108 77%,#370815 88%,#ef6284 98%,transparent 100%) !important;
+ box-shadow:0 0 11px 5px rgba(210,18,55,.42),0 0 0 1px rgba(255,196,198,.2),inset 0 0 20px #000;
+}
+.vs3-bh .vs3-lens {
+ position:absolute !important;left:50% !important;top:50% !important;
+ width:83% !important;height:40% !important;margin:0 !important;padding:0 !important;
+ transform:translate(-50%,-50%) rotate(-20deg);border-radius:50% !important;
+ border-top:2px solid rgba(255,167,178,.32) !important;
+ border-bottom:4px solid rgba(255,100,126,.78) !important;
+ box-shadow:0 8px 14px -10px #f83b69;
+ filter:drop-shadow(0 0 8px rgba(252,66,105,.9));
+ animation:vs3-lens-shine 3s ease-in-out infinite alternate;
+}
+.vs3-bh .vs3-dust {
+ position:absolute !important;left:50% !important;top:50% !important;
+ width:7px !important;height:7px !important;margin:-3px !important;padding:0 !important;
+ border-radius:50% !important;background:#ffe4e5;
+ box-shadow:0 0 12px 3px #fb6182,0 0 23px 6px rgba(233,28,65,.46);
+ animation:vs3-particle 4.5s linear infinite;
 }
 
-/* Poeira estelar sutil, movimentando-se em sentido contrario */
-.vlad-sig__stardust {
-  position: absolute;
-  z-index: 0;
-  inset: 0;
-  pointer-events: none;
-  background-image:
-    radial-gradient(circle at 43% 17%, #8b3648 0 1px, transparent 2px),
-    radial-gradient(circle at 53% 76%, #c48b99 0 1px, transparent 2px),
-    radial-gradient(circle at 66% 31%, #d07287 0 1px, transparent 2px),
-    radial-gradient(circle at 90% 11%, #b8a1a9 0 1px, transparent 2px),
-    radial-gradient(circle at 98% 87%, #cb465f 0 1px, transparent 2px),
-    radial-gradient(circle at 75% 93%, #7f2335 0 1px, transparent 2px);
-  opacity: .55;
-  animation: vlad-sig-drift 6s ease-in-out infinite alternate;
-}
-
-/* -------- BURACO NEGRO EM MOVIMENTO CONTINUO -------- */
-.vlad-sig__space {
-  position: absolute;
-  z-index: 1;
-  top: -5px; right: -12px;
-  width: 255px; height: 232px;
+/* Conteudo — posicao absoluta, FORA do retrato e do buraco negro */
+.vs3-frame > .vs3-details {
+ position:absolute !important;display:block !important;float:none !important;
+ left:28% !important;top:0 !important;bottom:0 !important;right:34% !important;
+ width:auto !important;height:100% !important;min-height:0 !important;
+ margin:0 !important;padding:20px 4px 10px 18px !important;
+ transform:none !important;z-index:9 !important;overflow:visible !important;
