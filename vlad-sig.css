@@ -1,4 +1,4 @@
-/* ======================================================== VLAD / SINGULARITY — Assinatura Forumeiros CSS isolado: todos os seletores ficam dentro de .vlad-sig Apenas CSS; animacoes sem JavaScript ou canvas ======================================================== */
+/* ======================================================== VLAD / SINGULARITY — Assinatura Forumeiros CSS ======================================================== */
 @import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Noto+Serif+JP:wght@700;900&family=Share+Tech+Mono&display=swap');
 .vlad-sig {
     --vl-red: #ba1732;
@@ -126,3 +126,406 @@
     z-index: 1;
     top: -5px;
     right: -12px;
+    width: 255px;
+    height: 232px;
+    pointer-events: none;
+    opacity: 1;
+    -webkit-mask-image: radial-gradient(ellipse at 54% 51%, #000 35%, #000 62%, transparent 87%);
+    mask-image: radial-gradient(ellipse at 54% 51%, #000 35%, #000 62%, transparent 87%);
+}
+
+.vlad-sig__gravity {
+    position: absolute;
+    top: 50%;
+    left: 53%;
+    width: 205px;
+    height: 205px;
+    animation: vlad-sig-float 5s ease-in-out infinite;
+}
+
+.vlad-sig__glow {
+    position: absolute;
+    inset: -34px;
+    border-radius: 50%;
+    background: radial-gradient(circle, transparent 22%, rgba(226,26,62,.36) 36%, rgba(145,0,32,.27) 49%, transparent 73%);
+    filter: blur(13px);
+    animation: vlad-sig-glow 3.4s ease-in-out infinite alternate;
+}
+
+.vlad-sig__orbit {
+    position: absolute;
+    inset: -10px;
+    border: 1px dashed rgba(232,53,85,.29);
+    border-radius: 50%;
+    box-shadow: 0 0 12px rgba(223,27,65,.23), inset 0 0 10px rgba(179,17,39,.17);
+    animation: vlad-sig-spin-reverse 22s linear infinite;
+}
+
+.vlad-sig__orbit::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: -4px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #ff98a1;
+    box-shadow: 0 0 9px 3px rgba(251,79,111,.85), 0 0 22px 5px rgba(200,20,58,.43);
+}
+
+/* Duas correntes de materia em velocidades distintas */
+.vlad-sig__disk, .vlad-sig__disk2 {
+    position: absolute;
+    inset: 2px;
+    border-radius: 50%;
+    -webkit-mask-image: radial-gradient(circle, transparent 0 35%, #000 42% 55%, transparent 65%);
+    mask-image: radial-gradient(circle, transparent 0 35%, #000 42% 55%, transparent 65%);
+}
+
+.vlad-sig__disk {
+    background: conic-gradient(from 12deg, rgba(249,74,102,.0) 0deg, #681026 18deg, #dd2f4c 50deg, #ff9e9d 83deg, #390514 120deg, transparent 150deg, #6c0b23 195deg, #ef4c67 243deg, #ffa7ac 269deg, #4a0718 318deg, transparent 360deg);
+    filter: drop-shadow(0 0 7px #f23c62);
+    animation: vlad-sig-spin 7.5s linear infinite;
+}
+
+.vlad-sig__disk2 {
+    inset: 18px;
+    background: conic-gradient(from 100deg, transparent 0deg, #ed3154 34deg, #ffbab7 59deg, transparent 96deg, #6e0c24 144deg, transparent 190deg, #c82248 250deg, transparent 310deg, #f66077 360deg);
+    filter: blur(3px);
+    opacity: .88;
+    animation: vlad-sig-spin-reverse 12s linear infinite;
+}
+
+.vlad-sig__core {
+    position: absolute;
+    z-index: 2;
+    top: 50%;
+    left: 50%;
+    width: 101px;
+    height: 101px;
+    transform: translate(-50%,-50%);
+    border-radius: 50%;
+    background: radial-gradient(circle at 42% 42%, #000 0 65%, #080107 78%, #1d020c 89%, #cf4564 99%, transparent 100%);
+    box-shadow: 0 0 0 1px rgba(255,162,170,.12), 0 0 16px 6px rgba(193,0,38,.28), inset 0 0 22px #000;
+}
+
+.vlad-sig__lens {
+    position: absolute;
+    z-index: 3;
+    top: 50%;
+    left: 50%;
+    width: 196px;
+    height: 84px;
+    transform: translate(-50%,-50%) rotate(-23deg);
+    border-radius: 50%;
+    border-top: 2px solid rgba(255,160,169,.23);
+    border-bottom: 5px solid rgba(255,110,126,.68);
+    box-shadow: 0 8px 14px -10px #ef335e;
+    filter: drop-shadow(0 0 8px #db2047);
+    animation: vlad-sig-lensing 4s ease-in-out infinite alternate;
+}
+
+.vlad-sig__spark {
+    position: absolute;
+    z-index: 4;
+    top: 49%;
+    left: 50%;
+    width: 6px;
+    height: 6px;
+    border-radius: 100%;
+    background: #ffd4cf;
+    box-shadow: 0 0 10px 3px #ff6f87, 0 0 29px 8px rgba(217,34,67,.45);
+    animation: vlad-sig-spark 5s linear infinite;
+}
+
+/* Conteudo: sempre acima do efeito, nunca invadido pela gravidade */
+.vlad-sig__content {
+    position: relative;
+    z-index: 6;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    width: 100%;
+    min-height: 218px;
+    padding: 22px 210px 21px 191px;
+}
+
+.vlad-sig__eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    color: #e26a80;
+    font: 400 10px/1.2 'Share Tech Mono', monospace;
+    letter-spacing: 2px;
+    white-space: nowrap;
+}
+
+.vlad-sig__indicator {
+    display: inline-block;
+    flex: 0 0 6px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #fd657c;
+    box-shadow: 0 0 12px 3px rgba(249,54,88,.6);
+    animation: vlad-sig-glow 1.7s ease-in-out infinite alternate;
+}
+
+.vlad-sig__name {
+    margin: 10px 0 8px;
+    padding: 0;
+    width: 100%;
+    line-height: .99;
+    text-transform: uppercase;
+    text-shadow: 0 2px 2px #000, 0 0 19px rgba(156,10,39,.3);
+}
+
+.vlad-sig__name span {
+    display: block;
+    color: #cf3b55;
+    font: 700 16px/1.3 'Chakra Petch', Arial, sans-serif;
+    letter-spacing: 7px;
+}
+
+.vlad-sig__name strong {
+    display: block;
+    padding: 0;
+    margin: 0;
+    background: none;
+    color: #fff1ed;
+    font: 900 29px/1.15 'Noto Serif JP', Georgia, serif;
+    letter-spacing: 1px;
+    text-shadow: 0 1px #000, 0 0 22px rgba(222,27,62,.27);
+}
+
+.vlad-sig__quote {
+    width: 100%;
+    margin: 0 0 15px;
+    padding: 0 0 0 11px;
+    border-left: 2px solid #8c172f;
+    color: #bfb3be;
+    font: italic 11px/1.5 'Chakra Petch', Arial, sans-serif;
+}
+
+.vlad-sig__links {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+}
+
+.vlad-sig__link, .vlad-sig__link:link, .vlad-sig__link:visited {
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 66px;
+    height: 29px;
+    padding: 5px 10px;
+    border: 1px solid #67172b;
+    background: linear-gradient(145deg, #240911, #08050a 80%);
+    color: #f0dfe3 !important;
+    text-decoration: none !important;
+    text-shadow: none;
+    font: 600 10px/1 'Share Tech Mono', monospace;
+    letter-spacing: 1.1px;
+    text-transform: uppercase;
+    transition: color .3s, background .3s, border-color .3s, box-shadow .3s, transform .3s;
+}
+
+.vlad-sig__link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 13px;
+    height: 1px;
+    background: #f9697b;
+}
+
+.vlad-sig__link:hover, .vlad-sig__link:focus-visible {
+    transform: translateY(-3px);
+    background: linear-gradient(145deg, #74162d, #200511);
+    border-color: #ef5d78;
+    color: #fff !important;
+    box-shadow: 0 0 14px rgba(219,21,64,.55);
+}
+
+.vlad-sig__link:focus-visible {
+    outline: 1px solid #fdb0c1;
+    outline-offset: 2px;
+}
+
+/* Etiqueta lateral decorativa, bem pequena */
+.vlad-sig__marker {
+    position: absolute;
+    z-index: 4;
+    right: 9px;
+    bottom: 12px;
+    color: rgba(255,171,187,.40);
+    font: 9px/1 'Share Tech Mono', monospace;
+    letter-spacing: 1.4px;
+    text-shadow: 0 1px 3px #000;
+}
+
+@keyframes vlad-sig-float {
+    0%, 100% {
+        transform: translate(-50%,-50%) translate(0, 0) scale(1);
+    }
+    35% {
+        transform: translate(-50%,-50%) translate(-9px, 5px) scale(1.045);
+    }
+    70% {
+        transform: translate(-50%,-50%) translate(7px,-5px) scale(.98);
+    }
+}
+
+@keyframes vlad-sig-spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes vlad-sig-spin-reverse {
+    from {
+        transform: rotate(360deg);
+    }
+    to {
+        transform: rotate(0deg);
+    }
+}
+
+@keyframes vlad-sig-glow {
+    from {
+        opacity: .50;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes vlad-sig-lensing {
+    from {
+        opacity: .6;
+        filter: drop-shadow(0 0 5px #b82147);
+    }
+    to {
+        opacity: 1;
+        filter: drop-shadow(0 0 16px #fc5570);
+    }
+}
+
+@keyframes vlad-sig-spark {
+    0% {
+        transform: rotate(0deg) translateX(89px);
+        opacity: .15;
+    }
+    35% {
+        opacity: .9;
+    }
+    75% {
+        opacity: .3;
+    }
+    100% {
+        transform: rotate(360deg) translateX(89px);
+        opacity: .15;
+    }
+}
+
+@keyframes vlad-sig-drift {
+    from {
+        transform: translateX(0);
+        opacity: .32;
+    }
+    to {
+        transform: translateX(-10px);
+        opacity: .75;
+    }
+}
+
+@media (max-width: 620px) {
+    .vlad-sig {
+        min-height: 212px;
+    }
+    .vlad-sig__portrait {
+        width: 160px;
+    }
+    .vlad-sig__content {
+        min-height: 212px;
+        padding-left: 162px;
+        padding-right: 107px;
+    }
+    .vlad-sig__space {
+        right: -66px;
+        opacity: .72;
+    }
+    .vlad-sig__name strong {
+        font-size: 25px;
+    }
+    .vlad-sig__name span {
+        font-size: 14px;
+        letter-spacing: 5px;
+    }
+    .vlad-sig__link, .vlad-sig__link:link, .vlad-sig__link:visited {
+        min-width: 57px;
+        padding: 5px 8px;
+    }
+}
+
+@media (max-width: 455px) {
+    .vlad-sig {
+        min-height: 208px;
+    }
+    .vlad-sig__portrait {
+        width: 120px;
+    }
+    .vlad-sig__content {
+        min-height: 208px;
+        padding: 14px 10px 15px 128px;
+    }
+    .vlad-sig__space {
+        right: -112px;
+        opacity: .43;
+    }
+    .vlad-sig__eyebrow {
+        font-size: 9px;
+        letter-spacing: 1.1px;
+    }
+    .vlad-sig__name {
+        margin: 10px 0 6px;
+    }
+    .vlad-sig__name strong {
+        font-size: 24px;
+    }
+    .vlad-sig__name span {
+        font-size: 13px;
+        letter-spacing: 5px;
+    }
+    .vlad-sig__quote {
+        font-size: 10px;
+        margin-bottom: 13px;
+        max-width: 220px;
+    }
+    .vlad-sig__link, .vlad-sig__link:link, .vlad-sig__link:visited {
+        min-width: 58px;
+        height: 27px;
+        padding: 5px 7px;
+        font-size: 9px;
+    }
+    .vlad-sig__marker {
+        display: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .vlad-sig, .vlad-sig *, .vlad-sig *::before, .vlad-sig *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+    }
+}
